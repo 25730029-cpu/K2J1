@@ -1,0 +1,18 @@
+[
+  {"id":"p01","name":"경의선숲길 산책로","type":"walk","coordinates":[37.5586,126.9250]},
+  {"id":"p02","name":"망원한강공원 산책로","type":"walk","coordinates":[37.5555,126.8960]},
+  {"id":"p03","name":"홍제천 산책로","type":"walk","coordinates":[37.5880,126.9450]},
+  {"id":"p04","name":"북촌 골목길","type":"walk","coordinates":[37.5826,126.9830]},
+  {"id":"p05","name":"청계천 산책로","type":"walk","coordinates":[37.5690,126.9780]},
+  {"id":"p06","name":"서울숲 산책로","type":"walk","coordinates":[37.5444,127.0374]},
+  {"id":"p07","name":"연무장길 거리","type":"walk","coordinates":[37.5445,127.0560]},
+  {"id":"p08","name":"남산 둘레길 입구","type":"walk","coordinates":[37.5500,126.9900]},
+  {"id":"p09","name":"이태원 골목길","type":"walk","coordinates":[37.5340,126.9940]},
+  {"id":"p10","name":"연남동 골목 찻집","type":"rest","coordinates":[37.5620,126.9240]},
+  {"id":"p11","name":"망원동 동네 카페","type":"rest","coordinates":[37.5560,126.9010]},
+  {"id":"p12","name":"연희동 카페","type":"rest","coordinates":[37.5660,126.9330]},
+  {"id":"p13","name":"서촌 찻집","type":"rest","coordinates":[37.5800,126.9700]},
+  {"id":"p14","name":"성수동 카페","type":"rest","coordinates":[37.5450,127.0430]},
+  {"id":"p15","name":"한남동 카페","type":"rest","coordinates":[37.5340,127.0010]},
+  {"id":"p16","name":"홍제동 북카페","type":"rest","coordinates":[37.5890,126.9400]}
+]
