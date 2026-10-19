@@ -20,7 +20,7 @@
   };
 
   const TITLES = {
-    home: '동네 책방', list: '책방 탐색', detail: '책방 상세', reviews: '방문자 후기',
+    home: '책방틈', list: '책방 탐색', detail: '책방 상세', reviews: '방문자 후기',
     my: '나의 책방', 'course-setup': '코스 만들기', map: '지도·코스 결과', edit: '코스 편집',
     taste: '나의 취향', 'done-fav': '저장 완료', 'done-course': '저장 완료'
   };
@@ -111,7 +111,7 @@
     else if (opts.push !== false && current && current !== name) hist.push(current);
     current = name;
     $$('.screen').forEach((el) => { el.hidden = el.dataset.screen !== name; });
-    $('#pageTitle').textContent = TITLES[name] || '동네 책방';
+    $('#pageTitle').textContent = TITLES[name] || '책방틈';
     $('#backBtn').classList.toggle('invisible', ['home', 'my', 'taste'].includes(name) && !hist.length);
     $$('.bottom button').forEach((b) => b.classList.toggle('on', b.dataset.nav === NAV_OF[name]));
     renderScreen(name);
