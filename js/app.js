@@ -12,21 +12,28 @@
     visits: 'bookstore.visitRecords',
     courses: 'bookstore.savedCourses',
     prefs: 'bookstore.preferences',
-    reviews: 'bookstore.userReviews'
+    reviews: 'bookstore.userReviews',
+    recent: 'bookstore.recentIds',
+    settings: 'bookstore.settings',
+    likes: 'bookstore.courseLikes'
   };
   const db = {
     get(k, d) { try { const v = localStorage.getItem(k); return v ? JSON.parse(v) : d; } catch (e) { return d; } },
     set(k, v) { try { localStorage.setItem(k, JSON.stringify(v)); } catch (e) { toast('저장 공간을 사용할 수 없어요.'); } }
   };
 
+  const AUTH_SESSION = 'bookbangteum.demoSession';
+  const signedIn = () => sessionStorage.getItem(AUTH_SESSION) || '';
+  const authButton = () => { const b = $('#headerLogin'); if (b) b.hidden = !!signedIn(); };
+
   const TITLES = {
-    home: '책방틈', list: '책방 탐색', detail: '책방 상세', reviews: '방문자 후기',
-    my: '나의 책방', 'course-setup': '코스 만들기', map: '지도·코스 결과', edit: '코스 편집',
-    taste: '나의 취향', 'done-fav': '저장 완료', 'done-course': '저장 완료'
+    auth: '로그인 / 회원가입', home: '책방틈', list: '책방 탐색', detail: '책방 상세', reviews: '방문자 후기',
+    my: '나의 책방', course: '코스', 'course-setup': '코스 만들기', map: '지도·코스 결과', edit: '코스 편집',
+    taste: '나의 취향', 'done-course': '저장 완료'
   };
   const NAV_OF = {
-    home: 'home', taste: 'home', list: 'list', detail: 'list', reviews: 'list', 'done-fav': 'list',
-    'course-setup': 'course', map: 'course', edit: 'course', 'done-course': 'course', my: 'my'
+    auth: 'home', home: 'home', taste: 'home', list: 'list', detail: 'list', reviews: 'list',
+    course: 'course', 'course-setup': 'course', map: 'course', edit: 'course', 'done-course': 'course', my: 'my'
   };
   const GROUPS = [
     { key: 'region', label: '지역', get: (s) => [s.district] },
@@ -41,17 +48,18 @@
   /* ---------- 상태 ---------- */
   const state = {
     status: 'loading', // loading | ready | error
-    stores: [], places: [],
+    stores: [], places: [], shared: [],
+    ctab: 'saved', psort: 'likes',
     query: '', applied: [], sort: 'name', visible: PAGE,
-    currentId: null, tab: 'fav', selectedFavId: null,
-    course: blankCourse(null),
-    lastDoneFavId: null
+    currentId: null, tab: 'fav',
+    course: blankCourse(null)
   };
   let current = null;
   let hist = [];
+  const scrollMem = {};
 
   function blankCourse(storeId) {
-    return { id: null, storeId, includeWalk: true, walkMinutes: 20, readingMinutes: 60, order: [] };
+    return { id: null, storeId, includeWalk: true, walkMinutes: 20, readingMinutes: 60, order: [], visibility: 'private' };
   }
   const getStore = (id) => state.stores.find((s) => s.id === id);
   const getPlace = (id) => state.places.find((p) => p.id === id);
@@ -65,19 +73,62 @@
 
   /* ---------- 토스트 / 시트 ---------- */
   let toastTimer;
-  function toast(msg) {
+  function toast(msg, act) {
     const t = $('#toast');
-    t.textContent = msg;
+    t.textContent = '';
+    const s = document.createElement('span');
+    s.textContent = msg;
+    t.appendChild(s);
+    t.classList.toggle('has-act', !!act);
+    if (act) {
+      const b = document.createElement('button');
+      b.type = 'button'; b.textContent = act.label; b.dataset.action = act.action;
+      if (act.id) b.dataset.id = act.id;
+      t.appendChild(b);
+    }
     t.classList.add('show');
     clearTimeout(toastTimer);
-    toastTimer = setTimeout(() => t.classList.remove('show'), 2000);
+    toastTimer = setTimeout(() => t.classList.remove('show'), act ? 5000 : 2000);
   }
+  let lastFocus = null;
+  let pendingConfirm = null;
   function openSheet(title, html) {
+    if ($('#sheetWrap').hidden) lastFocus = document.activeElement;
     $('#sheetTitle').textContent = title;
     $('#sheetBody').innerHTML = html;
+    $('#sheetBody').scrollTop = 0;
     $('#sheetWrap').hidden = false;
+    $('.sheet').focus();
   }
-  function closeSheet() { $('#sheetWrap').hidden = true; }
+  function closeSheet() {
+    pendingConfirm = null;
+    if ($('#sheetWrap').hidden) return;
+    $('#sheetWrap').hidden = true;
+    if (lastFocus && document.contains(lastFocus) && lastFocus.focus) lastFocus.focus();
+    lastFocus = null;
+  }
+  /* 브라우저 기본 confirm 대신 쓰는 확인 시트 (msg는 이미 이스케이프된 HTML) */
+  function confirmSheet(title, msg, okLabel, fn) {
+    openSheet(title, '<p class="para" style="color:var(--ink)">' + msg + '</p>' +
+      '<div class="btn-row"><button type="button" class="btn light" data-action="closeSheet">취소</button>' +
+      '<button type="button" class="btn danger" data-action="confirmOk">' + esc(okLabel) + '</button></div>');
+    pendingConfirm = fn;
+  }
+
+  /* ---------- 화면 설정 / 최근 본 책방 ---------- */
+  const settings = () => Object.assign({ fs: 'm', theme: 'auto' }, db.get(KEY.settings, {}));
+  function applySettings() {
+    const s = settings(), r = document.documentElement;
+    r.setAttribute('data-fs', s.fs);
+    if (s.theme === 'auto') r.removeAttribute('data-theme'); else r.setAttribute('data-theme', s.theme);
+  }
+  const recent = () => db.get(KEY.recent, []).filter((id) => getStore(id));
+  function pushRecent(id) {
+    const r = db.get(KEY.recent, []).filter((x) => x !== id);
+    r.unshift(id);
+    db.set(KEY.recent, r.slice(0, 5));
+  }
+  function showDetail(id) { state.currentId = id; pushRecent(id); go('detail'); }
 
   /* ---------- 데이터 로드 ---------- */
   function load() {
@@ -85,10 +136,13 @@
     renderList();
     Promise.all([
       fetch('data/bookstores.json').then((r) => { if (!r.ok) throw new Error(r.status); return r.json(); }),
-      fetch('data/places.json').then((r) => { if (!r.ok) throw new Error(r.status); return r.json(); })
-    ]).then(([stores, places]) => {
+      fetch('data/places.json').then((r) => { if (!r.ok) throw new Error(r.status); return r.json(); }),
+      /* 공유 코스는 없어도 앱이 동작하도록 실패 시 빈 목록 */
+      fetch('data/sharedCourses.json').then((r) => (r.ok ? r.json() : [])).catch(() => [])
+    ]).then(([stores, places, shared]) => {
       state.stores = stores;
       state.places = places;
+      state.shared = Array.isArray(shared) ? shared : [];
       state.status = 'ready';
       if (current) renderScreen(current);
     }).catch(() => {
@@ -107,33 +161,36 @@
   /* ---------- 화면 전환 ---------- */
   function go(name, opts) {
     opts = opts || {};
+    if (current) scrollMem[current] = $('#screens').scrollTop;
     if (opts.reset) hist = [];
     else if (opts.push !== false && current && current !== name) hist.push(current);
     current = name;
     $$('.screen').forEach((el) => { el.hidden = el.dataset.screen !== name; });
     $('#pageTitle').textContent = TITLES[name] || '책방틈';
-    $('#backBtn').classList.toggle('invisible', ['home', 'my', 'taste'].includes(name) && !hist.length);
     $$('.bottom button').forEach((b) => b.classList.toggle('on', b.dataset.nav === NAV_OF[name]));
+    authButton();
     renderScreen(name);
-    $('#screens').scrollTop = 0;
+    $('#screens').scrollTop = opts.restore ? (scrollMem[name] || 0) : 0;
   }
   function back() {
     const prev = hist.pop() || 'home';
-    go(prev, { push: false });
+    go(prev, { push: false, restore: true });
   }
   function renderScreen(name) {
     ({
-      home: () => {}, list: renderList, detail: renderDetail, reviews: renderReviews, my: renderMy,
-      'course-setup': renderSetup, map: renderMap, edit: renderEdit, taste: renderTaste,
-      'done-fav': renderDoneFav, 'done-course': renderDoneCourse
+      auth: () => {}, home: renderHome, list: renderList, detail: renderDetail, reviews: renderReviews, my: renderMy,
+      course: renderCourseHub, 'course-setup': renderSetup, map: renderMap, edit: renderEdit, taste: renderTaste,
+      'done-course': renderDoneCourse
     }[name] || (() => {}))();
   }
   function navTo(name) {
     if (name === 'course') {
-      if (!state.course.storeId) {
-        const f = favorites();
-        if (f.length) state.course = blankCourse(f[0]);
-      }
+      state.ctab = db.get(KEY.courses, []).length ? 'saved' : 'popular';
+      go('course', { reset: true });
+    } else if (name === 'course-new') {
+      /* 새 코스는 항상 빈 상태에서 시작 (즐겨찾기 첫 책방이 있으면 미리 선택) */
+      const f = favorites();
+      state.course = blankCourse(f.length ? f[0] : null);
       go('course-setup', { reset: true });
     } else {
       if (name === 'list') { /* 책방 진입 시 기본 조건 초기화 */ state.applied = []; state.query = ''; state.visible = PAGE; }
@@ -160,14 +217,17 @@
       : (a, b) => a.title.localeCompare(b.title, 'ko'));
     return r;
   }
-  function cardHTML(s, action, extra, cls) {
+  function cardHTML(s, action, extra, cls, noHeart) {
+    const fav = isFav(s.id);
     const tags = uniq([].concat(s.categories.slice(0, 1), s.reviewTags.slice(0, 1), s.facilities.slice(0, 1)));
     const hours = s.openingHours ? '영업 ' + s.openingHours.split(' ')[0] : '영업시간 정보 확인';
     return '<div class="book ' + (cls || '') + '" role="button" tabindex="0" data-action="' + action + '" data-id="' + s.id + '">' +
       '<div class="thumb" aria-hidden="true">' + esc(s.title[0]) + '</div>' +
       '<div class="bookbody"><b>' + esc(s.title) + '</b><small>' + esc(s.district) + ' · ' + esc(hours) + '</small>' +
       '<div class="chips mini">' + tags.map((t) => '<span class="chip">' + esc(t) + '</span>').join('') + '</div>' +
-      (extra || '') + '<span class="textlink">상세보기 〉</span></div></div>';
+      (extra || '') + '<span class="textlink">상세보기 〉</span></div>' +
+      (noHeart ? '' : '<button type="button" class="heart" data-action="cardFav" data-id="' + s.id + '" aria-pressed="' + fav + '" aria-label="' + esc(s.title) + ' 즐겨찾기">' + (fav ? '★' : '☆') + '</button>') +
+      '</div>';
   }
   function renderList() {
     const input = $('#listQuery');
@@ -185,8 +245,8 @@
     more.hidden = true;
 
     const chips = [];
-    if (state.query.trim()) chips.push('<span class="chip">“' + esc(state.query.trim()) + '” <button type="button" class="x" data-action="clearQuery" aria-label="검색어 지우기" style="border:0;background:none">×</button></span>');
-    state.applied.forEach((a, i) => chips.push('<span class="chip">' + esc(a.value) + ' <button type="button" data-action="removeFilter" data-i="' + i + '" aria-label="' + esc(a.value) + ' 해제" style="border:0;background:none">×</button></span>'));
+    if (state.query.trim()) chips.push('<span class="chip">“' + esc(state.query.trim()) + '” <button type="button" class="x" data-action="clearQuery" aria-label="검색어 지우기">×</button></span>');
+    state.applied.forEach((a, i) => chips.push('<span class="chip">' + esc(a.value) + ' <button type="button" class="x" data-action="removeFilter" data-i="' + i + '" aria-label="' + esc(a.value) + ' 해제">×</button></span>'));
     sel.hidden = false;
     sel.innerHTML = chips.length
       ? '<span>선택 조건:</span>' + chips.join('') + '<button type="button" class="reset" data-action="resetAll">초기화</button>'
@@ -213,8 +273,9 @@
     const sel = activeValues(key);
     openSheet(g.label, filterOptions(key).map((o) =>
       '<label class="opt"><input type="checkbox" name="fopt" value="' + esc(o) + '"' + (sel.includes(o) ? ' checked' : '') + '> ' + esc(o) + '</label>').join('') +
-      '<button type="button" class="btn" data-action="applyFilter" data-key="' + key + '">적용</button>' +
-      '<button type="button" class="btn light" data-action="clearGroup" data-key="' + key + '">이 항목 해제</button>');
+      '<div class="sheet-foot"><div class="btn-row">' +
+      '<button type="button" class="btn light" data-action="clearGroup" data-key="' + key + '">이 항목 해제</button>' +
+      '<button type="button" class="btn" data-action="applyFilter" data-key="' + key + '">적용</button></div></div>');
   }
 
   /* ---------- 후기 ---------- */
@@ -240,41 +301,93 @@
     const tc = tagCounts(s.id);
     const topTags = tc.tags.slice(0, 2).map((t) => '#' + t[0]).join(' ');
     const chipTags = uniq(s.categories.concat(s.themes.slice(0, 1), s.reviewTags.slice(0, 1)));
+    const visits = db.get(KEY.visits, []).filter((v) => v.bookstoreId === s.id).length;
+    const mapUrl = 'https://map.naver.com/p/search/' + encodeURIComponent(s.address);
     box.innerHTML =
-      '<div class="hero">[ 책방 이미지 자리 ]</div>' +
-      '<div class="title-row"><h2>' + esc(s.title) + '</h2><span class="fav-state">' + (fav ? '★ 저장됨' : '☆ 저장 전') + '</span></div>' +
+      '<div class="hero"><span class="hero-letter" aria-hidden="true">' + esc(s.title[0]) + '</span><small>' + esc(s.district) + '</small></div>' +
+      '<div class="title-row"><h2>' + esc(s.title) + '</h2>' +
+      '<button type="button" class="heart" data-action="toggleFav" data-id="' + s.id + '" aria-pressed="' + fav + '" aria-label="즐겨찾기">' + (fav ? '★' : '☆') + '</button></div>' +
       '<div class="chips mini">' + chipTags.map((t) => '<span class="chip">' + esc(t) + '</span>').join('') + '</div>' +
-      '<div class="fact"><span>주소</span><span>' + esc(s.address) + '</span></div>' +
-      '<div class="fact"><span>운영</span><span>' + esc(s.openingHours || '정보 확인') + '</span></div>' +
-      '<div class="fact"><span>시설</span><span>좌석 ' + (s.facilities.includes('좌석') ? '있음' : '정보 확인') + ' / 음료 ' + (s.facilities.includes('음료') ? '있음' : '정보 확인') + '</span></div>' +
+      '<div class="fact"><span>주소</span><div class="val">' + esc(s.address) +
+      '<div class="card-acts"><button type="button" class="mini-btn" data-action="copyAddr" data-id="' + s.id + '">주소 복사</button>' +
+      '<a class="mini-btn" href="' + mapUrl + '" target="_blank" rel="noopener noreferrer">지도에서 보기 ↗</a></div></div></div>' +
+      '<div class="fact"><span>운영</span><span class="val">' + esc(s.openingHours || '정보 확인') + '</span></div>' +
+      '<div class="fact"><span>시설</span><span class="val">좌석 ' + (s.facilities.includes('좌석') ? '있음' : '정보 확인') + ' / 음료 ' + (s.facilities.includes('음료') ? '있음' : '정보 확인') + '</span></div>' +
       '<h3 class="section">큐레이션 · 공간 소개</h3><p class="para">' + esc(s.description) + '</p>' +
       '<div class="section"><button type="button" class="linkrow" data-action="openReviews"><span>방문자 후기·키워드</span><span>〉</span></button></div>' +
-      '<p class="para">후기 ' + tc.total + '건' + (topTags ? ' · ' + esc(topTags) : '') + '</p>' +
-      '<div class="sticky"><button type="button" class="btn" data-action="toggleFav" data-id="' + s.id + '">' + (fav ? '★ 즐겨찾기 해제' : '☆ 즐겨찾기 저장') + '</button>' +
-      '<button type="button" class="btn light" data-action="startCourse" data-id="' + s.id + '">이 책방으로 코스 만들기</button></div>';
+      '<p class="para">후기 ' + tc.total + '건' + (topTags ? ' · ' + esc(topTags) : '') + (visits ? ' · 내 방문 ' + visits + '회' : '') + '</p>' +
+      '<div class="sticky"><button type="button" class="btn" data-action="startCourse" data-id="' + s.id + '">이 책방으로 코스 만들기</button>' +
+      '<div class="btn-row"><button type="button" class="btn light" data-action="toggleFav" data-id="' + s.id + '">' + (fav ? '★ 즐겨찾기 해제' : '☆ 즐겨찾기 저장') + '</button>' +
+      '<button type="button" class="btn light" data-action="addVisit" data-id="' + s.id + '">방문 기록 추가</button></div></div>';
     $('[data-screen="detail"]').classList.add('has-sticky');
   }
-  function toggleFav(id) {
+  /* 즐겨찾기: 화면을 넘기지 않고 그 자리에서 바꾸고, 토스트로 다음 행동/되돌리기를 제공 */
+  function setFav(id, on) {
     let f = db.get(KEY.fav, []);
-    if (f.includes(id)) {
-      f = f.filter((x) => x !== id);
-      db.set(KEY.fav, f);
-      toast('즐겨찾기에서 해제했어요.');
-      renderScreen(current);
-    } else {
-      f.push(id);
-      db.set(KEY.fav, f);
-      state.lastDoneFavId = id;
-      go('done-fav');
-    }
+    if (on && !f.includes(id)) f.push(id);
+    if (!on) f = f.filter((x) => x !== id);
+    db.set(KEY.fav, f);
   }
-  function renderDoneFav() {
-    const s = getStore(state.lastDoneFavId) || {};
-    $('#doneFavBody').innerHTML =
-      '<div class="state"><div class="icon">✓</div><h3>즐겨찾기에 저장했어요</h3><p>' + esc(s.title || '') + '<br>나의 책방에서 다시 확인할 수 있어요.</p></div>' +
-      '<button type="button" class="btn" data-action="goMyFav">나의 책방에서 확인</button>' +
-      '<button type="button" class="btn light" data-action="startCourse" data-id="' + esc(s.id || '') + '">이 책방으로 코스 만들기</button>' +
-      '<p class="para muted">저장 후에도 책방 상세와 검색 조건은 유지됩니다.</p>';
+  function syncHearts(id) {
+    const on = isFav(id);
+    $$('.heart[data-id="' + id + '"]').forEach((b) => { b.setAttribute('aria-pressed', on); b.textContent = on ? '★' : '☆'; });
+  }
+  function refreshFav(id) {
+    if (current === 'detail') renderDetail();
+    else if (current === 'my') renderMy();
+    else syncHearts(id);
+  }
+  function toggleFav(id) {
+    const was = isFav(id);
+    setFav(id, !was);
+    refreshFav(id);
+    if (was) toast('즐겨찾기에서 해제했어요.', { label: '실행 취소', action: 'undoFav', id: id });
+    else toast('즐겨찾기에 저장했어요.', { label: '나의 책방 보기', action: 'goMyFav' });
+  }
+  function addVisitFor(id) {
+    const v = db.get(KEY.visits, []);
+    const today = todayStr();
+    if (v.some((x) => x.bookstoreId === id && x.date === today)) {
+      toast('오늘 방문 기록이 이미 있어요.', { label: '기록 보기', action: 'goMyVisits' });
+      return;
+    }
+    v.push({ id: 'v' + Date.now(), bookstoreId: id, date: today, memo: '' });
+    db.set(KEY.visits, v);
+    if (current === 'my') { state.tab = 'visits'; renderMy(); toast('방문 기록을 추가했어요. 메모를 남겨 보세요.'); }
+    else { if (current === 'detail') renderDetail(); toast('방문 기록을 추가했어요.', { label: '기록 보기', action: 'goMyVisits' }); }
+  }
+  function copyText(text) {
+    const done = () => toast('복사했어요.');
+    const fallback = () => {
+      const ta = document.createElement('textarea');
+      ta.value = text; ta.style.position = 'fixed'; ta.style.opacity = '0';
+      document.body.appendChild(ta); ta.select();
+      try { document.execCommand('copy'); done(); } catch (e) { toast('복사하지 못했어요.'); }
+      ta.remove();
+    };
+    if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(text).then(done, fallback); else fallback();
+  }
+
+  /* ---------- 홈 ---------- */
+  function renderHome() {
+    const box = $('#homeExtra');
+    if (state.status !== 'ready') { box.innerHTML = ''; return; }
+    let h = '';
+    const rec = recent().slice(0, 2).map(getStore);
+    if (rec.length) {
+      h += '<div class="section section-row"><span>최근 본 책방</span><button type="button" class="textbtn" data-action="clearRecent">지우기</button></div>' +
+        rec.map((s) => cardHTML(s, 'openDetail')).join('');
+    }
+    const p = db.get(KEY.prefs, { category: [], mood: [], facility: [] });
+    if (p.category.length || p.mood.length || p.facility.length) {
+      const r = state.stores.map((s) => ({ s: s, n: matchCount(s, p) })).filter((x) => x.n > 0)
+        .sort((a, b) => b.n - a.n || a.s.title.localeCompare(b.s.title, 'ko')).slice(0, 2);
+      if (r.length) {
+        h += '<div class="section section-row"><span>내 취향 맞춤 추천</span><button type="button" class="textbtn" data-go="taste">취향 바꾸기</button></div>' +
+          r.map((x) => cardHTML(x.s, 'openDetail', '<small>취향 일치 항목: ' + x.n + '개</small>')).join('');
+      }
+    }
+    box.innerHTML = h;
   }
 
   /* ---------- 후기 화면 ---------- */
@@ -293,7 +406,7 @@
       (rs.filter((r) => r.comment).map((r) => '<div class="review">“' + esc(r.comment) + '”<small>' + esc(r.date) + ' · 방문자</small></div>').join('') || '<p class="para muted">등록된 한 줄 후기가 없어요.</p>') +
       '<div class="section">나의 방문 후기 작성</div>' +
       '<form id="reviewForm"><div class="chips">' + REVIEW_OPTIONS.map((o) => '<label class="chk"><input type="checkbox" name="rtag" value="' + o + '"><span>' + o + '</span></label>').join('') + '</div>' +
-      '<textarea class="inputarea" id="reviewComment" maxlength="80" placeholder="한 줄 후기를 입력하세요 (선택)" aria-label="한 줄 후기"></textarea>' +
+      '<textarea class="inputarea" id="reviewComment" maxlength="80" placeholder="한 줄 후기를 입력하세요 (선택)" aria-label="한 줄 후기"></textarea><div class="counter" id="rcount">0/80</div>' +
       '<div class="sticky"><button type="submit" class="btn">후기 등록</button></div></form>';
     $('[data-screen="reviews"]').classList.add('has-sticky');
   }
@@ -310,10 +423,16 @@
 
   /* ---------- 나의 책방 ---------- */
   function renderMy() {
-    $$('.tabs button').forEach((b) => {
+    const myTabs = $('[data-screen="my"] .tabs');
+    myTabs.hidden = !signedIn();
+    if (!signedIn()) { $('#myBody').innerHTML = '<div class="state"><h3>나의 책방</h3><p>로그인하거나 회원가입해 주세요.</p><button type="button" class="btn" data-action="openAuth">로그인 / 회원가입</button></div>'; return; }
+    const labels = { fav: '즐겨찾기', visits: '방문 기록', courses: '저장 코스' };
+    const counts = { fav: db.get(KEY.fav, []).length, visits: db.get(KEY.visits, []).length, courses: db.get(KEY.courses, []).length };
+    $$('[data-screen="my"] .tabs button').forEach((b) => {
       const on = b.dataset.tab === state.tab;
       b.classList.toggle('on', on);
       b.setAttribute('aria-selected', on);
+      b.textContent = labels[b.dataset.tab] + ' ' + counts[b.dataset.tab];
     });
     const box = $('#myBody');
     if (!needReady(box)) return;
@@ -323,39 +442,104 @@
   }
   function myFavHTML() {
     const f = favorites().map(getStore);
-    if (!f.length) return '<div class="state"><div class="icon">☆</div><h3>즐겨찾기한 책방이 없어요</h3><p>마음에 드는 책방을 저장해 보세요.</p></div><button type="button" class="btn" data-nav="list">책방 탐색하기</button>';
-    if (!f.some((s) => s.id === state.selectedFavId)) state.selectedFavId = null;
-    const sel = getStore(state.selectedFavId);
+    if (!f.length) return '<div class="state"><div class="icon">☆</div><h3>즐겨찾기한 책방이 없어요</h3><p>마음에 드는 책방의 ☆를 눌러 저장해 보세요.</p></div><button type="button" class="btn" data-nav="list">책방 탐색하기</button>';
     return '<h3 class="section first">즐겨찾기한 책방 ' + f.length + '곳</h3>' +
-      f.map((s) => cardHTML(s, 'selectFav', '', s.id === state.selectedFavId ? 'sel' : '')).join('') +
-      '<div class="section">선택한 책방</div>' +
-      (sel ? '<p class="para"><b>' + esc(sel.title) + '</b></p>' : '<p class="para muted">목록에서 책방을 눌러 선택하세요. 카드의 “상세보기”로 상세 화면으로 이동할 수 있어요.</p>') +
-      '<button type="button" class="btn" data-action="startCourse" data-id="' + esc(state.selectedFavId || '') + '"' + (sel ? '' : ' disabled') + '>이 책방으로 코스 만들기</button>' +
-      '<button type="button" class="btn light" data-action="addVisit"' + (sel ? '' : ' disabled') + '>방문 기록 추가</button>' +
-      '<button type="button" class="btn light" data-action="unfav"' + (sel ? '' : ' disabled') + '>즐겨찾기 해제</button>';
+      f.map((s) => cardHTML(s, 'openDetail',
+        '<div class="card-acts"><button type="button" class="btn sm" data-action="startCourse" data-id="' + s.id + '">코스 만들기</button>' +
+        '<button type="button" class="btn light sm" data-action="addVisit" data-id="' + s.id + '">방문 기록</button>' +
+        '<button type="button" class="btn light sm" data-action="unfav" data-id="' + s.id + '">해제</button></div>', '', true)).join('');
   }
   function myVisitsHTML() {
     const v = db.get(KEY.visits, []).filter((r) => getStore(r.bookstoreId));
-    if (!v.length) return '<div class="state"><div class="icon">✎</div><h3>방문 기록이 없어요</h3><p>즐겨찾기 탭에서 책방을 선택한 뒤<br>“방문 기록 추가”를 눌러 보세요.</p></div>';
+    if (!v.length) return '<div class="state"><div class="icon">✎</div><h3>방문 기록이 없어요</h3><p>즐겨찾기 탭의 “방문 기록” 버튼이나<br>책방 상세의 “방문 기록 추가”를 눌러 보세요.</p></div>';
     return v.slice().reverse().map((r) => {
       const s = getStore(r.bookstoreId);
       return '<div class="card" data-id="' + r.id + '"><b>' + esc(s.title) + '</b> <small class="muted">' + esc(r.date) + ' 방문</small>' +
-        '<textarea class="memo" maxlength="200" placeholder="메모를 남겨 보세요" aria-label="방문 메모">' + esc(r.memo) + '</textarea>' +
+        '<textarea class="memo" maxlength="200" placeholder="메모를 남겨 보세요 (입력 후 바깥을 누르면 자동 저장)" aria-label="방문 메모">' + esc(r.memo) + '</textarea>' +
         '<div class="card-acts"><button type="button" class="btn sm" data-action="saveMemo" data-id="' + r.id + '">메모 저장</button>' +
         '<button type="button" class="btn light sm" data-action="delVisit" data-id="' + r.id + '">삭제</button></div></div>';
     }).join('');
   }
   function myCoursesHTML() {
     const c = db.get(KEY.courses, []);
-    if (!c.length) return '<div class="state"><div class="icon">⌖</div><h3>저장한 코스가 없어요</h3><p>책방에서 코스를 만들어 저장해 보세요.</p></div><button type="button" class="btn" data-nav="course">코스 만들기</button>';
-    return c.slice().reverse().map((x) =>
-      '<div class="card"><b>' + esc(x.title) + '</b><p class="para">장소 ' + x.order.length + '곳 · 독서 ' + x.readingMinutes + '분' + (x.includeWalk ? ' · 산책 ' + x.walkMinutes + '분' : '') + '<br><span class="muted">' + esc(x.createdAt) + ' 저장</span></p>' +
-      '<div class="card-acts"><button type="button" class="btn sm" data-action="openCourse" data-id="' + x.id + '" data-mode="map">확인</button>' +
-      '<button type="button" class="btn light sm" data-action="openCourse" data-id="' + x.id + '" data-mode="edit">편집</button>' +
-      '<button type="button" class="btn light sm" data-action="delCourse" data-id="' + x.id + '">삭제</button></div></div>').join('');
+    if (!c.length) return '<div class="state"><div class="icon">⌖</div><h3>저장한 코스가 없어요</h3><p>책방에서 코스를 만들어 저장해 보세요.</p></div><button type="button" class="btn" data-nav="course-new">코스 만들기</button>';
+    return c.slice().reverse().map(courseCardHTML).join('');
   }
 
   /* ---------- 코스 ---------- */
+  /* ---------- 코스 허브 (저장한 코스 · 인기 코스) ---------- */
+  function routeText(x) {
+    return x.order.map(itemInfo).filter(Boolean).map((it) => it.name).join(' → ');
+  }
+  function courseMeta(x) {
+    return '장소 ' + x.order.length + '곳 · 독서 ' + fmtMin(x.readingMinutes) + (x.includeWalk ? ' · 산책 ' + x.walkMinutes + '분' : '');
+  }
+  /* 저장한 코스 카드 (코스 허브·나의 책방 공용) */
+  function courseCardHTML(x) {
+    const badge = x.from
+      ? '<span class="badge">' + esc(x.from) + '님의 코스</span>'
+      : '<span class="badge' + (x.visibility === 'public' ? ' on' : '') + '">' + (x.visibility === 'public' ? '공개' : '비공개') + '</span>';
+    return '<div class="card"><b>' + esc(x.title) + '</b>' + badge +
+      '<p class="para">' + courseMeta(x) + '<br>' + esc(routeText(x)) + '<br><span class="muted">' + esc(x.createdAt) + ' 저장</span></p>' +
+      '<div class="card-acts"><button type="button" class="btn sm" data-action="openCourse" data-id="' + x.id + '" data-mode="map">확인</button>' +
+      '<button type="button" class="btn light sm" data-action="openCourse" data-id="' + x.id + '" data-mode="edit">편집</button>' +
+      (x.srcId ? '' : '<button type="button" class="btn light sm" data-action="toggleVis" data-id="' + x.id + '">' + (x.visibility === 'public' ? '비공개로 전환' : '공개로 전환') + '</button>') +
+      '<button type="button" class="btn light sm" data-action="delCourse" data-id="' + x.id + '">삭제</button></div></div>';
+  }
+  /* 공개 범위 선택 (다른 사람의 코스를 담은 경우엔 표시하지 않음) */
+  function visHTML(c) {
+    if (c.srcId) return '';
+    const v = c.visibility === 'public' ? 'public' : 'private';
+    return '<h3 class="section">코스 공개 설정</h3>' +
+      '<div class="choices">' + [['private', '비공개'], ['public', '공개']].map((x) =>
+        '<button type="button" class="' + (v === x[0] ? 'active' : '') + '" data-action="setVis" data-v="' + x[0] + '">' + x[1] + '</button>').join('') + '</div>' +
+      '<p class="para">' + (v === 'public' ? '저장하면 인기 코스 목록에 올라가 다른 사용자도 볼 수 있어요.' : '나만 볼 수 있어요. 저장한 코스에서 언제든 공개로 바꿀 수 있어요.') + '</p>';
+  }
+  function popularHTML() {
+    const liked = db.get(KEY.likes, []);
+    const saved = db.get(KEY.courses, []);
+    const mine = saved.filter((x) => x.visibility === 'public' && !x.srcId)
+      .map((x) => Object.assign({}, x, { author: '나', mine: true, likes: 0 }));
+    const list = state.shared.concat(mine).filter((x) => getStore(x.bookstoreId));
+    const cnt = (x) => x.likes + (liked.includes(x.id) ? 1 : 0);
+    list.sort(state.psort === 'new'
+      ? (a, b) => String(b.createdAt).localeCompare(String(a.createdAt)) || cnt(b) - cnt(a)
+      : (a, b) => cnt(b) - cnt(a) || String(b.createdAt).localeCompare(String(a.createdAt)));
+    const seg = [['likes', '인기순'], ['new', '최신순']].map((x) =>
+      '<button type="button" data-action="popSort" data-v="' + x[0] + '" aria-pressed="' + (state.psort === x[0]) + '">' + x[1] + '</button>').join('');
+    if (!list.length) return '<div class="state"><div class="icon">⌖</div><h3>아직 공개된 코스가 없어요</h3><p>코스를 만들 때 “공개”를 선택하면<br>여기에 올라가요.</p></div>';
+    return '<div class="rowline"><b>공개 코스 ' + list.length + '개</b><div class="seg sm" role="group">' + seg + '</div></div>' +
+      list.map((x) => {
+        const taken = saved.some((c) => c.srcId === x.id);
+        const acts = x.mine
+          ? '<button type="button" class="btn sm" data-action="openCourse" data-id="' + x.id + '" data-mode="map">확인</button>' +
+            '<button type="button" class="btn light sm" data-action="toggleVis" data-id="' + x.id + '">비공개로 전환</button>'
+          : '<button type="button" class="btn sm" data-action="openCourse" data-id="' + x.id + '" data-mode="map">확인</button>' +
+            '<button type="button" class="btn light sm" data-action="takeCourse" data-id="' + x.id + '"' + (taken ? ' disabled' : '') + '>' + (taken ? '담음 ✓' : '내 코스로 담기') + '</button>' +
+            '<button type="button" class="btn light sm" data-action="likeCourse" data-id="' + x.id + '" aria-pressed="' + liked.includes(x.id) + '" aria-label="좋아요">' + (liked.includes(x.id) ? '♥ ' : '♡ ') + cnt(x) + '</button>';
+        return '<div class="card"><b>' + esc(x.title) + '</b>' + (x.mine ? '<span class="badge on">내 코스</span>' : '') +
+          '<p class="para">' + esc(x.author) + '님 · ' + courseMeta(x) + '<br>' + esc(routeText(x)) +
+          (x.desc ? '<br><span class="muted">' + esc(x.desc) + '</span>' : '') + '</p>' +
+          '<div class="card-acts">' + acts + '</div></div>';
+      }).join('');
+  }
+  function renderCourseHub() {
+    const box = $('#courseBody');
+    if (!needReady(box)) return;
+    const saved = db.get(KEY.courses, []);
+    const tabs = [['saved', '저장한 코스 ' + saved.length], ['popular', '인기 코스']];
+    const body = state.ctab === 'saved'
+      ? (saved.length
+        ? saved.slice().reverse().map(courseCardHTML).join('')
+        : '<div class="state"><div class="icon">⌖</div><h3>저장한 코스가 없어요</h3><p>직접 만들거나, 인기 코스에서<br>마음에 드는 코스를 담아 보세요.</p></div>')
+      : popularHTML();
+    box.innerHTML =
+      '<button type="button" class="btn" data-nav="course-new">＋ 새 코스 만들기</button>' +
+      '<div class="tabs" role="tablist">' + tabs.map((t) =>
+        '<button type="button" role="tab" class="' + (state.ctab === t[0] ? 'on' : '') + '" aria-selected="' + (state.ctab === t[0]) + '" data-action="courseTab" data-tab="' + t[0] + '">' + t[1] + '</button>').join('') + '</div>' +
+      body;
+  }
+
   function startCourse(id) {
     if (!id) return;
     state.course = blankCourse(id);
@@ -375,9 +559,10 @@
       (c.includeWalk ? '<h3 class="section">산책 시간</h3><div class="choices">' + [10, 20, 30].map((m) => choice(c.walkMinutes, m, m + '분', 'setWalkMin')).join('') + '</div>' : '') +
       '<h3 class="section">책방 독서 체류 시간</h3>' +
       '<div class="choices">' + [[30, '30분'], [60, '1시간'], [120, '2시간']].map((x) => choice(c.readingMinutes, x[0], x[1], 'setReadMin')).join('') + '</div>' +
+      visHTML(c) +
       '<h3 class="section">선택 조건 요약</h3>' +
-      '<p class="para">' + (s ? '책방 1곳' : '책방 미선택') + (c.includeWalk ? ' · 산책 ' + c.walkMinutes + '분' : ' · 산책 없음') + ' · 독서 ' + fmtMin(c.readingMinutes) + '</p>' +
-      '<div class="sticky"><button type="button" class="btn" data-action="makeCourse"' + (s ? '' : ' disabled') + '>지도에서 코스 확인하기</button></div>';
+      '<p class="para">' + (s ? '책방 1곳' : '책방 미선택') + (c.includeWalk ? ' · 산책 ' + c.walkMinutes + '분' : ' · 산책 없음') + ' · 독서 ' + fmtMin(c.readingMinutes) + (c.srcId ? '' : ' · ' + (c.visibility === 'public' ? '공개' : '비공개')) + '</p>' +
+      '<div class="sticky"><button type="button" class="btn" data-action="makeCourse"' + (s ? '' : ' disabled') + '>' + (s ? '지도에서 코스 확인하기' : '책방을 먼저 선택해 주세요') + '</button></div>';
     $('[data-screen="course-setup"]').classList.add('has-sticky');
   }
   const fmtMin = (m) => (m >= 60 && m % 60 === 0 ? m / 60 + '시간' : m + '분');
@@ -437,15 +622,15 @@
       pad + ((i.coords[1] - minLng) / sx) * (W - pad * 2),
       H - pad - ((i.coords[0] - minLat) / sy) * (H - pad * 2)
     ]);
-    const line = pts.length > 1 ? '<polyline points="' + pts.map((p) => p.map((n) => n.toFixed(1)).join(',')).join(' ') + '" fill="none" stroke="#444" stroke-width="2.5" stroke-dasharray="6 5" stroke-linecap="round"/>' : '';
-    const dots = pts.map((p, i) => '<g><circle cx="' + p[0].toFixed(1) + '" cy="' + p[1].toFixed(1) + '" r="13" fill="' + (items[i].isStore ? '#2d2d2d' : '#fff') + '" stroke="#2d2d2d" stroke-width="2"/><text x="' + p[0].toFixed(1) + '" y="' + (p[1] + 4.5).toFixed(1) + '" text-anchor="middle" font-size="13" font-weight="700" fill="' + (items[i].isStore ? '#fff' : '#2d2d2d') + '">' + (i + 1) + '</text></g>').join('');
+    const line = pts.length > 1 ? '<polyline points="' + pts.map((p) => p.map((n) => n.toFixed(1)).join(',')).join(' ') + '" class="ln" fill="none" stroke="#444" stroke-width="2.5" stroke-dasharray="6 5" stroke-linecap="round"/>' : '';
+    const dots = pts.map((p, i) => '<g><circle class="' + (items[i].isStore ? 'on-store' : 'on-place') + '" cx="' + p[0].toFixed(1) + '" cy="' + p[1].toFixed(1) + '" r="13" fill="' + (items[i].isStore ? '#2d2d2d' : '#fff') + '" stroke="#2d2d2d" stroke-width="2"/><text class="' + (items[i].isStore ? 't-store' : 't-place') + '" x="' + p[0].toFixed(1) + '" y="' + (p[1] + 4.5).toFixed(1) + '" text-anchor="middle" font-size="13" font-weight="700" fill="' + (items[i].isStore ? '#fff' : '#2d2d2d') + '">' + (i + 1) + '</text></g>').join('');
     return '<svg viewBox="0 0 ' + W + ' ' + H + '" role="img" aria-label="코스 위치 약도">' + line + dots + '</svg>';
   }
   function renderMap() {
     const box = $('#mapBody');
     if (!needReady(box)) return;
     const c = state.course;
-    if (!getStore(c.storeId)) { box.innerHTML = '<div class="state"><p>코스를 만들 책방을 먼저 선택해 주세요.</p><button type="button" class="btn" data-nav="course">코스 만들기</button></div>'; return; }
+    if (!getStore(c.storeId)) { box.innerHTML = '<div class="state"><p>코스를 만들 책방을 먼저 선택해 주세요.</p><button type="button" class="btn" data-nav="course-new">코스 만들기</button></div>'; return; }
     if (!c.order.length) buildOrder();
     const st = courseStats();
     box.innerHTML =
@@ -454,6 +639,7 @@
       st.items.map((it, i) => '<div class="route"><span class="name">' + (i + 1) + '. ' + esc(it.name) + '</span><small>' + itemLabel(it, st) + '</small></div>').join('') +
       '<p class="para">예상 도보 시간: ' + (st.moveMin ? '약 ' + st.moveMin + '분 (직선거리 기준 추정)' : '표시할 값이 없어요') + '<br>총 소요시간: ' +
       (c.readingMinutes + st.walkTotal + (st.moveMin || 0)) + '분 (체류 ' + (c.readingMinutes + st.walkTotal) + '분' + (st.moveMin ? ' + 이동 약 ' + st.moveMin + '분' : '') + ')</p>' +
+      visHTML(c) +
       '<div class="sticky"><button type="button" class="btn" data-action="editCourse">코스 편집</button>' +
       '<button type="button" class="btn light" data-action="saveCourse">' + (c.id ? '변경 내용 저장' : '현재 코스 저장') + '</button></div>';
     $('[data-screen="map"]').classList.add('has-sticky');
@@ -476,6 +662,7 @@
       '<button type="button" class="btn light" data-action="addPlace">＋ 주변 장소 추가</button>' +
       '<h3 class="section">수정된 코스 요약</h3>' +
       '<p class="para">책방 1곳 · 산책 장소 ' + st.walkCount + '곳 · 기타 ' + (n - 1 - st.walkCount) + '곳<br>독서 ' + fmtMin(c.readingMinutes) + ' · 산책 ' + st.walkTotal + '분<br>도보 시간: ' + (st.moveMin ? '약 ' + st.moveMin + '분 (추정)' : '확인 필요') + '</p>' +
+      visHTML(c) +
       '<div class="sticky"><button type="button" class="btn" data-action="saveCourse">코스 저장하기</button></div>';
     $('[data-screen="edit"]').classList.add('has-sticky');
   }
@@ -488,19 +675,22 @@
       id: c.id || 'c' + Date.now(),
       title: s.title + ' 중심 ' + (c.includeWalk ? '산책 ' : '') + '코스',
       bookstoreId: s.id, includeWalk: c.includeWalk, walkMinutes: c.walkMinutes,
-      readingMinutes: c.readingMinutes, order: c.order.slice(), createdAt: todayStr()
+      readingMinutes: c.readingMinutes, order: c.order.slice(), createdAt: todayStr(),
+      visibility: !c.srcId && c.visibility === 'public' ? 'public' : 'private'
     };
+    if (c.srcId) { rec.srcId = c.srcId; rec.from = c.from || ''; }
     const i = all.findIndex((x) => x.id === rec.id);
     if (i >= 0) all[i] = rec; else all.push(rec);
     db.set(KEY.courses, all);
     c.id = rec.id;
     state.lastCourseTitle = rec.title;
+    state.lastCourseVis = rec.visibility;
     go('done-course');
   }
   function renderDoneCourse() {
     $('#doneCourseBody').innerHTML =
-      '<div class="state"><div class="icon">✓</div><h3>나만의 코스를 저장했어요</h3><p>' + esc(state.lastCourseTitle || '') + '<br>저장한 코스에서 다시 열 수 있어요.</p></div>' +
-      '<button type="button" class="btn" data-action="goMyCourses">저장 코스 확인하기</button>' +
+      '<div class="state"><div class="icon">✓</div><h3>나만의 코스를 저장했어요</h3><p>' + esc(state.lastCourseTitle || '') + '<br>' + (state.lastCourseVis === 'public' ? '공개 코스로 저장했어요. 인기 코스 목록에서 볼 수 있어요.' : '저장한 코스에서 다시 열 수 있어요.') + '</p></div>' +
+      '<button type="button" class="btn" data-action="goCourseSaved">저장한 코스 확인하기</button>' +
       '<button type="button" class="btn light" data-nav="home">홈으로 돌아가기</button>';
   }
   function pickStoreSheet() {
@@ -555,22 +745,120 @@
     toast('취향을 저장했어요.');
   }
 
+  /* ---------- 더보기 메뉴 ---------- */
+  function menuHTML() {
+    const rec = recent().slice(0, 3).map(getStore).filter(Boolean);
+    const main = [['home','홈'], ['list','책방 탐색'], ['course','코스'], ['my','나의 책방'], ['taste','나의 취향']];
+    return '<div class="menu-sec"><h4>전체 메뉴</h4><div class="all-menu-grid">' +
+      main.map(([key,label]) => '<button type="button" data-nav="' + key + '">' + label + '</button>').join('') +
+      '</div></div>' +
+      '<div class="menu-sec"><h4>나의 활동</h4><div class="all-menu-links">' +
+      '<button type="button" data-action="menuMyTab" data-tab="fav">즐겨찾기한 책방</button>' +
+      '<button type="button" data-action="menuMyTab" data-tab="visits">나의 방문 기록</button>' +
+      '<button type="button" data-action="menuMyTab" data-tab="courses">저장 코스</button>' +
+      '<button type="button" data-action="menuMyTab" data-tab="reviews">나의 후기</button>' +
+      '</div></div>' +
+      '<div class="menu-sec"><h4>책방 둘러보기</h4><div class="all-menu-links">' +
+      '<button type="button" data-action="randomStore">오늘의 책방 뽑기</button>' +
+      '</div></div>' +
+      (rec.length ? '<div class="menu-sec"><h4>최근 본 책방</h4>' +
+      rec.map((r) => '<button type="button" class="recent-item" data-action="openDetail" data-id="' + r.id + '"><span>' + esc(r.title) + '</span><small>' + esc(r.district) + '</small></button>').join('') + '</div>' : '') +
+      '<div class="menu-sec"><details class="help"><summary>이용 안내</summary><ul>' +
+      '<li>책방 카드의 ☆를 누르면 즐겨찾기에 저장돼요.</li>' +
+      '<li>코스를 만들고 저장하거나 방문 기록을 남길 수 있어요.</li>' +
+      '</ul></details></div>' +
+      (signedIn() ? '<div class="menu-sec"><button type="button" class="btn light" data-action="signOut">로그아웃</button></div>' : '');
+  }
+  function refreshMenu() { $('#sheetBody').innerHTML = menuHTML(); }
+
+  /* ---------- 백업 / 복원 ---------- */
+  function exportData() {
+    const out = { app: 'bookbangteum', version: 1, exportedAt: new Date().toISOString(), data: {} };
+    ['fav', 'visits', 'courses', 'prefs', 'reviews', 'recent', 'likes'].forEach((k) => { out.data[KEY[k]] = db.get(KEY[k], null); });
+    const blob = new Blob([JSON.stringify(out, null, 2)], { type: 'application/json' });
+    const a = document.createElement('a');
+    const url = URL.createObjectURL(blob);
+    a.href = url; a.download = 'bookbangteum-backup-' + todayStr().replace(/\./g, '') + '.json';
+    document.body.appendChild(a); a.click(); a.remove();
+    setTimeout(() => URL.revokeObjectURL(url), 1000);
+    toast('백업 파일을 저장했어요.');
+  }
+  function sanitizeImport(d) {
+    const arr = (v) => (Array.isArray(v) ? v : []);
+    const str = (v) => (typeof v === 'string' ? v : '');
+    const strs = (v) => arr(v).filter((x) => typeof x === 'string');
+    const out = {};
+    out[KEY.fav] = strs(d[KEY.fav]);
+    out[KEY.recent] = strs(d[KEY.recent]).slice(0, 5);
+    out[KEY.likes] = strs(d[KEY.likes]);
+    out[KEY.visits] = arr(d[KEY.visits]).filter((x) => x && typeof x.id === 'string' && typeof x.bookstoreId === 'string')
+      .map((x) => ({ id: x.id, bookstoreId: x.bookstoreId, date: str(x.date), memo: str(x.memo).slice(0, 200) }));
+    out[KEY.reviews] = arr(d[KEY.reviews]).filter((x) => x && typeof x.bookstoreId === 'string' && Array.isArray(x.tags))
+      .map((x) => ({ reviewId: str(x.reviewId) || 'r' + Date.now(), bookstoreId: x.bookstoreId, tags: strs(x.tags), comment: str(x.comment).slice(0, 80), date: str(x.date) }));
+    out[KEY.courses] = arr(d[KEY.courses]).filter((x) => x && typeof x.id === 'string' && typeof x.bookstoreId === 'string' && Array.isArray(x.order))
+      .map((x) => ({
+        id: x.id, title: str(x.title), bookstoreId: x.bookstoreId, includeWalk: !!x.includeWalk,
+        walkMinutes: Number(x.walkMinutes) || 20, readingMinutes: Number(x.readingMinutes) || 60,
+        order: x.order.filter((o) => typeof o === 'string' && /^[SP]:/.test(o)), createdAt: str(x.createdAt),
+        visibility: x.visibility === 'public' && !x.srcId ? 'public' : 'private',
+        srcId: str(x.srcId) || undefined, from: str(x.from) || undefined
+      }));
+    const p = d[KEY.prefs] || {};
+    out[KEY.prefs] = { category: strs(p.category), mood: strs(p.mood), facility: strs(p.facility) };
+    return out;
+  }
+  function importFile(file) {
+    if (!file) return;
+    if (file.size > 2 * 1024 * 1024) { toast('파일이 너무 커요.'); return; }
+    const r = new FileReader();
+    r.onload = () => {
+      let j;
+      try { j = JSON.parse(r.result); } catch (e) { toast('백업 파일을 읽을 수 없어요.'); return; }
+      if (!j || j.app !== 'bookbangteum' || !j.data || typeof j.data !== 'object') { toast('책방틈 백업 파일이 아니에요.'); return; }
+      const c = sanitizeImport(j.data);
+      confirmSheet('백업 가져오기',
+        '현재 저장된 기록을 백업 파일의 내용으로 바꿀까요?<br><span class="muted">즐겨찾기 ' + c[KEY.fav].length + '곳 · 방문 기록 ' + c[KEY.visits].length + '건 · 저장 코스 ' + c[KEY.courses].length + '개</span>',
+        '가져오기', () => {
+          Object.keys(c).forEach((k) => db.set(k, c[k]));
+          state.course = blankCourse(null);
+          toast('백업을 가져왔어요.');
+          renderScreen(current);
+        });
+    };
+    r.readAsText(file);
+  }
+
   /* ---------- 액션 ---------- */
   const actions = {
     back: back,
     retry: load,
     closeSheet: closeSheet,
-    openMenu() {
-      openSheet('메뉴',
-        '<button type="button" class="opt-btn" data-nav="home"><span>홈</span></button>' +
-        '<button type="button" class="opt-btn" data-nav="taste"><span>나의 취향</span></button>' +
-        '<button type="button" class="opt-btn" data-action="wipe"><span>저장 데이터 모두 지우기</span></button>');
+    goHome() { closeSheet(); go('home', {reset:true}); },
+    openMenu() { openSheet('전체 메뉴', menuHTML()); },
+    menuMyTab(el) { state.tab = el.dataset.tab; closeSheet(); navTo('my'); },
+    openAuth() { closeSheet(); go('auth'); },
+    signOut() { sessionStorage.removeItem(AUTH_SESSION); closeSheet(); go('home', {reset:true}); toast('로그아웃했어요.'); },
+    confirmOk() { const f = pendingConfirm; closeSheet(); if (f) f(); },
+    goMyVisits() { state.tab = 'visits'; go('my'); },
+    setFs(el) { db.set(KEY.settings, Object.assign(settings(), { fs: el.dataset.v })); applySettings(); refreshMenu(); },
+    setTheme(el) { db.set(KEY.settings, Object.assign(settings(), { theme: el.dataset.v })); applySettings(); refreshMenu(); },
+    randomStore() {
+      if (state.status !== 'ready') { toast('책방 정보를 불러오는 중이에요.'); return; }
+      const seen = recent();
+      let pool = state.stores.filter((s) => !seen.includes(s.id));
+      if (!pool.length) pool = state.stores;
+      const s = pool[Math.floor(Math.random() * pool.length)];
+      closeSheet(); showDetail(s.id); toast('오늘의 책방: ' + s.title);
     },
+    clearRecent() { db.set(KEY.recent, []); if ($('#sheetWrap').hidden) renderHome(); else refreshMenu(); toast('최근 본 책방을 지웠어요.'); },
+    exportData: exportData,
+    pickImport() { $('#importFile').click(); },
     wipe() {
-      if (!confirm('즐겨찾기·방문 기록·저장 코스·후기·취향을 모두 지울까요?')) return;
-      Object.values(KEY).forEach((k) => { try { localStorage.removeItem(k); } catch (e) {} });
-      state.selectedFavId = null; state.course = blankCourse(null);
-      closeSheet(); toast('저장 데이터를 지웠어요.'); navTo('home');
+      confirmSheet('저장 데이터 지우기', '즐겨찾기·방문 기록·저장 코스·후기·취향을 모두 지울까요?<br><span class="muted">지운 데이터는 되돌릴 수 없어요. 필요하면 먼저 백업해 두세요.</span>', '모두 지우기', () => {
+        [KEY.fav, KEY.visits, KEY.courses, KEY.prefs, KEY.reviews, KEY.recent, KEY.likes].forEach((k) => { try { localStorage.removeItem(k); } catch (e) {} });
+        state.course = blankCourse(null);
+        toast('저장 데이터를 지웠어요.'); navTo('home');
+      });
     },
     quickTopic(el) {
       state.query = ''; state.visible = PAGE;
@@ -593,32 +881,53 @@
     clearQuery() { state.query = ''; renderList(); },
     resetAll() { state.applied = []; state.query = ''; state.visible = PAGE; renderList(); },
     loadMore() { state.visible += PAGE; renderList(); },
-    openDetail(el) { state.currentId = el.dataset.id; go('detail'); },
+    openDetail(el) { closeSheet(); showDetail(el.dataset.id); },
     openReviews() { go('reviews'); },
     toggleFav(el) { toggleFav(el.dataset.id); },
+    cardFav(el) { toggleFav(el.dataset.id); },
+    undoFav(el) { setFav(el.dataset.id, true); refreshFav(el.dataset.id); toast('즐겨찾기를 되돌렸어요.'); },
+    copyAddr(el) { const s = getStore(el.dataset.id); if (s) copyText(s.address); },
     startCourse(el) { startCourse(el.dataset.id); },
-    goMyFav() { state.tab = 'fav'; go('my', { reset: true }); },
-    goMyCourses() { state.tab = 'courses'; go('my', { reset: true }); },
+    goMyFav() { state.tab = 'fav'; go('my'); },
+    goCourseSaved() { state.ctab = 'saved'; go('course', { reset: true }); },
+    courseTab(el) { state.ctab = el.dataset.tab; renderCourseHub(); },
+    popSort(el) { state.psort = el.dataset.v; renderCourseHub(); },
+    likeCourse(el) {
+      const id = el.dataset.id, l = db.get(KEY.likes, []);
+      db.set(KEY.likes, l.includes(id) ? l.filter((x) => x !== id) : l.concat(id));
+      renderCourseHub();
+    },
+    takeCourse(el) {
+      const x = state.shared.find((c) => c.id === el.dataset.id);
+      if (!x) return;
+      const all = db.get(KEY.courses, []);
+      if (all.some((c) => c.srcId === x.id)) { toast('이미 내 코스에 담았어요.'); return; }
+      all.push({
+        id: 'c' + Date.now(), title: x.title, bookstoreId: x.bookstoreId, includeWalk: x.includeWalk, walkMinutes: x.walkMinutes,
+        readingMinutes: x.readingMinutes, order: x.order.slice(), createdAt: todayStr(), visibility: 'private', srcId: x.id, from: x.author
+      });
+      db.set(KEY.courses, all);
+      renderCourseHub();
+      toast('내 코스에 담았어요.', { label: '저장한 코스 보기', action: 'goCourseSaved' });
+    },
+    toggleVis(el) {
+      const all = db.get(KEY.courses, []);
+      const x = all.find((c) => c.id === el.dataset.id);
+      if (!x || x.srcId) return;
+      x.visibility = x.visibility === 'public' ? 'private' : 'public';
+      db.set(KEY.courses, all);
+      renderScreen(current);
+      toast(x.visibility === 'public' ? '공개 코스로 바꿨어요. 인기 코스에 표시돼요.' : '비공개로 바꿨어요.');
+    },
+    setVis(el) { state.course.visibility = el.dataset.v; renderScreen(current); },
     myTab(el) { state.tab = el.dataset.tab; renderMy(); },
-    selectFav(el, e) {
-      if (e.target.closest('.textlink')) { state.currentId = el.dataset.id; go('detail'); return; }
-      state.selectedFavId = el.dataset.id === state.selectedFavId ? null : el.dataset.id;
-      renderMy();
-    },
-    unfav() {
-      const id = state.selectedFavId;
+    unfav(el) {
+      const id = el.dataset.id;
       if (!id) return;
-      db.set(KEY.fav, db.get(KEY.fav, []).filter((x) => x !== id));
-      state.selectedFavId = null; toast('즐겨찾기에서 해제했어요.'); renderMy();
+      setFav(id, false); renderMy();
+      toast('즐겨찾기에서 해제했어요.', { label: '실행 취소', action: 'undoFav', id: id });
     },
-    addVisit() {
-      const id = state.selectedFavId;
-      if (!id) return;
-      const v = db.get(KEY.visits, []);
-      v.push({ id: 'v' + Date.now(), bookstoreId: id, date: todayStr(), memo: '' });
-      db.set(KEY.visits, v);
-      state.tab = 'visits'; toast('방문 기록을 추가했어요.'); renderMy();
-    },
+    addVisit(el) { if (el.dataset.id) addVisitFor(el.dataset.id); },
     saveMemo(el) {
       const memo = el.closest('.card').querySelector('.memo').value.trim();
       const v = db.get(KEY.visits, []);
@@ -626,20 +935,31 @@
       if (r) { r.memo = memo; db.set(KEY.visits, v); toast('메모를 저장했어요.'); }
     },
     delVisit(el) {
-      if (!confirm('이 방문 기록을 삭제할까요?')) return;
-      db.set(KEY.visits, db.get(KEY.visits, []).filter((x) => x.id !== el.dataset.id));
-      renderMy();
+      const id = el.dataset.id;
+      confirmSheet('방문 기록 삭제', '이 방문 기록과 메모를 삭제할까요?', '삭제', () => {
+        db.set(KEY.visits, db.get(KEY.visits, []).filter((x) => x.id !== id));
+        renderMy(); toast('방문 기록을 삭제했어요.');
+      });
     },
     openCourse(el) {
-      const x = db.get(KEY.courses, []).find((c) => c.id === el.dataset.id);
+      /* 내 저장 코스 → 없으면 다른 사용자가 공유한 코스(사본으로 열림) */
+      const own = db.get(KEY.courses, []).find((c) => c.id === el.dataset.id);
+      const x = own || state.shared.find((c) => c.id === el.dataset.id);
       if (!x) return;
-      state.course = { id: x.id, storeId: x.bookstoreId, includeWalk: x.includeWalk, walkMinutes: x.walkMinutes, readingMinutes: x.readingMinutes, order: x.order.slice() };
+      state.course = {
+        id: own ? x.id : null, storeId: x.bookstoreId, includeWalk: x.includeWalk, walkMinutes: x.walkMinutes,
+        readingMinutes: x.readingMinutes, order: x.order.slice(),
+        visibility: own && x.visibility === 'public' ? 'public' : 'private',
+        srcId: own ? x.srcId : x.id, from: own ? x.from : x.author
+      };
       go(el.dataset.mode === 'edit' ? 'edit' : 'map');
     },
     delCourse(el) {
-      if (!confirm('이 코스를 삭제할까요?')) return;
-      db.set(KEY.courses, db.get(KEY.courses, []).filter((x) => x.id !== el.dataset.id));
-      renderMy();
+      const id = el.dataset.id;
+      confirmSheet('코스 삭제', '이 저장 코스를 삭제할까요?', '삭제', () => {
+        db.set(KEY.courses, db.get(KEY.courses, []).filter((x) => x.id !== id));
+        renderScreen(current); toast('코스를 삭제했어요.');
+      });
     },
     pickStore: pickStoreSheet,
     chooseStore(el) { state.course = blankCourse(el.dataset.id); closeSheet(); renderSetup(); },
@@ -673,6 +993,7 @@
     if (g) { g.dataset.go === 'course' ? navTo('course') : (g.dataset.go === 'list' ? navTo('list') : go(g.dataset.go)); return; }
     const el = e.target.closest('[data-action]');
     if (!el) return;
+    if (el.closest('#toast')) $('#toast').classList.remove('show');
     const fn = actions[el.dataset.action];
     if (fn) fn(el, e);
   });
@@ -687,11 +1008,42 @@
   });
   $('#listQuery').addEventListener('input', (e) => { state.query = e.target.value; state.visible = PAGE; renderList(); });
   $('#sortSelect').addEventListener('change', (e) => { state.sort = e.target.value; renderList(); });
+  $('#importFile').addEventListener('change', (e) => { const f = e.target.files[0]; e.target.value = ''; importFile(f); });
+  /* 방문 메모는 입력 후 바깥을 누르면 자동 저장 */
+  document.addEventListener('change', (e) => {
+    if (!e.target.matches('.memo')) return;
+    const card = e.target.closest('.card');
+    const v = db.get(KEY.visits, []);
+    const r = v.find((x) => x.id === card.dataset.id);
+    if (r && r.memo !== e.target.value.trim()) { r.memo = e.target.value.trim(); db.set(KEY.visits, v); toast('메모를 저장했어요.'); }
+  });
+  document.addEventListener('input', (e) => {
+    if (e.target.id === 'reviewComment') $('#rcount').textContent = e.target.value.length + '/80';
+  });
   document.addEventListener('submit', (e) => {
+    if (e.target.id === 'authForm') {
+      e.preventDefault();
+      const form = e.target;
+      const nickname = form.nickname.value.trim();
+      const pin = form.pin.value;
+      const mode = e.submitter && e.submitter.value === 'signup' ? 'signup' : 'login';
+      if (!nickname || !/^(?=.*[A-Za-z])(?=.*[0-9])[A-Za-z0-9]{5}$/.test(pin)) { toast('인증번호는 영문·숫자 혼합 5자리로 입력해 주세요.'); return; }
+      const accounts = db.get('bookbangteum.demoAccounts', {});
+      if (mode === 'signup') {
+        if (accounts[nickname]) { toast('이미 사용 중인 닉네임이에요.'); return; }
+        accounts[nickname] = pin;
+        db.set('bookbangteum.demoAccounts', accounts);
+      } else if (accounts[nickname] !== pin) { toast('닉네임 또는 인증번호를 확인해 주세요.'); return; }
+      sessionStorage.setItem(AUTH_SESSION, nickname);
+      go('my', {reset:true});
+      toast(mode === 'signup' ? '회원가입했어요.' : '로그인했어요.');
+      return;
+    }
     if (e.target.id === 'reviewForm') { e.preventDefault(); submitReview(); }
   });
 
   /* ---------- 시작 ---------- */
+  applySettings();
   go('home', { reset: true });
   load();
 })();
