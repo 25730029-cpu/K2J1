@@ -13,8 +13,8 @@ button{cursor:pointer}
 
 .app{position:relative;display:flex;flex-direction:column;width:100%;max-width:430px;height:100dvh;margin:0 auto;background:var(--paper);overflow:hidden}
 @media (min-width:480px){
-  body{display:grid;place-items:center}
-  .app{height:min(860px,96dvh);border:2px solid #4a4a4a;border-radius:20px;box-shadow:0 10px 40px rgba(0,0,0,.15)}
+  body{display:block}
+  .app{height:100dvh;max-height:none;border:0;border-radius:0;box-shadow:none}
 }
 
 .apphead{flex:none;display:grid;grid-template-columns:44px 1fr 44px;align-items:center;height:52px;border-bottom:1px solid var(--line);text-align:center;font-size:16px}
@@ -134,3 +134,8 @@ textarea.inputarea{width:100%;height:76px;border:1px solid var(--line-strong);bo
 .toast.show{opacity:.95;transform:translate(-50%,0)}
 
 @media (prefers-reduced-motion:reduce){.toast{transition:none}}
+
+/* 책방틈 브랜딩: 원본 모바일 너비/세로 레이아웃 유지 */
+.header-brand{display:flex;align-items:center;justify-content:center;gap:7px;min-width:0}
+.header-brand strong{font-size:16px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.brand-logo{display:block;width:25px;height:25px;object-fit:contain;flex:none}
