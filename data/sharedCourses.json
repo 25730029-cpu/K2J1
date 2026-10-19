@@ -1,0 +1,9 @@
+[
+  { "id": "sc01", "title": "경의선숲길 따라 책익다 산책", "author": "서점산책러", "bookstoreId": "b154", "includeWalk": true, "walkMinutes": 30, "readingMinutes": 60, "order": ["S:b154", "P:p01", "P:p10"], "likes": 128, "createdAt": "2026.10.11", "desc": "숲길을 걷다 연남동 골목 찻집에서 마무리하는 느긋한 오후" },
+  { "id": "sc02", "title": "망원 한강 노을 책방 코스", "author": "한강뷰독서", "bookstoreId": "b081", "includeWalk": true, "walkMinutes": 20, "readingMinutes": 60, "order": ["S:b081", "P:p02", "P:p11"], "likes": 96, "createdAt": "2026.10.05", "desc": "책 한 권 사 들고 한강공원에서 읽기 좋은 코스" },
+  { "id": "sc03", "title": "북촌 골목과 비화림의 조용한 하루", "author": "조용한토요일", "bookstoreId": "b235", "includeWalk": true, "walkMinutes": 30, "readingMinutes": 120, "order": ["S:b235", "P:p04", "P:p13"], "likes": 84, "createdAt": "2026.09.28", "desc": "오래 머물며 읽고 싶은 날, 서촌 찻집까지 이어 가요" },
+  { "id": "sc04", "title": "서울숲 앞 트립북앤스페이스", "author": "책멍", "bookstoreId": "b137", "includeWalk": true, "walkMinutes": 30, "readingMinutes": 60, "order": ["S:b137", "P:p06", "P:p14"], "likes": 71, "createdAt": "2026.10.14", "desc": "주말 오전, 숲 산책 전후로 들르기 좋아요" },
+  { "id": "sc05", "title": "남산 둘레길 가기 전 별책부록", "author": "책방수집가", "bookstoreId": "b222", "includeWalk": true, "walkMinutes": 20, "readingMinutes": 60, "order": ["S:b222", "P:p08", "P:p15"], "likes": 55, "createdAt": "2026.09.19", "desc": "용산에서 시작해 한남동 카페로 내려오는 길" },
+  { "id": "sc06", "title": "청계천 퇴근길 책방 한 바퀴", "author": "퇴근후독서", "bookstoreId": "b247", "includeWalk": true, "walkMinutes": 10, "readingMinutes": 30, "order": ["S:b247", "P:p05"], "likes": 38, "createdAt": "2026.10.02", "desc": "짧게 30분, 가볍게 들르는 코스" },
+  { "id": "sc07", "title": "비 오는 날 이태원 책방과 카페", "author": "우산든독서가", "bookstoreId": "b223", "includeWalk": false, "walkMinutes": 20, "readingMinutes": 120, "order": ["S:b223", "P:p15"], "likes": 22, "createdAt": "2026.10.16", "desc": "산책 없이 실내에서만 보내는 코스" }
+]
