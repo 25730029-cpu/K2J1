@@ -6,13 +6,20 @@
   <title>책방틈</title>
   <link rel="icon" href="asset/favicon.svg" type="image/svg+xml">
   <link rel="stylesheet" href="css/style.css">
+  <script>
+    /* 저장된 화면 설정(글자 크기·다크 모드)을 깜빡임 없이 먼저 적용 */
+    try {
+      var s = JSON.parse(localStorage.getItem('bookstore.settings') || '{}');
+      if (s.fs) document.documentElement.setAttribute('data-fs', s.fs);
+      if (s.theme && s.theme !== 'auto') document.documentElement.setAttribute('data-theme', s.theme);
+    } catch (e) {}
+  </script>
 </head>
 <body>
   <div class="app" id="app">
     <header class="apphead">
-      <button type="button" class="icon-btn" id="backBtn" data-action="back" aria-label="뒤로">〈</button>
-      <div class="header-brand"><img class="brand-logo" src="asset/bookbangteum-logo.png" alt="책방틈 로고"><strong id="pageTitle">책방틈</strong></div>
-      <button type="button" class="icon-btn" data-action="openMenu" aria-label="메뉴">⋯</button>
+      <button type="button" class="header-brand brand-home" data-action="goHome" aria-label="홈으로 이동"><img class="brand-logo" src="asset/bookbangteum-logo.png" alt=""><strong id="pageTitle">책방틈</strong></button>
+      <div class="head-actions"><button type="button" class="header-login-icon" id="headerLogin" data-action="openAuth" aria-label="로그인" title="로그인"><svg viewBox="0 0 24 24" width="23" height="23" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 3.5-7 8-7s8 3 8 7"/></svg></button><button type="button" class="icon-btn hamburger-btn" data-action="openMenu" aria-label="전체 메뉴" aria-haspopup="dialog"><svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 6h16M4 12h16M4 18h16"/></svg></button></div>
     </header>
 
     <main class="screens" id="screens">
@@ -24,18 +31,26 @@
           <input type="search" id="homeQuery" placeholder="지역이나 책방 이름 검색" aria-label="지역이나 책방 이름 검색" autocomplete="off">
           <button type="submit" class="search-btn">검색</button>
         </form>
-        <div class="tiles">
-          <button type="button" class="tile" data-go="list"><b>책방 탐색</b><small>조건으로 찾아보기</small></button>
-          <button type="button" class="tile" data-go="course"><b>코스 만들기</b><small>산책 계획하기</small></button>
-          <button type="button" class="tile" data-go="my"><b>나의 책방</b><small>즐겨찾기·기록</small></button>
-          <button type="button" class="tile" data-go="taste"><b>나의 취향</b><small>추천 조건 설정</small></button>
+        <div class="tiles quick-menu" aria-label="빠른 메뉴">
+          <button type="button" class="tile" data-go="list"><b>책방 탐색</b></button>
+          <button type="button" class="tile" data-go="course"><b>코스</b></button>
+          <button type="button" class="tile" data-go="my"><b>나의 책방</b></button>
+          <button type="button" class="tile" data-go="taste"><b>나의 취향</b></button>
         </div>
+        <button type="button" class="banner" data-action="randomStore">
+          <span><small class="tag">오늘의 이벤트</small><b>오늘의 책방 뽑기</b><small>아직 안 가 본 책방을 랜덤으로 추천해 드려요</small></span>
+          <span class="go" aria-hidden="true">〉</span>
+        </button>
         <h3 class="section">추천 탐색 주제</h3>
         <div class="chips">
           <button type="button" class="chip" data-action="quickTopic" data-key="category" data-value="독립출판">독립출판</button>
           <button type="button" class="chip" data-action="quickTopic" data-key="mood" data-value="조용함">조용한 공간</button>
           <button type="button" class="chip" data-action="quickTopic" data-key="theme" data-value="혼자 가기">혼자 가기</button>
+          <button type="button" class="chip" data-action="quickTopic" data-key="theme" data-value="산책">산책 연계</button>
+          <button type="button" class="chip" data-action="quickTopic" data-key="facility" data-value="좌석">좌석 있는 곳</button>
+          <button type="button" class="chip" data-action="quickTopic" data-key="facility" data-value="음료">음료 마실 수 있는 곳</button>
         </div>
+        <div id="homeExtra"></div>
       </section>
 
       <!-- 02 책방 목록 / 10 결과 없음 -->
@@ -78,6 +93,26 @@
         <div id="myBody"></div>
       </section>
 
+      <section class="screen" data-screen="auth" hidden>
+        <div class="auth-panel">
+          <h2>로그인 / 회원가입</h2>
+          <form id="authForm">
+            <label for="authNick">닉네임</label>
+            <input id="authNick" name="nickname" autocomplete="username" maxlength="24" required placeholder="닉네임">
+            <label for="authPin">인증번호</label>
+            <input id="authPin" name="pin" type="password" autocomplete="current-password" minlength="5" maxlength="5" pattern="(?=.*[A-Za-z])(?=.*[0-9])[A-Za-z0-9]{5}" required placeholder="영문·숫자 조합 5자리">
+            <p class="para">인증번호를 잊으면 계정을 복구하기 어려워요.</p>
+            <button class="btn" type="submit" name="authMode" value="login">로그인</button>
+            <button class="btn light" type="submit" name="authMode" value="signup">회원가입</button>
+          </form>
+        </div>
+      </section>
+
+      <!-- 코스 허브: 저장한 코스 · 인기 코스 -->
+      <section class="screen" data-screen="course" hidden>
+        <div id="courseBody"></div>
+      </section>
+
       <!-- 06 코스 조건 설정 -->
       <section class="screen" data-screen="course-setup" hidden>
         <div id="setupBody"></div>
@@ -98,11 +133,6 @@
         <div id="tasteBody"></div>
       </section>
 
-      <!-- 11 즐겨찾기 저장 완료 -->
-      <section class="screen" data-screen="done-fav" hidden>
-        <div id="doneFavBody"></div>
-      </section>
-
       <!-- 12 코스 저장 완료 -->
       <section class="screen" data-screen="done-course" hidden>
         <div id="doneCourseBody"></div>
@@ -110,15 +140,15 @@
     </main>
 
     <nav class="bottom" aria-label="주요 메뉴">
-      <button type="button" data-nav="home">홈</button>
-      <button type="button" data-nav="list">책방 탐색</button>
-      <button type="button" data-nav="course">코스</button>
-      <button type="button" data-nav="my">나의 책방</button>
+      <button type="button" data-nav="home"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 11l9-8 9 8"/><path d="M5 10v10h5v-6h4v6h5V10"/></svg><span>홈</span></button>
+      <button type="button" data-nav="list"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M20 20l-4-4"/></svg><span>책방 탐색</span></button>
+      <button type="button" data-nav="course"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="6" cy="19" r="2"/><circle cx="18" cy="5" r="2"/><path d="M8 19h7a3 3 0 0 0 0-6H9a3 3 0 0 1 0-6h7"/></svg><span>코스</span></button>
+      <button type="button" data-nav="my"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 3h12v18l-6-4-6 4z"/></svg><span>나의 책방</span></button>
     </nav>
 
     <div class="sheet-wrap" id="sheetWrap" hidden>
       <div class="backdrop" data-action="closeSheet"></div>
-      <div class="sheet" role="dialog" aria-modal="true" aria-labelledby="sheetTitle">
+      <div class="sheet" role="dialog" aria-modal="true" aria-labelledby="sheetTitle" tabindex="-1">
         <div class="sheet-head">
           <strong id="sheetTitle"></strong>
           <button type="button" class="icon-btn" data-action="closeSheet" aria-label="닫기">✕</button>
@@ -127,6 +157,7 @@
       </div>
     </div>
 
+    <input type="file" id="importFile" accept="application/json,.json" hidden>
     <div class="toast" id="toast" role="status" aria-live="polite"></div>
   </div>
 
