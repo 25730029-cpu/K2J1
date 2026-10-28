@@ -1,0 +1,3226 @@
+ [{
+  "id": "b001",
+  "title": "굿브랜딩북스",
+  "sido": "대구",
+  "district": "대구 중구",
+  "address": "대구광역시 중구 달구벌대로447길 72-1",
+  "zipCode": "41946",
+  "openingHours": "평일 11:00~21:00 · 토 11:00~21:00 · 일 11:00~19:00 · 휴무 월요일",
+  "openingSummary": "11:00~21:00",
+  "hours": {
+   "weekday": "11:00~21:00",
+   "saturday": "11:00~21:00",
+   "sunday": "11:00~19:00"
+  },
+  "closedDays": "월요일",
+  "phone": "053-426-1765",
+  "coordinates": [
+   35.86561079,
+   128.6083915
+  ],
+  "categories": [],
+  "themes": [],
+  "reviewTags": [],
+  "facilities": [],
+  "description": "큐레이션 서점, 핸드드립 커피도 판매",
+  "reviews": [],
+  "issuedDate": "2024-10-23",
+  "sourceId": "B553457-04-012-1"
+ },
+ {
+  "id": "b002",
+  "title": "하늘밭봄",
+  "sido": "경북",
+  "district": "경북 영양군",
+  "address": "경상북도 영양군 입암면 대천길 435",
+  "zipCode": "36544",
+  "openingHours": "11:00~18:00 · 휴무일은 비정기적으로 블로그에 공지",
+  "openingSummary": "11:00~18:00",
+  "hours": {
+   "weekday": "11:00~18:00",
+   "saturday": "11:00~18:00",
+   "sunday": "11:00~18:00"
+  },
+  "closedDays": "휴무일은 비정기적으로 블로그에 공지",
+  "phone": "010-9021-0446",
+  "coordinates": [
+   36.60826725,
+   129.0061287
+  ],
+  "categories": [],
+  "themes": [
+   "독서모임",
+   "북토크",
+   "강연",
+   "북스테이"
+  ],
+  "reviewTags": [],
+  "facilities": [
+   "주차",
+   "화장실 구분"
+  ],
+  "description": "고즈넉한 산골의 가정식 작은 서점에서, 북스테이",
+  "reviews": [],
+  "issuedDate": "2024-10-23",
+  "sourceId": "B553457-04-012-2"
+ },
+ {
+  "id": "b003",
+  "title": "오후엔책방",
+  "sido": "경북",
+  "district": "경북 영천시",
+  "address": "경상북도 영천시 금호읍 금호시장길 5 1층",
+  "zipCode": "38877",
+  "openingHours": "12:00~18:00 · 휴무 월요일, 화요일",
+  "openingSummary": "12:00~18:00",
+  "hours": {
+   "weekday": "12:00~18:00",
+   "saturday": "12:00~18:00",
+   "sunday": "12:00~18:00"
+  },
+  "closedDays": "월요일, 화요일",
+  "phone": "010-3186-5190",
+  "coordinates": [
+   35.93265989,
+   128.8773902
+  ],
+  "categories": [
+   "독립출판",
+   "그림책"
+  ],
+  "themes": [
+   "독서모임"
+  ],
+  "reviewTags": [],
+  "facilities": [
+   "카페"
+  ],
+  "description": "그림책 & 독립출판물 제로웨이스트",
+  "reviews": [],
+  "issuedDate": "2024-10-23",
+  "sourceId": "B553457-04-012-3"
+ },
+ {
+  "id": "b004",
+  "title": "서점,오브덕",
+  "sido": "경북",
+  "district": "경북 울진군",
+  "address": "경상북도 울진군 울진읍 읍내8길 5 5층 서점오브덕",
+  "zipCode": "36324",
+  "openingHours": "14:00~22:00 · 휴무 월요일",
+  "openingSummary": "14:00~22:00",
+  "hours": {
+   "weekday": "14:00~22:00",
+   "saturday": "14:00~22:00",
+   "sunday": "14:00~22:00"
+  },
+  "closedDays": "월요일",
+  "phone": "010-9795-7115",
+  "coordinates": [
+   36.99485788,
+   129.4016556
+  ],
+  "categories": [
+   "독립출판"
+  ],
+  "themes": [
+   "독서모임"
+  ],
+  "reviewTags": [],
+  "facilities": [
+   "카페",
+   "주차",
+   "화장실 구분"
+  ],
+  "description": "",
+  "reviews": [],
+  "issuedDate": "2024-10-23",
+  "sourceId": "B553457-04-012-4"
+ },
+ {
+  "id": "b005",
+  "title": "달팽이책방",
+  "sido": "경북",
+  "district": "경북 포항시",
+  "address": "경상북도 포항시 남구 효자동길10번길 32",
+  "zipCode": "37664",
+  "openingHours": "평일 13:00~21:00 · 토 13:00~18:00 · 일 13:00~18:00 · 휴무 월요일",
+  "openingSummary": "13:00~21:00",
+  "hours": {
+   "weekday": "13:00~21:00",
+   "saturday": "13:00~18:00",
+   "sunday": "13:00~18:00"
+  },
+  "closedDays": "월요일",
+  "phone": "070-7532-3316",
+  "coordinates": [
+   36.0090452,
+   129.3331432
+  ],
+  "categories": [
+   "독립출판"
+  ],
+  "themes": [],
+  "reviewTags": [],
+  "facilities": [],
+  "description": "동네책방 & 홍차전문점. 엄선한 인문학 도서와 소규모 독립출판물을 판매하며, 젊은 아티스트의 작품을 소개",
+  "reviews": [],
+  "issuedDate": "2024-10-23",
+  "sourceId": "B553457-04-012-5"
+ },
+ {
+  "id": "b006",
+  "title": "마음을가다듬다",
+  "sido": "경북",
+  "district": "경북 포항시",
+  "address": "경상북도 포항시 북구 천마로72번길 7 남광하우스토리 상가동 201호",
+  "zipCode": "37590",
+  "openingHours": "평일 10:30~15:30",
+  "openingSummary": "10:30~15:30",
+  "hours": {
+   "weekday": "10:30~15:30"
+  },
+  "closedDays": "",
+  "phone": "010-7622-6349",
+  "coordinates": [
+   36.08317617,
+   129.3977937
+  ],
+  "categories": [],
+  "themes": [],
+  "reviewTags": [],
+  "facilities": [],
+  "description": "서적, 문구, 선물 판매, 상담가능, 아기자기 용품들 구매하고 기부하는곳, 따뜻한 커피, 차, 스낵",
+  "reviews": [],
+  "issuedDate": "2024-10-23",
+  "sourceId": "B553457-04-012-6"
+ },
+ {
+  "id": "b007",
+  "title": "동네책방숨",
+  "sido": "광주",
+  "district": "광주 광산구",
+  "address": "광주광역시 광산구 수완로74번길 11-8",
+  "zipCode": "62248",
+  "openingHours": "평일 12:00~19:00 · 토 12:00~18:00 · 휴무 일요일, 월요일",
+  "openingSummary": "12:00~19:00",
+  "hours": {
+   "weekday": "12:00~19:00",
+   "saturday": "12:00~18:00"
+  },
+  "closedDays": "일요일, 월요일",
+  "phone": "062-954-9420",
+  "coordinates": [
+   35.19209674,
+   126.8301652
+  ],
+  "categories": [
+   "독립출판"
+  ],
+  "themes": [
+   "독서모임",
+   "북토크",
+   "강연",
+   "북스테이"
+  ],
+  "reviewTags": [],
+  "facilities": [],
+  "description": "1박2일간 책을 읽으며 머무를 수 있는 장소",
+  "reviews": [],
+  "issuedDate": "2024-10-23",
+  "sourceId": "B553457-04-012-7"
+ },
+ {
+  "id": "b008",
+  "title": "사과서점",
+  "sido": "대구",
+  "district": "대구 중구",
+  "address": "대구광역시 중구 명륜로23길 28",
+  "zipCode": "41958",
+  "openingHours": "12:00~19:30 · 인스타 공지 참고",
+  "openingSummary": "12:00~19:30",
+  "hours": {
+   "weekday": "12:00~19:30",
+   "saturday": "12:00~19:30",
+   "sunday": "12:00~19:30"
+  },
+  "closedDays": "인스타 공지 참고",
+  "phone": "010-2069-9362",
+  "coordinates": [
+   35.86132289,
+   128.5959688
+  ],
+  "categories": [
+   "문학",
+   "소설",
+   "그림책"
+  ],
+  "themes": [],
+  "reviewTags": [],
+  "facilities": [],
+  "description": "시, 소설, 어른을위한 그림책",
+  "reviews": [],
+  "issuedDate": "2024-10-23",
+  "sourceId": "B553457-04-012-8"
+ },
+ {
+  "id": "b009",
+  "title": "봉산19",
+  "sido": "대구",
+  "district": "대구 중구",
+  "address": "대구광역시 중구 봉산문화길 19 2층",
+  "zipCode": "41958",
+  "openingHours": "매일 13:00~23:00",
+  "openingSummary": "13:00~23:00",
+  "hours": {
+   "weekday": "13:00~23:00",
+   "saturday": "13:00~23:00",
+   "sunday": "13:00~23:00"
+  },
+  "closedDays": "",
+  "phone": "053-1308-6940",
+  "coordinates": [
+   35.86096031,
+   128.5981582
+  ],
+  "categories": [
+   "독립출판"
+  ],
+  "themes": [],
+  "reviewTags": [],
+  "facilities": [
+   "카페",
+   "화장실 구분"
+  ],
+  "description": "독립출판물과 맥주, 칵테일 판매점",
+  "reviews": [],
+  "issuedDate": "2024-10-23",
+  "sourceId": "B553457-04-012-9"
+ },
+ {
+  "id": "b010",
+  "title": "러브앤프리",
+  "sido": "광주",
+  "district": "광주 남구",
+  "address": "광주광역시 남구 천변좌로418번길 17 1층",
+  "zipCode": "61640",
+  "openingHours": "매일 12:00~19:00",
+  "openingSummary": "12:00~19:00",
+  "hours": {
+   "weekday": "12:00~19:00",
+   "saturday": "12:00~19:00",
+   "sunday": "12:00~19:00"
+  },
+  "closedDays": "",
+  "phone": "062-418-0714",
+  "coordinates": [
+   35.1408847,
+   126.9157444
+  ],
+  "categories": [
+   "독립출판",
+   "인문"
+  ],
+  "themes": [
+   "독서모임",
+   "북토크",
+   "강연"
+  ],
+  "reviewTags": [],
+  "facilities": [
+   "카페",
+   "주차",
+   "화장실 구분"
+  ],
+  "description": "감성적인 분위기의 독립출판물점",
+  "reviews": [],
+  "issuedDate": "2024-10-23",
+  "sourceId": "B553457-04-012-10"
+ },
+ {
+  "id": "b011",
+  "title": "리을피읖 LOCAL BOOKS",
+  "sido": "광주",
+  "district": "광주 동구",
+  "address": "광주광역시 동구 동계로15번길 17",
+  "zipCode": "61430",
+  "openingHours": "토 13:00~18:00",
+  "openingSummary": "",
+  "hours": {
+   "saturday": "13:00~18:00"
+  },
+  "closedDays": "",
+  "phone": "010-3628-7178",
+  "coordinates": [
+   35.15391314,
+   126.9230183
+  ],
+  "categories": [
+   "독립출판",
+   "사진"
+  ],
+  "themes": [],
+  "reviewTags": [],
+  "facilities": [
+   "카페"
+  ],
+  "description": "사진책만 있는 책방",
+  "reviews": [],
+  "issuedDate": "2024-10-23",
+  "sourceId": "B553457-04-012-11"
+ },
+ {
+  "id": "b012",
+  "title": "책방 심가네박씨",
+  "sido": "광주",
+  "district": "광주 동구",
+  "address": "광주광역시 동구 동명로67번길 22-2",
+  "zipCode": "61432",
+  "openingHours": "평일 10:30~20:00 · 토 10:30~20:00 · 휴무 일요일, 공휴일",
+  "openingSummary": "10:30~20:00",
+  "hours": {
+   "weekday": "10:30~20:00",
+   "saturday": "10:30~20:00"
+  },
+  "closedDays": "일요일, 공휴일",
+  "phone": "062-229-0687",
+  "coordinates": [
+   35.15276316,
+   126.9267524
+  ],
+  "categories": [
+   "독립출판"
+  ],
+  "themes": [],
+  "reviewTags": [],
+  "facilities": [
+   "카페"
+  ],
+  "description": "다양한 인문학강좌와 문화프로그램기획",
+  "reviews": [],
+  "issuedDate": "2024-10-23",
+  "sourceId": "B553457-04-012-12"
+ },
+ {
+  "id": "b013",
+  "title": "책과생활",
+  "sido": "광주",
+  "district": "광주 동구",
+  "address": "광주광역시 동구 제봉로 100-1 2층",
+  "zipCode": "61465",
+  "openingHours": "평일 12:00~20:00 · 토 12:00~20:00 · 일 13:00~18:00 · 매월 마지막주 월요일",
+  "openingSummary": "12:00~20:00",
+  "hours": {
+   "weekday": "12:00~20:00",
+   "saturday": "12:00~20:00",
+   "sunday": "13:00~18:00"
+  },
+  "closedDays": "매월 마지막주 월요일",
+  "phone": "0507-1309-9231",
+  "coordinates": [
+   35.14736016,
+   126.922108
+  ],
+  "categories": [
+   "독립출판",
+   "예술"
+  ],
+  "themes": [],
+  "reviewTags": [],
+  "facilities": [
+   "카페"
+  ],
+  "description": "아트북, 인문사회서적, 문학책, 독립출판물",
+  "reviews": [],
+  "issuedDate": "2024-10-23",
+  "sourceId": "B553457-04-012-13"
+ },
+ {
+  "id": "b014",
+  "title": "소년의서",
+  "sido": "광주",
+  "district": "광주 동구",
+  "address": "광주광역시 동구 충장로46번길 8 1층",
+  "zipCode": "61480",
+  "openingHours": "평일 13:00~19:00 · 토 13:00~19:00",
+  "openingSummary": "13:00~19:00",
+  "hours": {
+   "weekday": "13:00~19:00",
+   "saturday": "13:00~19:00"
+  },
+  "closedDays": "",
+  "phone": "0507-1359-2625",
+  "coordinates": [
+   35.14997646,
+   126.9125437
+  ],
+  "categories": [
+   "독립출판"
+  ],
+  "themes": [
+   "독서모임",
+   "북토크"
+  ],
+  "reviewTags": [],
+  "facilities": [
+   "카페"
+  ],
+  "description": "인물예술서적, 사회과학서적, 독립서적",
+  "reviews": [],
+  "issuedDate": "2024-10-23",
+  "sourceId": "B553457-04-012-14"
+ },
+ {
+  "id": "b015",
+  "title": "파종모종",
+  "sido": "광주",
+  "district": "광주 북구",
+  "address": "광주광역시 북구 우치로 13-1",
+  "zipCode": "61218",
+  "openingHours": "평일 14:00~19:00 · 토 14:00~19:00 · 휴무 일요일, 월요일,화요일, 공휴일",
+  "openingSummary": "14:00~19:00",
+  "hours": {
+   "weekday": "14:00~19:00",
+   "saturday": "14:00~19:00"
+  },
+  "closedDays": "일요일, 월요일,화요일, 공휴일",
+  "phone": "010-9452-1606",
+  "coordinates": [
+   35.16887395,
+   126.9104525
+  ],
+  "categories": [
+   "독립출판"
+  ],
+  "themes": [],
+  "reviewTags": [],
+  "facilities": [
+   "카페"
+  ],
+  "description": "독립출판사, 독립책방",
+  "reviews": [],
+  "issuedDate": "2024-10-23",
+  "sourceId": "B553457-04-012-15"
+ },
+ {
+  "id": "b016",
+  "title": "이상현실",
+  "sido": "광주",
+  "district": "광주 서구",
+  "address": "광주광역시 서구 화운로 136 1층",
+  "zipCode": "61980",
+  "openingHours": "",
+  "openingSummary": "",
+  "hours": {},
+  "closedDays": "",
+  "phone": "010-5402-7238",
+  "coordinates": [
+   35.15125435,
+   126.8775075
+  ],
+  "categories": [
+   "독립출판"
+  ],
+  "themes": [
+   "독서모임",
+   "북토크",
+   "강연"
+  ],
+  "reviewTags": [],
+  "facilities": [
+   "카페"
+  ],
+  "description": "신간, 독립출판물, 헌책 비치, 책 구매 혹은 읽을 수 있음",
+  "reviews": [],
+  "issuedDate": "2024-10-23",
+  "sourceId": "B553457-04-012-16"
+ },
+ {
+  "id": "b017",
+  "title": "사이시옷",
+  "sido": "광주",
+  "district": "광주 서구",
+  "address": "광주광역시 서구 화정로260번길 9",
+  "zipCode": "62047",
+  "openingHours": "평일 12:00~19:00 · 토 12:00~19:00 · 휴무 일요일",
+  "openingSummary": "12:00~19:00",
+  "hours": {
+   "weekday": "12:00~19:00",
+   "saturday": "12:00~19:00"
+  },
+  "closedDays": "일요일",
+  "phone": "062-400-5987",
+  "coordinates": [
+   35.14724735,
+   126.8856687
+  ],
+  "categories": [],
+  "themes": [],
+  "reviewTags": [],
+  "facilities": [
+   "카페"
+  ],
+  "description": "1층: 서점+카페 / 2층: 소모임, 대관",
+  "reviews": [],
+  "issuedDate": "2024-10-23",
+  "sourceId": "B553457-04-012-17"
+ },
+ {
+  "id": "b018",
+  "title": "더코너북스",
+  "sido": "대구",
+  "district": "대구 남구",
+  "address": "대구광역시 남구 안지랑로7길 15",
+  "zipCode": "42492",
+  "openingHours": "매일 11:00~20:00",
+  "openingSummary": "11:00~20:00",
+  "hours": {
+   "weekday": "11:00~20:00",
+   "saturday": "11:00~20:00",
+   "sunday": "11:00~20:00"
+  },
+  "closedDays": "",
+  "phone": "010-7728-4939",
+  "coordinates": [
+   35.83348544,
+   128.570394
+  ],
+  "categories": [
+   "인문"
+  ],
+  "themes": [],
+  "reviewTags": [],
+  "facilities": [],
+  "description": "꿈 꾸는 작은 공간 우리동네 작은 서점 우리끼리 나누는 인문학",
+  "reviews": [],
+  "issuedDate": "2024-10-23",
+  "sourceId": "B553457-04-012-18"
+ },
+ {
+  "id": "b019",
+  "title": "이야기마을",
+  "sido": "경기",
+  "district": "경기 고양시",
+  "address": "경기도 고양시 덕양구 원당로113번길 48-7",
+  "zipCode": "10298",
+  "openingHours": "10:00~21:00 · 휴무 수요일",
+  "openingSummary": "10:00~21:00",
+  "hours": {
+   "weekday": "10:00~21:00",
+   "saturday": "10:00~21:00",
+   "sunday": "10:00~21:00"
+  },
+  "closedDays": "수요일",
+  "phone": "031-965-9990",
+  "coordinates": [
+   37.66347899,
+   126.8359472
+  ],
+  "categories": [
+   "독립출판"
+  ],
+  "themes": [],
+  "reviewTags": [],
+  "facilities": [
+   "카페"
+  ],
+  "description": "다양한 도서, 고양이, 음료",
+  "reviews": [],
+  "issuedDate": "2024-10-23",
+  "sourceId": "B553457-04-012-19"
+ },
+ {
+  "id": "b020",
+  "title": "플라뇌즈",
+  "sido": "경기",
+  "district": "경기 고양시",
+  "address": "경기도 고양시 덕양구 원당로59번길 49-24 203호",
+  "zipCode": "10460",
+  "openingHours": "",
+  "openingSummary": "",
+  "hours": {},
+  "closedDays": "",
+  "phone": "010-4257-1045",
+  "coordinates": [
+   37.65862231,
+   126.8312139
+  ],
+  "categories": [
+   "독립출판"
+  ],
+  "themes": [
+   "독서모임"
+  ],
+  "reviewTags": [],
+  "facilities": [
+   "카페"
+  ],
+  "description": "국내외도서, 독립출판물 등 동네책방",
+  "reviews": [],
+  "issuedDate": "2024-10-23",
+  "sourceId": "B553457-04-012-20"
+ },
+ {
+  "id": "b021",
+  "title": "너의 작업실",
+  "sido": "경기",
+  "district": "경기 고양시",
+  "address": "경기도 고양시 일산동구 일산로380번길 43-11",
+  "zipCode": "10406",
+  "openingHours": "13:00~21:00 · 휴무 월요일",
+  "openingSummary": "13:00~21:00",
+  "hours": {
+   "weekday": "13:00~21:00",
+   "saturday": "13:00~21:00",
+   "sunday": "13:00~21:00"
+  },
+  "closedDays": "월요일",
+  "phone": "010-5031-0440",
+  "coordinates": [
+   37.67095691,
+   126.7830747
+  ],
+  "categories": [
+   "독립출판"
+  ],
+  "themes": [
+   "독서모임"
+  ],
+  "reviewTags": [],
+  "facilities": [],
+  "description": "독립출판물과 굿즈, 커피 판매하며 다양한 모임이 열리는 공간",
+  "reviews": [],
+  "issuedDate": "2024-10-23",
+  "sourceId": "B553457-04-012-21"
+ },
+ {
+  "id": "b022",
+  "title": "이랑",
+  "sido": "경기",
+  "district": "경기 고양시",
+  "address": "경기도 고양시 일산서구 일현로 122 동성상가 1층 122호 이랑",
+  "zipCode": "10240",
+  "openingHours": "평일 10:00~18:00 · 휴무 토요일, 일요일",
+  "openingSummary": "10:00~18:00",
+  "hours": {
+   "weekday": "10:00~18:00"
+  },
+  "closedDays": "토요일, 일요일",
+  "phone": "070-7769-2222",
+  "coordinates": [
+   37.69762029,
+   126.7660619
+  ],
+  "categories": [
+   "독립출판"
+  ],
+  "themes": [
+   "독서모임",
+   "북토크",
+   "강연"
+  ],
+  "reviewTags": [],
+  "facilities": [],
+  "description": "서점화실, 일반서적 및 독립출판물 판매",
+  "reviews": [],
+  "issuedDate": "2024-10-23",
+  "sourceId": "B553457-04-012-22"
+ },
+ {
+  "id": "b023",
+  "title": "고메북스",
+  "sido": "경기",
+  "district": "경기 고양시",
+  "address": "경기도 고양시 일산서구 중앙로 1470 동부썬프라자 B동 128호",
+  "zipCode": "10379",
+  "openingHours": "평일 12:00~19:00 · 토 12:00~19:00 · 휴무 일요일",
+  "openingSummary": "12:00~19:00",
+  "hours": {
+   "weekday": "12:00~19:00",
+   "saturday": "12:00~19:00"
+  },
+  "closedDays": "일요일",
+  "phone": "010-9248-8296",
+  "coordinates": [
+   37.67227362,
+   126.7573465
+  ],
+  "categories": [
+   "독립출판"
+  ],
+  "themes": [
+   "독서모임"
+  ],
+  "reviewTags": [],
+  "facilities": [
+   "카페"
+  ],
+  "description": "동네서점 독립출판 북카페&바",
+  "reviews": [],
+  "issuedDate": "2024-10-23",
+  "sourceId": "B553457-04-012-23"
+ },
+ {
+  "id": "b024",
+  "title": "북앤드로잉",
+  "sido": "경기",
+  "district": "경기 광명시",
+  "address": "경기도 광명시 오리로1009번길 2 1층 북앤드로잉",
+  "zipCode": "14285",
+  "openingHours": "평일 14:00~20:00 · 토 14:00~20:00 · 휴무 일요일, 월요일",
+  "openingSummary": "14:00~20:00",
+  "hours": {
+   "weekday": "14:00~20:00",
+   "saturday": "14:00~20:00"
+  },
+  "closedDays": "일요일, 월요일",
+  "phone": "070-8777-3745",
+  "coordinates": [
+   37.48011008,
+   126.8508954
+  ],
+  "categories": [
+   "독립출판",
+   "여행"
+  ],
+  "themes": [
+   "독서모임"
+  ],
+  "reviewTags": [],
+  "facilities": [],
+  "description": "그림 그리는 책방, 독립출판물 판매, 여행드로잉/책만들기 강의 등",
+  "reviews": [],
+  "issuedDate": "2024-10-23",
+  "sourceId": "B553457-04-012-24"
+ },
+ {
+  "id": "b025",
+  "title": "책방 공책",
+  "sido": "경기",
+  "district": "경기 광명시",
+  "address": "경기도 광명시 오리로619번길 32 1층",
+  "zipCode": "14303",
+  "openingHours": "평일 12:00~17:00 · 토 12:00~17:00 · 휴무 일요일",
+  "openingSummary": "12:00~17:00",
+  "hours": {
+   "weekday": "12:00~17:00",
+   "saturday": "12:00~17:00"
+  },
+  "closedDays": "일요일",
+  "phone": "050-6120-9696",
+  "coordinates": [
+   37.45498894,
+   126.8769918
+  ],
+  "categories": [
+   "독립출판",
+   "그림책"
+  ],
+  "themes": [
+   "독서모임"
+  ],
+  "reviewTags": [],
+  "facilities": [
+   "공간대여"
+  ],
+  "description": "인스타/카톡채널 운영시간 확인. 그림책과 독립출판물 인문서적 전문 취급",
+  "reviews": [],
+  "issuedDate": "2024-10-23",
+  "sourceId": "B553457-04-012-25"
+ },
+ {
+  "id": "b026",
+  "title": "한낮의 바다",
+  "sido": "강원",
+  "district": "강원 강릉시",
+  "address": "강원도 강릉시 강릉대로159번안길 12 1층, 서점 한낮의 바다",
+  "zipCode": "25505",
+  "openingHours": "12:00~18:00 · 휴무 화요일, 수요일",
+  "openingSummary": "12:00~18:00",
+  "hours": {
+   "weekday": "12:00~18:00",
+   "saturday": "12:00~18:00",
+   "sunday": "12:00~18:00"
+  },
+  "closedDays": "화요일, 수요일",
+  "phone": "010-2284-9729",
+  "coordinates": [
+   37.75772063,
+   128.8890879
+  ],
+  "categories": [
+   "독립출판",
+   "인문"
+  ],
+  "themes": [],
+  "reviewTags": [],
+  "facilities": [
+   "카페"
+  ],
+  "description": "일상의 쉼을 이야기하는 책을 소개하는 셀렉트 북샵",
+  "reviews": [],
+  "issuedDate": "2024-10-23",
+  "sourceId": "B553457-04-012-26"
+ },
+ {
+  "id": "b027",
+  "title": "깨북",
+  "sido": "강원",
+  "district": "강원 강릉시",
+  "address": "강원도 강릉시 임영로 211",
+  "zipCode": "25504",
+  "openingHours": "",
+  "openingSummary": "",
+  "hours": {},
+  "closedDays": "",
+  "phone": "070-4234-4416",
+  "coordinates": [
+   37.76008985,
+   128.8918538
+  ],
+  "categories": [
+   "독립출판",
+   "인문"
+  ],
+  "themes": [],
+  "reviewTags": [],
+  "facilities": [],
+  "description": "작은 독립책방",
+  "reviews": [],
+  "issuedDate": "2024-10-23",
+  "sourceId": "B553457-04-012-27"
+ },
+ {
+  "id": "b028",
+  "title": "칠성조선소 북살롱",
+  "sido": "강원",
+  "district": "강원 속초시",
+  "address": "강원도 속초시 중앙로46번길 45",
+  "zipCode": "24838",
+  "openingHours": "매일 11:00~19:00",
+  "openingSummary": "11:00~19:00",
+  "hours": {
+   "weekday": "11:00~19:00",
+   "saturday": "11:00~19:00",
+   "sunday": "11:00~19:00"
+  },
+  "closedDays": "",
+  "phone": "010-5721-2309",
+  "coordinates": [
+   38.19812772,
+   128.5833088
+  ],
+  "categories": [
+   "인문"
+  ],
+  "themes": [],
+  "reviewTags": [],
+  "facilities": [],
+  "description": "SELECTED BOOK SHOP",
+  "reviews": [],
+  "issuedDate": "2024-10-23",
+  "sourceId": "B553457-04-012-28"
+ },
+ {
+  "id": "b029",
+  "title": "책빵소",
+  "sido": "강원",
+  "district": "강원 원주시",
+  "address": "강원도 원주시 금불4길 23 제1층 102호",
+  "zipCode": "26423",
+  "openingHours": "13:00~20:00 · 휴무 월요일",
+  "openingSummary": "13:00~20:00",
+  "hours": {
+   "weekday": "13:00~20:00",
+   "saturday": "13:00~20:00",
+   "sunday": "13:00~20:00"
+  },
+  "closedDays": "월요일",
+  "phone": "010-2481-1309",
+  "coordinates": [
+   37.3490959,
+   127.9329991
+  ],
+  "categories": [
+   "독립출판"
+  ],
+  "themes": [],
+  "reviewTags": [],
+  "facilities": [
+   "주차"
+  ],
+  "description": "독립출판물 위주로 취급하는 독립서점",
+  "reviews": [],
+  "issuedDate": "2024-10-23",
+  "sourceId": "B553457-04-012-29"
+ },
+ {
+  "id": "b030",
+  "title": "실레책방",
+  "sido": "강원",
+  "district": "강원 춘천시",
+  "address": "강원도 춘천시 신동면 금병의숙1길 19",
+  "zipCode": "24412",
+  "openingHours": "10:00~18:00 · 휴무 화요일, 수요일",
+  "openingSummary": "10:00~18:00",
+  "hours": {
+   "weekday": "10:00~18:00",
+   "saturday": "10:00~18:00",
+   "sunday": "10:00~18:00"
+  },
+  "closedDays": "화요일, 수요일",
+  "phone": "033-262-1508",
+  "coordinates": [
+   37.8135637,
+   127.7175413
+  ],
+  "categories": [
+   "독립출판",
+   "인문"
+  ],
+  "themes": [
+   "헌책방"
+  ],
+  "reviewTags": [],
+  "facilities": [
+   "주차",
+   "공간대여"
+  ],
+  "description": "책 읽고 긍릉 쓰는 장소. 매일 오후6시~11시 공간 대여",
+  "reviews": [],
+  "issuedDate": "2024-10-23",
+  "sourceId": "B553457-04-012-30"
+ },
+ {
+  "id": "b031",
+  "title": "책방마실",
+  "sido": "강원",
+  "district": "강원 춘천시",
+  "address": "강원도 춘천시 전원길 27-1",
+  "zipCode": "24259",
+  "openingHours": "평일 12:00~22:00 · 토 12:00~22:00 · 일 12:00~19:00",
+  "openingSummary": "12:00~22:00",
+  "hours": {
+   "weekday": "12:00~22:00",
+   "saturday": "12:00~22:00",
+   "sunday": "12:00~19:00"
+  },
+  "closedDays": "",
+  "phone": "010-9948-3205",
+  "coordinates": [
+   37.87837259,
+   127.7379276
+  ],
+  "categories": [
+   "독립출판"
+  ],
+  "themes": [],
+  "reviewTags": [],
+  "facilities": [
+   "카페"
+  ],
+  "description": "춘천에 위치한 작은 서점",
+  "reviews": [],
+  "issuedDate": "2024-10-23",
+  "sourceId": "B553457-04-012-31"
+ },
+ {
+  "id": "b032",
+  "title": "서툰책방",
+  "sido": "강원",
+  "district": "강원 춘천시",
+  "address": "강원도 춘천시 향교옆길13번길 22",
+  "zipCode": "24264",
+  "openingHours": "평일 11:00~19:00 · 토 11:00~19:00 · 휴무 일요일",
+  "openingSummary": "11:00~19:00",
+  "hours": {
+   "weekday": "11:00~19:00",
+   "saturday": "11:00~19:00"
+  },
+  "closedDays": "일요일",
+  "phone": "070-7721-7276",
+  "coordinates": [
+   37.88283761,
+   127.7327685
+  ],
+  "categories": [
+   "독립출판",
+   "인문"
+  ],
+  "themes": [
+   "독서모임"
+  ],
+  "reviewTags": [],
+  "facilities": [
+   "카페",
+   "주차"
+  ],
+  "description": "큐레이션 책방",
+  "reviews": [],
+  "issuedDate": "2024-10-23",
+  "sourceId": "B553457-04-012-32"
+ },
+ {
+  "id": "b033",
+  "title": "악어책방",
+  "sido": "서울",
+  "district": "서울 강서구",
+  "address": "서울특별시 강서구 강서로45다길 30-27 초록아파트 상가 102호",
+  "zipCode": "07704",
+  "openingHours": "평일 10:00~20:00 · 토 10:00~17:30 · 휴무 공휴일",
+  "openingSummary": "10:00~20:00",
+  "hours": {
+   "weekday": "10:00~20:00",
+   "saturday": "10:00~17:30"
+  },
+  "closedDays": "공휴일",
+  "phone": "010-3022-3017",
+  "coordinates": [
+   37.54614954,
+   126.8346715
+  ],
+  "categories": [
+   "독립출판"
+  ],
+  "themes": [],
+  "reviewTags": [],
+  "facilities": [
+   "주차",
+   "화장실 구분"
+  ],
+  "description": "예약 회원제. 아이와 엄마를 위한 책. 클래스와 모임",
+  "reviews": [],
+  "issuedDate": "2024-10-23",
+  "sourceId": "B553457-04-012-33"
+ },
+ {
+  "id": "b034",
+  "title": "나무곁에 서서",
+  "sido": "서울",
+  "district": "서울 강서구",
+  "address": "서울특별시 강서구 강서로76길 19 1층",
+  "zipCode": "07529",
+  "openingHours": "평일 11:00~19:00 · 토 14:00~19:00 · 휴무 일요일, 월요일",
+  "openingSummary": "11:00~19:00",
+  "hours": {
+   "weekday": "11:00~19:00",
+   "saturday": "14:00~19:00"
+  },
+  "closedDays": "일요일, 월요일",
+  "phone": "010-8963-0186",
+  "coordinates": [
+   37.56934057,
+   126.8426262
+  ],
+  "categories": [
+   "독립출판"
+  ],
+  "themes": [
+   "독서모임"
+  ],
+  "reviewTags": [],
+  "facilities": [
+   "공간대여"
+  ],
+  "description": "목, 금 오후2시~오후7시 영업. 숲, 생태, 환경, 교육을 이야기하는 공간",
+  "reviews": [],
+  "issuedDate": "2024-10-23",
+  "sourceId": "B553457-04-012-34"
+ },
+ {
+  "id": "b035",
+  "title": "다시서점",
+  "sido": "서울",
+  "district": "서울 강서구",
+  "address": "서울특별시 강서구 방화대로33길 13 1층",
+  "zipCode": "07605",
+  "openingHours": "",
+  "openingSummary": "",
+  "hours": {},
+  "closedDays": "",
+  "phone": "010-9285-4869",
+  "coordinates": [
+   37.56841625,
+   126.8157874
+  ],
+  "categories": [
+   "독립출판"
+  ],
+  "themes": [
+   "독서모임"
+  ],
+  "reviewTags": [],
+  "facilities": [
+   "주차",
+   "화장실 구분"
+  ],
+  "description": "시집과 시인의 산문류, 텍스트 위주의 독림출판물 판매",
+  "reviews": [],
+  "issuedDate": "2024-10-23",
+  "sourceId": "B553457-04-012-35"
+ },
+ {
+  "id": "b036",
+  "title": "다시서점 북터미널",
+  "sido": "서울",
+  "district": "서울 강서구",
+  "address": "서울특별시 강서구 양천로24길 113 지하1층",
+  "zipCode": "07605",
+  "openingHours": "",
+  "openingSummary": "",
+  "hours": {},
+  "closedDays": "",
+  "phone": "070-4383-4869",
+  "coordinates": [
+   37.56819751,
+   126.8153705
+  ],
+  "categories": [
+   "독립출판"
+  ],
+  "themes": [],
+  "reviewTags": [],
+  "facilities": [
+   "카페"
+  ],
+  "description": "온라인몰 운영을 위한 공간. 매장은 3분 거리 방화대로 33길 13 1층 위치",
+  "reviews": [],
+  "issuedDate": "2024-10-23",
+  "sourceId": "B553457-04-012-36"
+ },
+ {
+  "id": "b037",
+  "title": "쓰다북스",
+  "sido": "부산",
+  "district": "부산 금정구",
+  "address": "부산광역시 금정구 금정로 197 쓰다북스",
+  "zipCode": "46244",
+  "openingHours": "평일 11:00~18:00 · 심야책방,휴일책방 운영",
+  "openingSummary": "11:00~18:00",
+  "hours": {
+   "weekday": "11:00~18:00"
+  },
+  "closedDays": "심야책방,휴일책방 운영",
+  "phone": "051-802-5244",
+  "coordinates": [
+   35.24222827,
+   129.0884612
+  ],
+  "categories": [
+   "독립출판"
+  ],
+  "themes": [
+   "독서모임",
+   "북토크",
+   "강연"
+  ],
+  "reviewTags": [],
+  "facilities": [
+   "카페"
+  ],
+  "description": "캘리그라피관련 지류 용품과 책 판매, 카페를 즐길 수 있음",
+  "reviews": [],
+  "issuedDate": "2024-10-23",
+  "sourceId": "B553457-04-012-37"
+ },
+ {
+  "id": "b038",
+  "title": "나락서점",
+  "sido": "부산",
+  "district": "부산 남구",
+  "address": "부산광역시 남구 전포대로110번길 8 지하1층",
+  "zipCode": "48411",
+  "openingHours": "평일 15:00~20:00 · 토 13:00~21:00 · 일 13:00~21:00",
+  "openingSummary": "15:00~20:00",
+  "hours": {
+   "weekday": "15:00~20:00",
+   "saturday": "13:00~21:00",
+   "sunday": "13:00~21:00"
+  },
+  "closedDays": "",
+  "phone": "0507-1321-8406",
+  "coordinates": [
+   35.14645159,
+   129.067344
+  ],
+  "categories": [
+   "독립출판"
+  ],
+  "themes": [],
+  "reviewTags": [],
+  "facilities": [],
+  "description": "독립출판물, 일반단행본 판매",
+  "reviews": [],
+  "issuedDate": "2024-10-23",
+  "sourceId": "B553457-04-012-38"
+ },
+ {
+  "id": "b039",
+  "title": "숙희책방 파이데이아 동래지부",
+  "sido": "부산",
+  "district": "부산 동래구",
+  "address": "부산광역시 동래구 사직북로63번길 55 2층 1-1호",
+  "zipCode": "47864",
+  "openingHours": "",
+  "openingSummary": "",
+  "hours": {},
+  "closedDays": "",
+  "phone": "0507-1347-9050",
+  "coordinates": [
+   35.1978674,
+   129.0582055
+  ],
+  "categories": [
+   "독립출판"
+  ],
+  "themes": [],
+  "reviewTags": [],
+  "facilities": [
+   "카페"
+  ],
+  "description": "독서모임이 있는 곳",
+  "reviews": [],
+  "issuedDate": "2024-10-23",
+  "sourceId": "B553457-04-012-39"
+ },
+ {
+  "id": "b040",
+  "title": "동주 책방",
+  "sido": "부산",
+  "district": "부산 수영구",
+  "address": "부산광역시 수영구 과정로15번길 8-1",
+  "zipCode": "48211",
+  "openingHours": "평일 14:00~19:00 · 토 14:00~19:00 · 휴무 화요일,일요일",
+  "openingSummary": "14:00~19:00",
+  "hours": {
+   "weekday": "14:00~19:00",
+   "saturday": "14:00~19:00"
+  },
+  "closedDays": "화요일,일요일",
+  "phone": "010-9669-0002",
+  "coordinates": [
+   35.17284851,
+   129.1080787
+  ],
+  "categories": [
+   "독립출판",
+   "과학"
+  ],
+  "themes": [
+   "독서모임",
+   "북토크",
+   "강연",
+   "헌책방"
+  ],
+  "reviewTags": [],
+  "facilities": [],
+  "description": "자연과학 전문 서점, 부설 숲생물연구소도 있음",
+  "reviews": [],
+  "issuedDate": "2024-10-23",
+  "sourceId": "B553457-04-012-40"
+ },
+ {
+  "id": "b041",
+  "title": "이솝우화",
+  "sido": "부산",
+  "district": "부산 수영구",
+  "address": "부산광역시 수영구 남천바다로15번길 40",
+  "zipCode": "48302",
+  "openingHours": "",
+  "openingSummary": "",
+  "hours": {},
+  "closedDays": "",
+  "phone": "02-1230-0000",
+  "coordinates": [
+   35.15104809,
+   129.1135651
+  ],
+  "categories": [],
+  "themes": [],
+  "reviewTags": [],
+  "facilities": [
+   "카페",
+   "공간대여"
+  ],
+  "description": "광안리 앞 각종 소품들도 구비, 소규모 서점",
+  "reviews": [],
+  "issuedDate": "2024-10-23",
+  "sourceId": "B553457-04-012-41"
+ },
+ {
+  "id": "b042",
+  "title": "책방오월",
+  "sido": "부산",
+  "district": "부산 중구",
+  "address": "부산광역시 중구 광복중앙로33번길 16-7 1층 책방오월, 더 타로",
+  "zipCode": "48947",
+  "openingHours": "",
+  "openingSummary": "",
+  "hours": {},
+  "closedDays": "",
+  "phone": "0507-1465-0512",
+  "coordinates": [
+   35.10239752,
+   129.0293371
+  ],
+  "categories": [
+   "독립출판"
+  ],
+  "themes": [],
+  "reviewTags": [],
+  "facilities": [
+   "주차"
+  ],
+  "description": "타로서점과 같이 운영중인 독립서점",
+  "reviews": [],
+  "issuedDate": "2024-10-23",
+  "sourceId": "B553457-04-012-42"
+ },
+ {
+  "id": "b043",
+  "title": "미묘북",
+  "sido": "부산",
+  "district": "부산 중구",
+  "address": "부산광역시 중구 대청로126번길 28-1",
+  "zipCode": "48951",
+  "openingHours": "평일 13:00~01:00 · 주말 및 공휴일 별도 공지",
+  "openingSummary": "13:00~01:00",
+  "hours": {
+   "weekday": "13:00~01:00"
+  },
+  "closedDays": "주말 및 공휴일 별도 공지",
+  "phone": "0507-1316-2890",
+  "coordinates": [
+   35.10038254,
+   129.03432
+  ],
+  "categories": [
+   "디자인",
+   "예술"
+  ],
+  "themes": [],
+  "reviewTags": [],
+  "facilities": [
+   "주차"
+  ],
+  "description": "사진집, 화집, 아트북 심야책방",
+  "reviews": [],
+  "issuedDate": "2024-10-23",
+  "sourceId": "B553457-04-012-43"
+ },
+ {
+  "id": "b044",
+  "title": "주책공사",
+  "sido": "부산",
+  "district": "부산 중구",
+  "address": "부산광역시 중구 대청로141번길 15-1 1층",
+  "zipCode": "48930",
+  "openingHours": "11:00~20:00 · 휴무 일요일",
+  "openingSummary": "11:00~20:00",
+  "hours": {
+   "weekday": "11:00~20:00",
+   "saturday": "11:00~20:00",
+   "sunday": "11:00~20:00"
+  },
+  "closedDays": "일요일",
+  "phone": "010-8520-3530",
+  "coordinates": [
+   35.10423999,
+   129.035063
+  ],
+  "categories": [
+   "독립출판"
+  ],
+  "themes": [],
+  "reviewTags": [],
+  "facilities": [
+   "카페"
+  ],
+  "description": "커피와 책이 있는 문화복합공간",
+  "reviews": [],
+  "issuedDate": "2024-10-23",
+  "sourceId": "B553457-04-012-44"
+ },
+ {
+  "id": "b045",
+  "title": "여행하다",
+  "sido": "부산",
+  "district": "부산 중구",
+  "address": "부산광역시 중구 대청로141번길 17 1층",
+  "zipCode": "48930",
+  "openingHours": "평일 10:00~22:00 · 토 13:00~18:00 · 일 13:00~18:00",
+  "openingSummary": "10:00~22:00",
+  "hours": {
+   "weekday": "10:00~22:00",
+   "saturday": "13:00~18:00",
+   "sunday": "13:00~18:00"
+  },
+  "closedDays": "",
+  "phone": "0507-1321-4309",
+  "coordinates": [
+   35.10435038,
+   129.0350609
+  ],
+  "categories": [
+   "인문"
+  ],
+  "themes": [],
+  "reviewTags": [],
+  "facilities": [
+   "카페",
+   "주차",
+   "화장실 구분"
+  ],
+  "description": "심리서 전문 독립서점, 타로점도 같이운영",
+  "reviews": [],
+  "issuedDate": "2024-10-23",
+  "sourceId": "B553457-04-012-45"
+ },
+ {
+  "id": "b046",
+  "title": "맛있는 음식책방 눈누난나",
+  "sido": "경기",
+  "district": "경기 수원시",
+  "address": "경기도 수원시 권선구 매송고색로711번길 26",
+  "zipCode": "16624",
+  "openingHours": "평일 13:00~20:00 · 토 13:00~20:00 · 휴무 일요일",
+  "openingSummary": "13:00~20:00",
+  "hours": {
+   "weekday": "13:00~20:00",
+   "saturday": "13:00~20:00"
+  },
+  "closedDays": "일요일",
+  "phone": "",
+  "coordinates": [
+   37.25239721,
+   126.981529
+  ],
+  "categories": [
+   "인문"
+  ],
+  "themes": [
+   "강연"
+  ],
+  "reviewTags": [],
+  "facilities": [],
+  "description": "음식관련 책과 빵과 음식관련 소품을 판매하는 서점",
+  "reviews": [],
+  "issuedDate": "2024-10-23",
+  "sourceId": "B553457-04-012-46"
+ },
+ {
+  "id": "b047",
+  "title": "그런의미에서",
+  "sido": "경기",
+  "district": "경기 수원시",
+  "address": "경기도 수원시 영통구 매여울로40번길 42-2 1층 102호",
+  "zipCode": "16525",
+  "openingHours": "토 13:00~20:00 · 일 13:00~19:00",
+  "openingSummary": "",
+  "hours": {
+   "saturday": "13:00~20:00",
+   "sunday": "13:00~19:00"
+  },
+  "closedDays": "",
+  "phone": "010-6480-5534",
+  "coordinates": [
+   37.27245158,
+   127.047325
+  ],
+  "categories": [
+   "독립출판"
+  ],
+  "themes": [],
+  "reviewTags": [],
+  "facilities": [
+   "카페"
+  ],
+  "description": "다양한 국내외도서 취급",
+  "reviews": [],
+  "issuedDate": "2024-10-23",
+  "sourceId": "B553457-04-012-47"
+ },
+ {
+  "id": "b048",
+  "title": "나인빌리지북스",
+  "sido": "경기",
+  "district": "경기 구리시",
+  "address": "경기도 구리시 아차산로432번길 4 1층 나인빌리지북스",
+  "zipCode": "11936",
+  "openingHours": "평일 18:00~21:00 · 토 12:00~19:00 · 일 12:00~19:00 · 휴무 월요일, 화요일",
+  "openingSummary": "18:00~21:00",
+  "hours": {
+   "weekday": "18:00~21:00",
+   "saturday": "12:00~19:00",
+   "sunday": "12:00~19:00"
+  },
+  "closedDays": "월요일, 화요일",
+  "phone": "010-6240-3643",
+  "coordinates": [
+   37.59339791,
+   127.1315991
+  ],
+  "categories": [
+   "독립출판"
+  ],
+  "themes": [
+   "독서모임"
+  ],
+  "reviewTags": [],
+  "facilities": [],
+  "description": "독립출판물 취급 전문 서점",
+  "reviews": [],
+  "issuedDate": "2024-10-23",
+  "sourceId": "B553457-04-012-48"
+ },
+ {
+  "id": "b049",
+  "title": "서로의공간",
+  "sido": "경기",
+  "district": "경기 구리시",
+  "address": "경기도 구리시 안골로8번길 67 101호",
+  "zipCode": "11935",
+  "openingHours": "평일 12:00~19:00 · 토 12:00~20:00 · 일 12:00~20:00 · 휴무 월요일",
+  "openingSummary": "12:00~19:00",
+  "hours": {
+   "weekday": "12:00~19:00",
+   "saturday": "12:00~20:00",
+   "sunday": "12:00~20:00"
+  },
+  "closedDays": "월요일",
+  "phone": "010-2087-0187",
+  "coordinates": [
+   37.59458383,
+   127.1329066
+  ],
+  "categories": [
+   "독립출판"
+  ],
+  "themes": [],
+  "reviewTags": [],
+  "facilities": [
+   "카페"
+  ],
+  "description": "독립출판물을 소개하고 판매하는 식물 서점",
+  "reviews": [],
+  "issuedDate": "2024-10-23",
+  "sourceId": "B553457-04-012-49"
+ },
+ {
+  "id": "b050",
+  "title": "밸류브릿지터무니책방",
+  "sido": "경기",
+  "district": "경기 군포시",
+  "address": "경기도 군포시 금산로 84 1층",
+  "zipCode": "15806",
+  "openingHours": "평일 11:30~21:00 · 토 11:30~21:00 · 일 13:30~19:00 · 휴무 월요일",
+  "openingSummary": "11:30~21:00",
+  "hours": {
+   "weekday": "11:30~21:00",
+   "saturday": "11:30~21:00",
+   "sunday": "13:30~19:00"
+  },
+  "closedDays": "월요일",
+  "phone": "031-396-1693",
+  "coordinates": [
+   37.36957653,
+   126.9376917
+  ],
+  "categories": [
+   "독립출판"
+  ],
+  "themes": [
+   "독서모임",
+   "북토크",
+   "강연"
+  ],
+  "reviewTags": [],
+  "facilities": [
+   "공간대여"
+  ],
+  "description": "책방/갤러리/카페/세미나 공간이 함께 있는 책공간",
+  "reviews": [],
+  "issuedDate": "2024-10-23",
+  "sourceId": "B553457-04-012-50"
+ },
+ {
+  "id": "b051",
+  "title": "책읽는방",
+  "sido": "경기",
+  "district": "경기 군포시",
+  "address": "경기도 군포시 오금로134번안길 5 102호",
+  "zipCode": "15833",
+  "openingHours": "",
+  "openingSummary": "",
+  "hours": {},
+  "closedDays": "",
+  "phone": "010-6413-7035",
+  "coordinates": [
+   37.35907488,
+   126.9411175
+  ],
+  "categories": [
+   "독립출판",
+   "인문"
+  ],
+  "themes": [
+   "독서모임"
+  ],
+  "reviewTags": [],
+  "facilities": [
+   "카페"
+  ],
+  "description": "인문학서적 중심 독립책방",
+  "reviews": [],
+  "issuedDate": "2024-10-23",
+  "sourceId": "B553457-04-012-51"
+ },
+ {
+  "id": "b052",
+  "title": "게으른정원",
+  "sido": "경기",
+  "district": "경기 김포시",
+  "address": "경기도 김포시 북변중로 51-1 2층",
+  "zipCode": "10106",
+  "openingHours": "14:00~21:00 · 휴무 화요일, 수요일",
+  "openingSummary": "14:00~21:00",
+  "hours": {
+   "weekday": "14:00~21:00",
+   "saturday": "14:00~21:00",
+   "sunday": "14:00~21:00"
+  },
+  "closedDays": "화요일, 수요일",
+  "phone": "010-2352-3532",
+  "coordinates": [
+   37.62598096,
+   126.7107358
+  ],
+  "categories": [
+   "독립출판"
+  ],
+  "themes": [],
+  "reviewTags": [],
+  "facilities": [],
+  "description": "독립서점, 동네책방, 큐레이션 책방, 반려동물 동반 가능",
+  "reviews": [],
+  "issuedDate": "2024-10-23",
+  "sourceId": "B553457-04-012-52"
+ },
+ {
+  "id": "b053",
+  "title": "코너스툴",
+  "sido": "경기",
+  "district": "경기 동두천시",
+  "address": "경기도 동두천시 동두천로 115 중앙프라자 4층 403호",
+  "zipCode": "11350",
+  "openingHours": "평일 18:00~22:00 · 일 10:00~22:00 · 휴무 월요일, 화요일, 토요일",
+  "openingSummary": "18:00~22:00",
+  "hours": {
+   "weekday": "18:00~22:00",
+   "sunday": "10:00~22:00"
+  },
+  "closedDays": "월요일, 화요일, 토요일",
+  "phone": "010-3297-7030",
+  "coordinates": [
+   37.89170925,
+   127.0546394
+  ],
+  "categories": [
+   "독립출판"
+  ],
+  "themes": [],
+  "reviewTags": [],
+  "facilities": [],
+  "description": "독립출판물 단행복 영화 음악 전시와 클래스 맥주 커피 차와 수다가 있는 곳",
+  "reviews": [],
+  "issuedDate": "2024-10-23",
+  "sourceId": "B553457-04-012-53"
+ },
+ {
+  "id": "b054",
+  "title": "오키로북스",
+  "sido": "경기",
+  "district": "경기 부천시",
+  "address": "경기도 부천시 경인로 211-1",
+  "zipCode": "14709",
+  "openingHours": "일 13:00~19:00",
+  "openingSummary": "",
+  "hours": {
+   "sunday": "13:00~19:00"
+  },
+  "closedDays": "",
+  "phone": "010-4907-1870",
+  "coordinates": [
+   37.48351988,
+   126.77907
+  ],
+  "categories": [
+   "독립출판"
+  ],
+  "themes": [],
+  "reviewTags": [],
+  "facilities": [],
+  "description": "코로나로 인한 일시 휴무 중. 주로 독립출판물을 다루는 동네서점",
+  "reviews": [],
+  "issuedDate": "2024-10-23",
+  "sourceId": "B553457-04-012-54"
+ },
+ {
+  "id": "b055",
+  "title": "유어마인드",
+  "sido": "서울",
+  "district": "서울 서대문구",
+  "address": "서울특별시 서대문구 연희로11라길 10-6 2층 우측",
+  "zipCode": "03703",
+  "openingHours": "13:00~20:00 · 화요일, 신정, 설, 추석, 크리스마스",
+  "openingSummary": "13:00~20:00",
+  "hours": {
+   "weekday": "13:00~20:00",
+   "saturday": "13:00~20:00",
+   "sunday": "13:00~20:00"
+  },
+  "closedDays": "화요일, 신정, 설, 추석, 크리스마스",
+  "phone": "070-8821-8990",
+  "coordinates": [
+   37.56839464,
+   126.9303023
+  ],
+  "categories": [
+   "독립출판",
+   "예술"
+  ],
+  "themes": [],
+  "reviewTags": [],
+  "facilities": [
+   "카페"
+  ],
+  "description": "독립출판물과 아트북을 핵심으로 수입 서적, 음반, 굿즈를 함께 판매",
+  "reviews": [],
+  "issuedDate": "2024-10-23",
+  "sourceId": "B553457-04-012-55"
+ },
+ {
+  "id": "b056",
+  "title": "미스터리 유니온",
+  "sido": "서울",
+  "district": "서울 서대문구",
+  "address": "서울특별시 서대문구 이화여대길 88-11",
+  "zipCode": "03765",
+  "openingHours": "평일 13:00~22:00 · 토 13:00~22:00 · 휴무 일요일, 월요일",
+  "openingSummary": "13:00~22:00",
+  "hours": {
+   "weekday": "13:00~22:00",
+   "saturday": "13:00~22:00"
+  },
+  "closedDays": "일요일, 월요일",
+  "phone": "02-6080-7040",
+  "coordinates": [
+   37.55934749,
+   126.9436928
+  ],
+  "categories": [
+   "독립출판",
+   "문학",
+   "소설"
+  ],
+  "themes": [],
+  "reviewTags": [],
+  "facilities": [
+   "카페"
+  ],
+  "description": "추리소설 전문서점",
+  "reviews": [],
+  "issuedDate": "2024-10-23",
+  "sourceId": "B553457-04-012-56"
+ },
+ {
+  "id": "b057",
+  "title": "책방 생활의지혜",
+  "sido": "서울",
+  "district": "서울 송파구",
+  "address": "서울특별시 송파구 올림픽로10길 40",
+  "zipCode": "05562",
+  "openingHours": "평일 10:00~20:00",
+  "openingSummary": "10:00~20:00",
+  "hours": {
+   "weekday": "10:00~20:00"
+  },
+  "closedDays": "",
+  "phone": "010-7104-7747",
+  "coordinates": [
+   37.50817501,
+   127.0815727
+  ],
+  "categories": [
+   "독립출판"
+  ],
+  "themes": [],
+  "reviewTags": [],
+  "facilities": [],
+  "description": "공기 서점, 도서 큐레이션 서점",
+  "reviews": [],
+  "issuedDate": "2024-10-23",
+  "sourceId": "B553457-04-012-57"
+ },
+ {
+  "id": "b058",
+  "title": "오렌지 탱고",
+  "sido": "서울",
+  "district": "서울 송파구",
+  "address": "서울특별시 송파구 중대로16길 12 201호",
+  "zipCode": "05825",
+  "openingHours": "",
+  "openingSummary": "",
+  "hours": {},
+  "closedDays": "",
+  "phone": "02-401-6692",
+  "coordinates": [
+   37.49597914,
+   127.1257635
+  ],
+  "categories": [],
+  "themes": [],
+  "reviewTags": [],
+  "facilities": [
+   "카페",
+   "공간대여"
+  ],
+  "description": "",
+  "reviews": [],
+  "issuedDate": "2024-10-23",
+  "sourceId": "B553457-04-012-58"
+ },
+ {
+  "id": "b059",
+  "title": "사해책방",
+  "sido": "서울",
+  "district": "서울 양천구",
+  "address": "서울특별시 양천구 목동중앙북로 33-20",
+  "zipCode": "07947",
+  "openingHours": "평일 10:00~19:00 · 휴무 일요일",
+  "openingSummary": "10:00~19:00",
+  "hours": {
+   "weekday": "10:00~19:00"
+  },
+  "closedDays": "일요일",
+  "phone": "010-6727-4278",
+  "coordinates": [
+   37.54238884,
+   126.8695296
+  ],
+  "categories": [
+   "독립출판"
+  ],
+  "themes": [],
+  "reviewTags": [],
+  "facilities": [],
+  "description": "다양한 국내외도서, 원데이클래스 소모임 등 공간 대여 가능, 카페",
+  "reviews": [],
+  "issuedDate": "2024-10-23",
+  "sourceId": "B553457-04-012-59"
+ },
+ {
+  "id": "b060",
+  "title": "살롱드북",
+  "sido": "서울",
+  "district": "서울 관악구",
+  "address": "서울특별시 관악구 남부순환로231길 11 태주빌라 1층",
+  "zipCode": "08739",
+  "openingHours": "평일 14:00~22:00 · 토 14:00~22:00 · 휴무 일요일, 월요일",
+  "openingSummary": "14:00~22:00",
+  "hours": {
+   "weekday": "14:00~22:00",
+   "saturday": "14:00~22:00"
+  },
+  "closedDays": "일요일, 월요일",
+  "phone": "070-4007-2466",
+  "coordinates": [
+   37.48039632,
+   126.95698
+  ],
+  "categories": [],
+  "themes": [],
+  "reviewTags": [],
+  "facilities": [
+   "카페"
+  ],
+  "description": "책과 술을 판매하는 서점",
+  "reviews": [],
+  "issuedDate": "2024-10-23",
+  "sourceId": "B553457-04-012-60"
+ },
+ {
+  "id": "b061",
+  "title": "책방여행마을",
+  "sido": "서울",
+  "district": "서울 관악구",
+  "address": "서울특별시 관악구 봉천로 401-1 2층",
+  "zipCode": "08752",
+  "openingHours": "평일 14:00~21:00 · 토 14:00~21:00 · 휴무 일요일",
+  "openingSummary": "14:00~21:00",
+  "hours": {
+   "weekday": "14:00~21:00",
+   "saturday": "14:00~21:00"
+  },
+  "closedDays": "일요일",
+  "phone": "010-8820-7914",
+  "coordinates": [
+   37.48318843,
+   126.9446607
+  ],
+  "categories": [
+   "여행"
+  ],
+  "themes": [
+   "독서모임"
+  ],
+  "reviewTags": [],
+  "facilities": [],
+  "description": "여행 전문 독립 책방",
+  "reviews": [],
+  "issuedDate": "2024-10-23",
+  "sourceId": "B553457-04-012-61"
+ },
+ {
+  "id": "b062",
+  "title": "재론북스",
+  "sido": "서울",
+  "district": "서울 관악구",
+  "address": "서울특별시 관악구 신림로 318 1층 101호 재론북스",
+  "zipCode": "08777",
+  "openingHours": "평일 10:30~22:00 · 토 10:30~21:00 · 일 13:00~19:00 · 휴무 월요일",
+  "openingSummary": "10:30~22:00",
+  "hours": {
+   "weekday": "10:30~22:00",
+   "saturday": "10:30~21:00",
+   "sunday": "13:00~19:00"
+  },
+  "closedDays": "월요일",
+  "phone": "010-9817-0314",
+  "coordinates": [
+   37.4825745,
+   126.9302525
+  ],
+  "categories": [
+   "독립출판"
+  ],
+  "themes": [],
+  "reviewTags": [],
+  "facilities": [],
+  "description": "독립출판물과 북큐레이션 서점. 쌍화차 대추차 커피 등 판매",
+  "reviews": [],
+  "issuedDate": "2024-10-23",
+  "sourceId": "B553457-04-012-62"
+ },
+ {
+  "id": "b063",
+  "title": "관객의 취향",
+  "sido": "서울",
+  "district": "서울 관악구",
+  "address": "서울특별시 관악구 양녕로 19 1층,2층",
+  "zipCode": "08752",
+  "openingHours": "13:00~21:00 · 휴무 월요일, 화요일",
+  "openingSummary": "13:00~21:00",
+  "hours": {
+   "weekday": "13:00~21:00",
+   "saturday": "13:00~21:00",
+   "sunday": "13:00~21:00"
+  },
+  "closedDays": "월요일, 화요일",
+  "phone": "070-8818-2046",
+  "coordinates": [
+   37.48385258,
+   126.9464535
+  ],
+  "categories": [
+   "독립출판"
+  ],
+  "themes": [],
+  "reviewTags": [],
+  "facilities": [],
+  "description": "독립출판물 주로 취급",
+  "reviews": [],
+  "issuedDate": "2024-10-23",
+  "sourceId": "B553457-04-012-63"
+ },
+ {
+  "id": "b064",
+  "title": "하얀정원",
+  "sido": "서울",
+  "district": "서울 관악구",
+  "address": "서울특별시 관악구 행운1길 40 1층",
+  "zipCode": "08740",
+  "openingHours": "평일 14:00~21:00 · 토 14:00~21:00 · 일~화요일 정기",
+  "openingSummary": "14:00~21:00",
+  "hours": {
+   "weekday": "14:00~21:00",
+   "saturday": "14:00~21:00"
+  },
+  "closedDays": "일~화요일 정기",
+  "phone": "010-6555-0273",
+  "coordinates": [
+   37.48065273,
+   126.9573874
+  ],
+  "categories": [
+   "독립출판"
+  ],
+  "themes": [
+   "북토크"
+  ],
+  "reviewTags": [],
+  "facilities": [
+   "카페"
+  ],
+  "description": "헌 책과 새 책, 예술을 사랑하는 사람들의 놀이공간이자 아지트",
+  "reviews": [],
+  "issuedDate": "2024-10-23",
+  "sourceId": "B553457-04-012-64"
+ },
+ {
+  "id": "b065",
+  "title": "회전문서재",
+  "sido": "서울",
+  "district": "서울 관악구",
+  "address": "서울특별시 관악구 조원로2길 55 1층",
+  "zipCode": "08768",
+  "openingHours": "평일 15:30~20:00 · 토 13:00~18:00 · 금요일, 일요일 휴무. 인스타그램 참조",
+  "openingSummary": "15:30~20:00",
+  "hours": {
+   "weekday": "15:30~20:00",
+   "saturday": "13:00~18:00"
+  },
+  "closedDays": "금요일, 일요일 휴무. 인스타그램 참조",
+  "phone": "0507-1455-7025",
+  "coordinates": [
+   37.4812602,
+   126.9013739
+  ],
+  "categories": [
+   "독립출판"
+  ],
+  "themes": [],
+  "reviewTags": [],
+  "facilities": [],
+  "description": "구로디지털단지역 느슨한 연대가 매력있는 서점'",
+  "reviews": [],
+  "issuedDate": "2024-10-23",
+  "sourceId": "B553457-04-012-65"
+ },
+ {
+  "id": "b066",
+  "title": "생산적헛소리",
+  "sido": "서울",
+  "district": "서울 광진구",
+  "address": "서울특별시 광진구 능동로19길 5 지하",
+  "zipCode": "05009",
+  "openingHours": "평일 15:00~22:00 · 토 13:00~19:00 · 휴무 일요일",
+  "openingSummary": "15:00~22:00",
+  "hours": {
+   "weekday": "15:00~22:00",
+   "saturday": "13:00~19:00"
+  },
+  "closedDays": "일요일",
+  "phone": "010-4675-2214",
+  "coordinates": [
+   37.54688529,
+   127.0734858
+  ],
+  "categories": [
+   "독립출판"
+  ],
+  "themes": [],
+  "reviewTags": [],
+  "facilities": [
+   "카페"
+  ],
+  "description": "모임과 인문/문화/예술 관련 프로그램을 만들어 운영",
+  "reviews": [],
+  "issuedDate": "2024-10-23",
+  "sourceId": "B553457-04-012-66"
+ },
+ {
+  "id": "b067",
+  "title": "인공위성",
+  "sido": "서울",
+  "district": "서울 구로구",
+  "address": "서울특별시 구로구 구로중앙로27가길 32 1층",
+  "zipCode": "08283",
+  "openingHours": "12:00~21:00 · 휴무 월요일, 화요일",
+  "openingSummary": "12:00~21:00",
+  "hours": {
+   "weekday": "12:00~21:00",
+   "saturday": "12:00~21:00",
+   "sunday": "12:00~21:00"
+  },
+  "closedDays": "월요일, 화요일",
+  "phone": "070-4642-0255",
+  "coordinates": [
+   37.497604,
+   126.8864845
+  ],
+  "categories": [],
+  "themes": [],
+  "reviewTags": [],
+  "facilities": [],
+  "description": "기부도서로 구성되는 질문서점",
+  "reviews": [],
+  "issuedDate": "2024-10-23",
+  "sourceId": "B553457-04-012-67"
+ },
+ {
+  "id": "b068",
+  "title": "별별그림",
+  "sido": "서울",
+  "district": "서울 서대문구",
+  "address": "서울특별시 서대문구 증가로6길 43 1층 102호",
+  "zipCode": "03664",
+  "openingHours": "평일 12:00~20:00 · 토 13:00~20:00 · 휴무 일요일",
+  "openingSummary": "12:00~20:00",
+  "hours": {
+   "weekday": "12:00~20:00",
+   "saturday": "13:00~20:00"
+  },
+  "closedDays": "일요일",
+  "phone": "070-4119-3654",
+  "coordinates": [
+   37.57833013,
+   126.9264653
+  ],
+  "categories": [
+   "그림책"
+  ],
+  "themes": [],
+  "reviewTags": [],
+  "facilities": [],
+  "description": "그림책, 그림 관련 서점, 그림 그리는 서점",
+  "reviews": [],
+  "issuedDate": "2024-10-23",
+  "sourceId": "B553457-04-012-68"
+ },
+ {
+  "id": "b069",
+  "title": "다독이는 책방",
+  "sido": "서울",
+  "district": "서울 서초구",
+  "address": "서울특별시 서초구 남부순환로333길 10 1층",
+  "zipCode": "06725",
+  "openingHours": "평일 08:00~15:00 · 토 14:00~22:00",
+  "openingSummary": "08:00~15:00",
+  "hours": {
+   "weekday": "08:00~15:00",
+   "saturday": "14:00~22:00"
+  },
+  "closedDays": "",
+  "phone": "010-7207-7839",
+  "coordinates": [
+   37.48316192,
+   127.0204144
+  ],
+  "categories": [
+   "독립출판"
+  ],
+  "themes": [
+   "독서모임",
+   "북토크"
+  ],
+  "reviewTags": [],
+  "facilities": [
+   "카페"
+  ],
+  "description": "카운셀링 책방. 예약제",
+  "reviews": [],
+  "issuedDate": "2024-10-23",
+  "sourceId": "B553457-04-012-69"
+ },
+ {
+  "id": "b070",
+  "title": "올오어낫싱",
+  "sido": "서울",
+  "district": "서울 금천구",
+  "address": "서울특별시 금천구 시흥대로 315 금천롯데캐슬골드파크4차 마르쉐도르960동 2층 206호",
+  "zipCode": "08608",
+  "openingHours": "평일 13:00~21:00 · 토 13:00~21:00 · 휴무 일요일",
+  "openingSummary": "13:00~21:00",
+  "hours": {
+   "weekday": "13:00~21:00",
+   "saturday": "13:00~21:00"
+  },
+  "closedDays": "일요일",
+  "phone": "02-867-7595",
+  "coordinates": [
+   37.46106886,
+   126.8972538
+  ],
+  "categories": [
+   "독립출판"
+  ],
+  "themes": [
+   "헌책방"
+  ],
+  "reviewTags": [],
+  "facilities": [],
+  "description": "독립출판물 외 기타 서적 다량의 책 취급",
+  "reviews": [],
+  "issuedDate": "2024-10-23",
+  "sourceId": "B553457-04-012-70"
+ },
+ {
+  "id": "b071",
+  "title": "책방 책읽는 정원",
+  "sido": "서울",
+  "district": "서울 서초구",
+  "address": "서울특별시 서초구 논현로7길 24 101호",
+  "zipCode": "06783",
+  "openingHours": "평일 12:00~20:00 · 토 12:00~18:00 · 일 12:00~18:00 · 휴무 월요일, 화요일",
+  "openingSummary": "12:00~20:00",
+  "hours": {
+   "weekday": "12:00~20:00",
+   "saturday": "12:00~18:00",
+   "sunday": "12:00~18:00"
+  },
+  "closedDays": "월요일, 화요일",
+  "phone": "02-2057-0401",
+  "coordinates": [
+   37.47275824,
+   127.0479236
+  ],
+  "categories": [],
+  "themes": [],
+  "reviewTags": [],
+  "facilities": [
+   "카페"
+  ],
+  "description": "금요일 운영시간 주말과 같음. 다섯 명의 책방지기의 큐레이션 서점",
+  "reviews": [],
+  "issuedDate": "2024-10-23",
+  "sourceId": "B553457-04-012-71"
+ },
+ {
+  "id": "b072",
+  "title": "책방오늘",
+  "sido": "서울",
+  "district": "서울 서초구",
+  "address": "서울특별시 서초구 바우뫼로 154 103호",
+  "zipCode": "06753",
+  "openingHours": "매일 12:00~20:00",
+  "openingSummary": "12:00~20:00",
+  "hours": {
+   "weekday": "12:00~20:00",
+   "saturday": "12:00~20:00",
+   "sunday": "12:00~20:00"
+  },
+  "closedDays": "",
+  "phone": "02-529-5055",
+  "coordinates": [
+   37.47708413,
+   127.0372754
+  ],
+  "categories": [
+   "독립출판",
+   "인문"
+  ],
+  "themes": [
+   "독서모임",
+   "북토크",
+   "강연"
+  ],
+  "reviewTags": [],
+  "facilities": [],
+  "description": "인문서적, 예술서, 독립출판, 문학",
+  "reviews": [],
+  "issuedDate": "2024-10-23",
+  "sourceId": "B553457-04-012-72"
+ },
+ {
+  "id": "b073",
+  "title": "개러지레옹스",
+  "sido": "서울",
+  "district": "서울 서초구",
+  "address": "서울특별시 서초구 방배중앙로 170 지하1층",
+  "zipCode": "06556",
+  "openingHours": "평일 12:00~21:00 · 토 13:00~21:00 · 일 13:00~21:00 · 휴무 월요일",
+  "openingSummary": "12:00~21:00",
+  "hours": {
+   "weekday": "12:00~21:00",
+   "saturday": "13:00~21:00",
+   "sunday": "13:00~21:00"
+  },
+  "closedDays": "월요일",
+  "phone": "070-4151-1110",
+  "coordinates": [
+   37.49428443,
+   126.9863216
+  ],
+  "categories": [
+   "독립출판",
+   "외국서적"
+  ],
+  "themes": [
+   "북토크",
+   "강연"
+  ],
+  "reviewTags": [],
+  "facilities": [],
+  "description": "프랑스서점 프랑스 전문 서점",
+  "reviews": [],
+  "issuedDate": "2024-10-23",
+  "sourceId": "B553457-04-012-73"
+ },
+ {
+  "id": "b074",
+  "title": "믿음문고",
+  "sido": "서울",
+  "district": "서울 서초구",
+  "address": "서울특별시 서초구 양재천로 95-4 1F",
+  "zipCode": "06748",
+  "openingHours": "평일 11:00~19:00 · 토 11:00~19:00 · 휴무 일요일, 월요일",
+  "openingSummary": "11:00~19:00",
+  "hours": {
+   "weekday": "11:00~19:00",
+   "saturday": "11:00~19:00"
+  },
+  "closedDays": "일요일, 월요일",
+  "phone": "070-7776-3384",
+  "coordinates": [
+   37.47619074,
+   127.0395945
+  ],
+  "categories": [
+   "독립출판",
+   "철학"
+  ],
+  "themes": [
+   "독서모임",
+   "강연"
+  ],
+  "reviewTags": [],
+  "facilities": [
+   "주차",
+   "화장실 구분"
+  ],
+  "description": "수요일 22시까지 영업. 신학 철학 심리학 문학 인문사회 과학 예술 서적",
+  "reviews": [],
+  "issuedDate": "2024-10-23",
+  "sourceId": "B553457-04-012-74"
+ },
+ {
+  "id": "b075",
+  "title": "이나이테",
+  "sido": "서울",
+  "district": "서울 서초구",
+  "address": "서울특별시 서초구 효령로5길 26-4 1층",
+  "zipCode": "06690",
+  "openingHours": "평일 10:00~22:00 · 휴무 금요일, 주말, 공휴일",
+  "openingSummary": "10:00~22:00",
+  "hours": {
+   "weekday": "10:00~22:00"
+  },
+  "closedDays": "금요일, 주말, 공휴일",
+  "phone": "02-595-5158",
+  "coordinates": [
+   37.47829563,
+   126.9860847
+  ],
+  "categories": [
+   "여행"
+  ],
+  "themes": [],
+  "reviewTags": [],
+  "facilities": [
+   "주차",
+   "화장실 구분"
+  ],
+  "description": "도시를 잇는 골목서점 이나이테",
+  "reviews": [],
+  "issuedDate": "2024-10-23",
+  "sourceId": "B553457-04-012-75"
+ },
+ {
+  "id": "b076",
+  "title": "프루스트의 서재",
+  "sido": "서울",
+  "district": "서울 성동구",
+  "address": "서울특별시 성동구 무수막길 56 1F",
+  "zipCode": "04728",
+  "openingHours": "평일 13:00~20:00 · 토 13:00~20:00",
+  "openingSummary": "13:00~20:00",
+  "hours": {
+   "weekday": "13:00~20:00",
+   "saturday": "13:00~20:00"
+  },
+  "closedDays": "",
+  "phone": "010-8988-2682",
+  "coordinates": [
+   37.55124523,
+   127.0219328
+  ],
+  "categories": [
+   "독립출판",
+   "중고서적"
+  ],
+  "themes": [
+   "독서모임"
+  ],
+  "reviewTags": [],
+  "facilities": [],
+  "description": "중고서점",
+  "reviews": [],
+  "issuedDate": "2024-10-23",
+  "sourceId": "B553457-04-012-76"
+ },
+ {
+  "id": "b077",
+  "title": "도도봉봉",
+  "sido": "서울",
+  "district": "서울 도봉구",
+  "address": "서울특별시 도봉구 도봉로114길 57 1층 도도봉봉",
+  "zipCode": "01456",
+  "openingHours": "평일 15:30~20:30 · 토 15:30~20:30 · 휴무 일요일, 월요일",
+  "openingSummary": "15:30~20:30",
+  "hours": {
+   "weekday": "15:30~20:30",
+   "saturday": "15:30~20:30"
+  },
+  "closedDays": "일요일, 월요일",
+  "phone": "010-6770-3357",
+  "coordinates": [
+   37.64770259,
+   127.0375133
+  ],
+  "categories": [
+   "독립출판",
+   "만화"
+  ],
+  "themes": [],
+  "reviewTags": [],
+  "facilities": [],
+  "description": "문학, 예술, 만화, 독립출판물",
+  "reviews": [],
+  "issuedDate": "2024-10-23",
+  "sourceId": "B553457-04-012-77"
+ },
+ {
+  "id": "b078",
+  "title": "영화책방 35mm",
+  "sido": "서울",
+  "district": "서울 동대문구",
+  "address": "서울특별시 동대문구 답십리로63길 30 101호",
+  "zipCode": "02529",
+  "openingHours": "12:00~20:00 · 휴무 월요일, 화요일",
+  "openingSummary": "12:00~20:00",
+  "hours": {
+   "weekday": "12:00~20:00",
+   "saturday": "12:00~20:00",
+   "sunday": "12:00~20:00"
+  },
+  "closedDays": "월요일, 화요일",
+  "phone": "010-5918-8068",
+  "coordinates": [
+   37.57385508,
+   127.0686033
+  ],
+  "categories": [
+   "독립출판",
+   "예술"
+  ],
+  "themes": [],
+  "reviewTags": [],
+  "facilities": [],
+  "description": "수요일 목요일 문의 후 방문. 영화를 테마로 하는 책방",
+  "reviews": [],
+  "issuedDate": "2024-10-23",
+  "sourceId": "B553457-04-012-78"
+ },
+ {
+  "id": "b079",
+  "title": "책방 오후 다섯시",
+  "sido": "서울",
+  "district": "서울 동대문구",
+  "address": "서울특별시 동대문구 회기로26길 14",
+  "zipCode": "02460",
+  "openingHours": "",
+  "openingSummary": "",
+  "hours": {},
+  "closedDays": "",
+  "phone": "",
+  "coordinates": [
+   37.59026161,
+   127.0542982
+  ],
+  "categories": [
+   "독립출판"
+  ],
+  "themes": [],
+  "reviewTags": [],
+  "facilities": [
+   "카페"
+  ],
+  "description": "",
+  "reviews": [],
+  "issuedDate": "2024-10-23",
+  "sourceId": "B553457-04-012-79"
+ },
+ {
+  "id": "b080",
+  "title": "어나더더블유",
+  "sido": "서울",
+  "district": "서울 동작구",
+  "address": "서울특별시 동작구 사당로30길 42",
+  "zipCode": "07013",
+  "openingHours": "평일 11:30~19:00 · 휴무 주말",
+  "openingSummary": "11:30~19:00",
+  "hours": {
+   "weekday": "11:30~19:00"
+  },
+  "closedDays": "주말",
+  "phone": "010-9932-9054",
+  "coordinates": [
+   37.48308249,
+   126.9808299
+  ],
+  "categories": [],
+  "themes": [],
+  "reviewTags": [],
+  "facilities": [],
+  "description": "월요일 오후2시반 오픈, 금요일 오후 5시 마감. 당신의 이야기가 책이 되는 곳",
+  "reviews": [],
+  "issuedDate": "2024-10-23",
+  "sourceId": "B553457-04-012-80"
+ },
+ {
+  "id": "b081",
+  "title": "ZEROHUNDRED",
+  "sido": "서울",
+  "district": "서울 마포구",
+  "address": "서울특별시 마포구 망원로2길 19 호강주택 상가 1층 3호",
+  "zipCode": "04007",
+  "openingHours": "",
+  "openingSummary": "",
+  "hours": {},
+  "closedDays": "",
+  "phone": "010-5651-1324",
+  "coordinates": [
+   37.55555102,
+   126.9009083
+  ],
+  "categories": [],
+  "themes": [
+   "독서모임",
+   "북토크",
+   "강연"
+  ],
+  "reviewTags": [],
+  "facilities": [
+   "주차",
+   "화장실 구분"
+  ],
+  "description": "인쇄출판물 위주로 소개하는 서점",
+  "reviews": [],
+  "issuedDate": "2024-10-23",
+  "sourceId": "B553457-04-012-81"
+ },
+ {
+  "id": "b082",
+  "title": "piece",
+  "sido": "서울",
+  "district": "서울 마포구",
+  "address": "서울특별시 마포구 성미산로11길 63",
+  "zipCode": "03973",
+  "openingHours": "13:00~20:00 · 휴무 목요일",
+  "openingSummary": "13:00~20:00",
+  "hours": {
+   "weekday": "13:00~20:00",
+   "saturday": "13:00~20:00",
+   "sunday": "13:00~20:00"
+  },
+  "closedDays": "목요일",
+  "phone": "010-4917-4133",
+  "coordinates": [
+   37.56342697,
+   126.9156205
+  ],
+  "categories": [
+   "사진"
+  ],
+  "themes": [
+   "독서모임"
+  ],
+  "reviewTags": [],
+  "facilities": [
+   "카페"
+  ],
+  "description": "국내외 사진집과 오리지널 프린트 취급",
+  "reviews": [],
+  "issuedDate": "2024-10-23",
+  "sourceId": "B553457-04-012-82"
+ },
+ {
+  "id": "b083",
+  "title": "서점 리스본",
+  "sido": "서울",
+  "district": "서울 마포구",
+  "address": "서울특별시 마포구 성미산로23길 60",
+  "zipCode": "03979",
+  "openingHours": "13:00~20:00 · 휴무 월요일",
+  "openingSummary": "13:00~20:00",
+  "hours": {
+   "weekday": "13:00~20:00",
+   "saturday": "13:00~20:00",
+   "sunday": "13:00~20:00"
+  },
+  "closedDays": "월요일",
+  "phone": "010-9548-2360",
+  "coordinates": [
+   37.56608962,
+   126.9200531
+  ],
+  "categories": [
+   "독립출판"
+  ],
+  "themes": [],
+  "reviewTags": [],
+  "facilities": [
+   "카페"
+  ],
+  "description": "생일책, 비밀책 등 다양한 테마가 있는 서점",
+  "reviews": [],
+  "issuedDate": "2024-10-23",
+  "sourceId": "B553457-04-012-83"
+ },
+ {
+  "id": "b084",
+  "title": "낫저스트북스",
+  "sido": "서울",
+  "district": "서울 성동구",
+  "address": "서울특별시 성동구 성수일로1길 10-1 1층",
+  "zipCode": "04779",
+  "openingHours": "평일 13:00~21:00 · 토 13:00~21:00 · 일 13:00~18:00 · 휴무 화요일",
+  "openingSummary": "13:00~21:00",
+  "hours": {
+   "weekday": "13:00~21:00",
+   "saturday": "13:00~21:00",
+   "sunday": "13:00~18:00"
+  },
+  "closedDays": "화요일",
+  "phone": "070-4112-2016",
+  "coordinates": [
+   37.54190854,
+   127.047425
+  ],
+  "categories": [
+   "독립출판"
+  ],
+  "themes": [
+   "강연"
+  ],
+  "reviewTags": [],
+  "facilities": [],
+  "description": "월금토 1-9pm, 수목일 1-6pm 영업 책방지기가 선정한 책으로 구성",
+  "reviews": [],
+  "issuedDate": "2024-10-23",
+  "sourceId": "B553457-04-012-84"
+ },
+ {
+  "id": "b085",
+  "title": "옥수서재",
+  "sido": "서울",
+  "district": "서울 성동구",
+  "address": "서울특별시 성동구 한림말1길 16-1 B1층",
+  "zipCode": "04735",
+  "openingHours": "평일 12:00~20:00 · 토 12:00~18:00 · 휴무 일요일, 공휴일",
+  "openingSummary": "12:00~20:00",
+  "hours": {
+   "weekday": "12:00~20:00",
+   "saturday": "12:00~18:00"
+  },
+  "closedDays": "일요일, 공휴일",
+  "phone": "010-5473-3012",
+  "coordinates": [
+   37.54272406,
+   127.0164052
+  ],
+  "categories": [
+   "인문"
+  ],
+  "themes": [],
+  "reviewTags": [],
+  "facilities": [],
+  "description": "역사, 문학, 예술, 어린이 책들 그리고 커피와 차",
+  "reviews": [],
+  "issuedDate": "2024-10-23",
+  "sourceId": "B553457-04-012-85"
+ },
+ {
+  "id": "b086",
+  "title": "책방 곱셈",
+  "sido": "서울",
+  "district": "서울 마포구",
+  "address": "서울특별시 마포구 성미산로29길 33 1층",
+  "zipCode": "03979",
+  "openingHours": "평일 12:00~19:00 · 토 12:00~20:00 · 일 14:00~20:00 · 격주 일요일",
+  "openingSummary": "12:00~19:00",
+  "hours": {
+   "weekday": "12:00~19:00",
+   "saturday": "12:00~20:00",
+   "sunday": "14:00~20:00"
+  },
+  "closedDays": "격주 일요일",
+  "phone": "02-336-8063",
+  "coordinates": [
+   37.56533056,
+   126.9217846
+  ],
+  "categories": [
+   "독립출판",
+   "디자인"
+  ],
+  "themes": [],
+  "reviewTags": [],
+  "facilities": [],
+  "description": "출판관계자 및 디자이너 영감 도서",
+  "reviews": [],
+  "issuedDate": "2024-10-23",
+  "sourceId": "B553457-04-012-86"
+ },
+ {
+  "id": "b087",
+  "title": "구슬꿰는실",
+  "sido": "서울",
+  "district": "서울 마포구",
+  "address": "서울특별시 마포구 어울마당로2길 19 3층",
+  "zipCode": "04074",
+  "openingHours": "",
+  "openingSummary": "",
+  "hours": {},
+  "closedDays": "",
+  "phone": "02-6368-7949",
+  "coordinates": [
+   37.54610691,
+   126.9203075
+  ],
+  "categories": [
+   "전문서적"
+  ],
+  "themes": [],
+  "reviewTags": [],
+  "facilities": [
+   "주차",
+   "화장실 구분"
+  ],
+  "description": "방문 전 운영 여부와 이용 가능 시간 확인 必. 사회복지 전문 서점",
+  "reviews": [],
+  "issuedDate": "2024-10-23",
+  "sourceId": "B553457-04-012-87"
+ },
+ {
+  "id": "b088",
+  "title": "아인서점",
+  "sido": "서울",
+  "district": "서울 마포구",
+  "address": "서울특별시 마포구 월드컵로3길 31-30 3층",
+  "zipCode": "04025",
+  "openingHours": "매일 13:00~19:00",
+  "openingSummary": "13:00~19:00",
+  "hours": {
+   "weekday": "13:00~19:00",
+   "saturday": "13:00~19:00",
+   "sunday": "13:00~19:00"
+  },
+  "closedDays": "",
+  "phone": "070-8667-0033",
+  "coordinates": [
+   37.54990425,
+   126.9109275
+  ],
+  "categories": [
+   "독립출판"
+  ],
+  "themes": [
+   "독서모임",
+   "북토크",
+   "강연"
+  ],
+  "reviewTags": [],
+  "facilities": [],
+  "description": "독립출판물 전문 서점",
+  "reviews": [],
+  "issuedDate": "2024-10-23",
+  "sourceId": "B553457-04-012-88"
+ },
+ {
+  "id": "b089",
+  "title": "수수책방",
+  "sido": "서울",
+  "district": "서울 마포구",
+  "address": "서울특별시 마포구 토정로 8-7 1층",
+  "zipCode": "04085",
+  "openingHours": "",
+  "openingSummary": "",
+  "hours": {},
+  "closedDays": "",
+  "phone": "02-336-3625",
+  "coordinates": [
+   37.54538004,
+   126.9117968
+  ],
+  "categories": [
+   "독립출판"
+  ],
+  "themes": [
+   "독서모임",
+   "북토크",
+   "강연"
+  ],
+  "reviewTags": [],
+  "facilities": [
+   "카페",
+   "주차",
+   "화장실 구분"
+  ],
+  "description": "책과 차. 전시회, 문화예술, 소모임 대관 등",
+  "reviews": [],
+  "issuedDate": "2024-10-23",
+  "sourceId": "B553457-04-012-89"
+ },
+ {
+  "id": "b090",
+  "title": "원애플어데이",
+  "sido": "서울",
+  "district": "서울 성북구",
+  "address": "서울특별시 성북구 동소문로29길 10 1층",
+  "zipCode": "02829",
+  "openingHours": "13:00~20:00 · 휴무 월요일, 화요일",
+  "openingSummary": "13:00~20:00",
+  "hours": {
+   "weekday": "13:00~20:00",
+   "saturday": "13:00~20:00",
+   "sunday": "13:00~20:00"
+  },
+  "closedDays": "월요일, 화요일",
+  "phone": "010-2759-2332",
+  "coordinates": [
+   37.59636004,
+   127.0202984
+  ],
+  "categories": [],
+  "themes": [
+   "독서모임",
+   "북토크",
+   "강연"
+  ],
+  "reviewTags": [],
+  "facilities": [
+   "카페"
+  ],
+  "description": "독립 서적물 및 출판. 맥주, 커피",
+  "reviews": [],
+  "issuedDate": "2024-10-23",
+  "sourceId": "B553457-04-012-90"
+ },
+ {
+  "id": "b091",
+  "title": "일일문고",
+  "sido": "서울",
+  "district": "서울 성북구",
+  "address": "서울특별시 성북구 삼양로 27 1층",
+  "zipCode": "02725",
+  "openingHours": "13:00~20:00 · 휴무 월요일",
+  "openingSummary": "13:00~20:00",
+  "hours": {
+   "weekday": "13:00~20:00",
+   "saturday": "13:00~20:00",
+   "sunday": "13:00~20:00"
+  },
+  "closedDays": "월요일",
+  "phone": "070-7705-8209",
+  "coordinates": [
+   37.60559337,
+   127.0239644
+  ],
+  "categories": [
+   "독립출판",
+   "디자인"
+  ],
+  "themes": [],
+  "reviewTags": [],
+  "facilities": [],
+  "description": "독립출판물과 건축, 디자인 서적을 판매",
+  "reviews": [],
+  "issuedDate": "2024-10-23",
+  "sourceId": "B553457-04-012-91"
+ },
+ {
+  "id": "b092",
+  "title": "사적인서점",
+  "sido": "서울",
+  "district": "서울 송파구",
+  "address": "서울특별시 송파구 올림픽로 269 롯데캐슬골드 지하1층 교보잠실점",
+  "zipCode": "05510",
+  "openingHours": "12:00~21:00 · 설날, 추석 당일",
+  "openingSummary": "12:00~21:00",
+  "hours": {
+   "weekday": "12:00~21:00",
+   "saturday": "12:00~21:00",
+   "sunday": "12:00~21:00"
+  },
+  "closedDays": "설날, 추석 당일",
+  "phone": "070-4151-1001",
+  "coordinates": [
+   37.51442767,
+   127.1006116
+  ],
+  "categories": [],
+  "themes": [
+   "독서모임",
+   "북토크",
+   "강연"
+  ],
+  "reviewTags": [],
+  "facilities": [],
+  "description": "책처방, 맞춤책, 큐레이션서점",
+  "reviews": [],
+  "issuedDate": "2024-10-23",
+  "sourceId": "B553457-04-012-92"
+ },
+ {
+  "id": "b093",
+  "title": "플리커책방",
+  "sido": "전북",
+  "district": "전북 완주군",
+  "address": "전북 완주군 소양면 송광수만로 500",
+  "zipCode": "55348",
+  "openingHours": "12:00~18:30 · 휴무 월, 화",
+  "openingSummary": "12:00~18:30",
+  "hours": {
+   "weekday": "12:00~18:30",
+   "saturday": "12:00~18:30",
+   "sunday": "12:00~18:30"
+  },
+  "closedDays": "월, 화",
+  "phone": "0507-1349-6223",
+  "coordinates": [
+   35.9040036,
+   127.2428363
+  ],
+  "categories": [],
+  "themes": [
+   "북토크"
+  ],
+  "reviewTags": [],
+  "facilities": [
+   "주차"
+  ],
+  "description": "북토크가 가능한 독립서점",
+  "reviews": [],
+  "issuedDate": "2024-10-23",
+  "sourceId": "B553457-04-012-93"
+ },
+ {
+  "id": "b094",
+  "title": "버틀러북스토어",
+  "sido": "전북",
+  "district": "전북 군산시",
+  "address": "전북 군산시 동국사길 4",
+  "zipCode": "54023",
+  "openingHours": "",
+  "openingSummary": "",
+  "hours": {},
+  "closedDays": "",
+  "phone": "010-4205-5399",
+  "coordinates": [
+   35.9839174,
+   126.7082668
+  ],
+  "categories": [],
+  "themes": [
+   "독서모임",
+   "북토크"
+  ],
+  "reviewTags": [],
+  "facilities": [],
+  "description": "책과 커피, 고양이가 있는 독립서점",
+  "reviews": [],
+  "issuedDate": "2024-10-23",
+  "sourceId": "B553457-04-012-94"
+ },
+ {
+  "id": "b095",
+  "title": "하늘책방",
+  "sido": "전북",
+  "district": "전북 군산시",
+  "address": "전북 군산시 구영5길 100",
+  "zipCode": "54021",
+  "openingHours": "",
+  "openingSummary": "",
+  "hours": {},
+  "closedDays": "",
+  "phone": "010-4658-4678",
+  "coordinates": [
+   35.9883917,
+   126.710323
+  ],
+  "categories": [],
+  "themes": [],
+  "reviewTags": [],
+  "facilities": [
+   "주차"
+  ],
+  "description": "1층은 서점, 2, 3층은 게스트하우스",
+  "reviews": [],
+  "issuedDate": "2024-10-23",
+  "sourceId": "B553457-04-012-95"
+ },
+ {
+  "id": "b096",
+  "title": "리루서점",
+  "sido": "전북",
+  "district": "전북 군산시",
+  "address": "전북 군산시 구암3.1로 116 (경암동)",
+  "zipCode": "54034",
+  "openingHours": "11:00~18:00 · 휴무 월요일",
+  "openingSummary": "11:00~18:00",
+  "hours": {
+   "weekday": "11:00~18:00",
+   "saturday": "11:00~18:00",
+   "sunday": "11:00~18:00"
+  },
+  "closedDays": "월요일",
+  "phone": "0507-1310-7091",
+  "coordinates": [
+   35.9813487,
+   126.7319049
+  ],
+  "categories": [],
+  "themes": [],
+  "reviewTags": [],
+  "facilities": [],
+  "description": "군산 경암동 철길마을에 있는 작은 독립서점",
+  "reviews": [],
+  "issuedDate": "2024-10-23",
+  "sourceId": "B553457-04-012-96"
+ },
+ {
+  "id": "b097",
+  "title": "도보책방",
+  "sido": "전북",
+  "district": "전북 남원시",
+  "address": "전북 남원시 인월면 인월장터로 6 1층, 도보책방",
+  "zipCode": "55715",
+  "openingHours": "11:00~18:00 · 휴무 화요일",
+  "openingSummary": "11:00~18:00",
+  "hours": {
+   "weekday": "11:00~18:00",
+   "saturday": "11:00~18:00",
+   "sunday": "11:00~18:00"
+  },
+  "closedDays": "화요일",
+  "phone": "0507-1352-1426",
+  "coordinates": [
+   35.4603181,
+   127.6019891
+  ],
+  "categories": [],
+  "themes": [],
+  "reviewTags": [],
+  "facilities": [],
+  "description": "지리산을 가까이 둔 동네책방으로 지리산둘레길 3코스 시작점인 인월에 위치",
+  "reviews": [],
+  "issuedDate": "2024-10-23",
+  "sourceId": "B553457-04-012-97"
+ },
+ {
+  "id": "b098",
+  "title": "블루본즈 1호점",
+  "sido": "전북",
+  "district": "전북 익산시",
+  "address": "전북 익산시 동서로5길 116 2층 블루본즈 카페",
+  "zipCode": "54647",
+  "openingHours": "매일 12:00~21:00",
+  "openingSummary": "12:00~21:00",
+  "hours": {
+   "weekday": "12:00~21:00",
+   "saturday": "12:00~21:00",
+   "sunday": "12:00~21:00"
+  },
+  "closedDays": "",
+  "phone": "010-9930-8129",
+  "coordinates": [
+   35.9600667,
+   126.960232
+  ],
+  "categories": [
+   "독립출판"
+  ],
+  "themes": [
+   "독서모임"
+  ],
+  "reviewTags": [],
+  "facilities": [
+   "카페"
+  ],
+  "description": "사색 할 수 있는공간",
+  "reviews": [],
+  "issuedDate": "2024-10-23",
+  "sourceId": "B553457-04-012-98"
+ },
+ {
+  "id": "b099",
+  "title": "작은새책방",
+  "sido": "전북",
+  "district": "전북 정읍시",
+  "address": "전북 정읍시 학산로 51-1",
+  "zipCode": "56192",
+  "openingHours": "평일 10:00~18:00 · 토 10:00~18:00 · 휴무 일, 월",
+  "openingSummary": "10:00~18:00",
+  "hours": {
+   "weekday": "10:00~18:00",
+   "saturday": "10:00~18:00"
+  },
+  "closedDays": "일, 월",
+  "phone": "0507-1399-2351",
+  "coordinates": [
+   35.5622527,
+   126.8703337
+  ],
+  "categories": [],
+  "themes": [],
+  "reviewTags": [],
+  "facilities": [
+   "카페",
+   "주차",
+   "화장실 구분"
+  ],
+  "description": "",
+  "reviews": [],
+  "issuedDate": "2024-10-23",
+  "sourceId": "B553457-04-012-99"
+ },
+ {
+  "id": "b100",
+  "title": "유화당",
+  "sido": "제주",
+  "district": "제주 서귀포시",
+  "address": "제주 서귀포시 태평로 409-2",
+  "zipCode": "63595",
+  "openingHours": "평일 10:00~21:00 · 토 10:00~21:00 · 월요일 12:00~21:00, 일요일",
+  "openingSummary": "10:00~21:00",
+  "hours": {
+   "weekday": "10:00~21:00",
+   "saturday": "10:00~21:00"
+  },
+  "closedDays": "월요일 12:00~21:00, 일요일",
+  "phone": "010-6471-5880",
+  "coordinates": [
+   33.24551,
+   126.56398
+  ],
+  "categories": [],
+  "themes": [],
+  "reviewTags": [],
+  "facilities": [],
+  "description": "",
+  "reviews": [],
+  "issuedDate": "2024-10-23",
+  "sourceId": "B553457-04-012-100"
+ }]
