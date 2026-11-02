@@ -274,3 +274,17 @@ html[data-theme="dark"] .brand-logo{filter:invert(1) hue-rotate(180deg)}
 .apphead .header-back[hidden]{display:none!important}
 .apphead:has(.header-back:not([hidden])) .brand-home{margin-left:36px}
 @media(max-width:360px){.apphead:has(.header-back:not([hidden])) .brand-home{margin-left:33px}}
+
+/* 심화트랙: 데이터 출처 및 부분 로딩 실패 */
+.source-badge{display:inline-flex;align-items:center;justify-content:center;align-self:flex-start;flex:0 0 20px;width:20px;height:20px;box-sizing:border-box;vertical-align:middle;margin-left:5px;padding:0;border:0;border-radius:5px;font-size:11px;font-weight:700;line-height:1;white-space:nowrap;color:#fff}
+.source-badge--api{background:#dc2626;color:#fff}
+.source-badge--json{background:#2563eb;color:#fff}
+.data-warning{padding:11px 13px;margin:10px 0;border:1px solid var(--line-strong);border-radius:10px;font-size:.78rem;line-height:1.5;color:var(--muted)}
+.data-warning button{border:0;background:transparent;color:var(--ink);text-decoration:underline;cursor:pointer;font:inherit}
+
+/* 목록/상세: 출처 배지를 서점명 바로 옆에 배치 */
+.book-title-with-source,.detail-title-with-source{display:flex;align-items:center;gap:5px;min-width:0;max-width:100%}
+.book-title-with-source b{min-width:0;padding-right:0;overflow-wrap:anywhere}
+.book-title-with-source .source-badge,.detail-title-with-source .source-badge{margin-left:0;align-self:center;flex-shrink:0}
+.detail-title-with-source{flex:1;min-width:0}
+.detail-title-with-source h2{min-width:0;overflow-wrap:anywhere}
