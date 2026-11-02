@@ -169,6 +169,9 @@
     $('#pageTitle').textContent = TITLES[name] || '책방틈';
     $$('.bottom button').forEach((b) => b.classList.toggle('on', b.dataset.nav === NAV_OF[name]));
     authButton();
+    // 실제 이전 화면이 있을 때만 뒤로 가기 노출 (상단 주요 메뉴는 제외)
+    const backButton = $('#headerBack');
+    if (backButton) backButton.hidden = !(hist.length && (name === 'list' || !['home', 'course', 'my', 'taste'].includes(name)));
     renderScreen(name);
     $('#screens').scrollTop = opts.restore ? (scrollMem[name] || 0) : 0;
   }
