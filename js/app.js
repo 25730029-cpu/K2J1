@@ -48,7 +48,7 @@
   /* ---------- 상태 ---------- */
   const state = {
     status: 'loading', // loading | ready | error
-    stores: [], places: [], shared: [],
+    stores: [], places: [], shared: [], loadErrors: [],
     ctab: 'saved', psort: 'likes',
     query: '', applied: [], sort: 'name', visible: PAGE,
     currentId: null, tab: 'fav',
@@ -130,32 +130,77 @@
   }
   function showDetail(id) { state.currentId = id; pushRecent(id); go('detail'); }
 
-  /* ---------- 데이터 로드 ---------- */
-  function load() {
+  /* ---------- 데이터 로드: 두 JSON을 독립적으로 읽어 부분 실패를 허용 ---------- */
+  const nonempty = (v) => v !== null && v !== undefined && !(typeof v === 'string' && !v.trim());
+  const display = (v, fallback = '정보 없음') => nonempty(v) ? String(v) : fallback;
+  function normalizeStore(raw, source) {
+    if (!raw || typeof raw !== 'object') return null;
+    const s = { ...raw };
+    s.id = display(s.id, '');
+    s.title = display(s.title, '이름 정보 없음');
+    s.address = nonempty(s.address) ? String(s.address) : null;
+    s.district = nonempty(s.district) ? String(s.district) : null;
+    s.description = nonempty(s.description) ? String(s.description) : null;
+    s.openingHours = nonempty(s.openingHours) ? String(s.openingHours) : null;
+    s.closedDays = nonempty(s.closedDays) ? String(s.closedDays) : null;
+    s.phone = nonempty(s.phone) ? String(s.phone) : null;
+    ['categories','themes','reviewTags','facilities','reviews'].forEach(k => { s[k] = Array.isArray(s[k]) ? s[k] : []; });
+    const c = s.coordinates;
+    s.coordinates = Array.isArray(c) && c.length === 2 && c.every(v => v !== null && v !== '' && Number.isFinite(Number(v))) ? c.map(Number) : null;
+    s.sourceType = source;
+    s.sourceVerified = source === 'JSON' ? true : s.sourceVerified === true;
+    return s.id ? s : null;
+  }
+  async function fetchJson(path) {
+    const response = await fetch(path, { cache: 'no-cache' });
+    if (!response.ok) throw new Error(path + ': HTTP ' + response.status);
+    const value = await response.json();
+    if (!Array.isArray(value)) throw new Error(path + ': 배열 형식이 아닙니다');
+    return value;
+  }
+  async function load() {
     state.status = 'loading';
+    state.loadErrors = [];
     renderList();
-    Promise.all([
-      fetch('data/bookstores.json').then((r) => { if (!r.ok) throw new Error(r.status); return r.json(); }),
-      fetch('data/places.json').then((r) => { if (!r.ok) throw new Error(r.status); return r.json(); }),
-      /* 공유 코스는 없어도 앱이 동작하도록 실패 시 빈 목록 */
-      fetch('data/sharedCourses.json').then((r) => (r.ok ? r.json() : [])).catch(() => [])
-    ]).then(([stores, places, shared]) => {
-      state.stores = stores;
-      state.places = places;
-      state.shared = Array.isArray(shared) ? shared : [];
-      state.status = 'ready';
-      if (current) renderScreen(current);
-    }).catch(() => {
-      state.status = 'error';
-      if (current) renderScreen(current);
+    const files = ['data/bookstores-local.json', 'data/bookstores-api.json'];
+    const results = await Promise.allSettled([
+      fetchJson(files[0]), fetchJson(files[1]), fetchJson('data/places.json'), fetchJson('data/sharedCourses.json')
+    ]);
+    const merged = [], keys = new Set();
+    results.slice(0, 2).forEach((r, i) => {
+      if (r.status !== 'fulfilled') { state.loadErrors.push(i === 0 ? 'JSON' : 'API'); return; }
+      const source = i === 0 ? 'JSON' : 'API';
+      r.value.forEach(raw => {
+        const s = normalizeStore(raw, source);
+        if (!s) return;
+        const key = [s.title.trim().toLowerCase(), (s.address || '').replace(/\s/g, '').toLowerCase()].join('|');
+        if (keys.has(key)) return;
+        keys.add(key);
+        merged.push(s);
+      });
     });
+    state.stores = merged;
+    state.places = results[2].status === 'fulfilled' ? results[2].value : [];
+    state.shared = results[3].status === 'fulfilled' ? results[3].value : [];
+    state.status = state.loadErrors.length === 2 ? 'error' : 'ready';
+    if (current) renderScreen(current);
   }
   function needReady(box) {
     if (state.status === 'ready') return true;
     box.innerHTML = state.status === 'loading'
       ? '<div class="state"><p>책방 정보를 불러오는 중이에요…</p></div>'
-      : '<div class="state"><div class="icon">!</div><h3>데이터를 불러오지 못했어요</h3><p>잠시 후 다시 시도해 주세요.<br>(로컬 서버로 실행했는지 확인해 주세요)</p><button type="button" class="btn" data-action="retry">다시 시도</button></div>';
+      : '<div class="state"><div class="icon">!</div><h3>책방 데이터를 불러오지 못했어요</h3><p>JSON과 API 저장본을 모두 읽을 수 없어요.<br>연결 상태를 확인하고 다시 시도해 주세요.</p><button type="button" class="btn" data-action="retry">다시 시도</button></div>';
     return false;
+  }
+  function sourceBadge(s) {
+    const isApi = s.sourceType === 'API';
+    const label = isApi ? 'A' : 'J';
+    const tooltip = isApi ? (s.sourceVerified ? 'API 수집 데이터' : 'API 후보 데이터 · 재수집 필요') : '기존 JSON 데이터';
+    return '<span class="source-badge ' + (isApi ? 'source-badge--api' : 'source-badge--json') + '" title="' + tooltip + '" aria-label="' + tooltip + '">' + label + '</span>';
+  }
+  function loadWarning() {
+    if (!state.loadErrors.length) return '';
+    return '<div class="data-warning" role="status">' + esc(state.loadErrors.join('·')) + ' 데이터 파일을 불러오지 못했어요. 이용 가능한 책방만 표시 중이에요. <button type="button" data-action="retry">다시 시도</button></div>';
   }
 
   /* ---------- 화면 전환 ---------- */
@@ -223,10 +268,10 @@
   function cardHTML(s, action, extra, cls, noHeart) {
     const fav = isFav(s.id);
     const tags = uniq([].concat(s.categories.slice(0, 1), s.reviewTags.slice(0, 1), s.facilities.slice(0, 1)));
-    const hours = s.openingHours ? '영업 ' + s.openingHours.split(' ')[0] : '영업시간 정보 확인';
+    const hours = s.openingHours ? '영업 ' + s.openingHours.split(' ')[0] : '영업시간 정보 없음';
     return '<div class="book ' + (cls || '') + '" role="button" tabindex="0" data-action="' + action + '" data-id="' + s.id + '">' +
       '<div class="thumb" aria-hidden="true">' + esc(s.title[0]) + '</div>' +
-      '<div class="bookbody"><b>' + esc(s.title) + '</b><small>' + esc(s.district) + ' · ' + esc(hours) + '</small>' +
+      '<div class="bookbody"><div class="book-title-with-source"><b>' + esc(s.title) + '</b>' + sourceBadge(s) + '</div><small>' + esc(display(s.district, '지역 정보 없음')) + ' · ' + esc(hours) + '</small>' +
       '<div class="chips mini">' + tags.map((t) => '<span class="chip">' + esc(t) + '</span>').join('') + '</div>' +
       (extra || '') + '<span class="textlink">상세보기 〉</span></div>' +
       (noHeart ? '' : '<button type="button" class="heart" data-action="cardFav" data-id="' + s.id + '" aria-pressed="' + fav + '" aria-label="' + esc(s.title) + ' 즐겨찾기">' + (fav ? '★' : '☆') + '</button>') +
@@ -261,14 +306,14 @@
       return;
     }
     const list = filteredStores();
-    $('#resultMeta').textContent = '검색 결과 ' + list.length + '건';
+    $('#resultMeta').textContent = '검색 결과 ' + list.length + '건 (JSON ' + state.stores.filter(s => s.sourceType === 'JSON').length + ' · API ' + state.stores.filter(s => s.sourceType === 'API').length + ')';
     if (!list.length) {
-      body.innerHTML = '<div class="state"><div class="icon">∅</div><h3>조건에 맞는 책방이 없어요</h3><p>선택한 조건을 줄이거나<br>다른 지역에서 찾아보세요.</p></div>' +
+      body.innerHTML = loadWarning() + '<div class="state"><div class="icon">∅</div><h3>조건에 맞는 책방이 없어요</h3><p>선택한 조건을 줄이거나<br>다른 지역에서 찾아보세요.</p></div>' +
         '<button type="button" class="btn" data-action="removeLast"' + (state.applied.length ? '' : ' disabled') + '>마지막 필터 해제</button>' +
         '<button type="button" class="btn light" data-action="resetAll">전체 조건 초기화</button>';
       return;
     }
-    body.innerHTML = list.slice(0, state.visible).map((s) => cardHTML(s, 'openDetail')).join('');
+    body.innerHTML = loadWarning() + list.slice(0, state.visible).map((s) => cardHTML(s, 'openDetail')).join('');
     more.hidden = list.length <= state.visible;
   }
   function openFilter(key) {
@@ -305,18 +350,17 @@
     const topTags = tc.tags.slice(0, 2).map((t) => '#' + t[0]).join(' ');
     const chipTags = uniq(s.categories.concat(s.themes.slice(0, 1), s.reviewTags.slice(0, 1)));
     const visits = db.get(KEY.visits, []).filter((v) => v.bookstoreId === s.id).length;
-    const mapUrl = 'https://map.naver.com/p/search/' + encodeURIComponent(s.address);
+    const mapUrl = s.address ? 'https://map.naver.com/p/search/' + encodeURIComponent(s.address) : null;
     box.innerHTML =
       '<div class="hero"><span class="hero-letter" aria-hidden="true">' + esc(s.title[0]) + '</span><small>' + esc(s.district) + '</small></div>' +
-      '<div class="title-row"><h2>' + esc(s.title) + '</h2>' +
+      '<div class="title-row"><div class="detail-title-with-source"><h2>' + esc(s.title) + '</h2>' + sourceBadge(s) + '</div>' +
       '<button type="button" class="heart" data-action="toggleFav" data-id="' + s.id + '" aria-pressed="' + fav + '" aria-label="즐겨찾기">' + (fav ? '★' : '☆') + '</button></div>' +
       '<div class="chips mini">' + chipTags.map((t) => '<span class="chip">' + esc(t) + '</span>').join('') + '</div>' +
-      '<div class="fact"><span>주소</span><div class="val">' + esc(s.address) +
-      '<div class="card-acts"><button type="button" class="mini-btn" data-action="copyAddr" data-id="' + s.id + '">주소 복사</button>' +
-      '<a class="mini-btn" href="' + mapUrl + '" target="_blank" rel="noopener noreferrer">지도에서 보기 ↗</a></div></div></div>' +
-      '<div class="fact"><span>운영</span><span class="val">' + esc(s.openingHours || '정보 확인') + '</span></div>' +
+      '<div class="fact"><span>주소</span><div class="val">' + esc(display(s.address, '주소 정보 없음')) +
+      (s.address ? '<div class="card-acts"><button type="button" class="mini-btn" data-action="copyAddr" data-id="' + s.id + '">주소 복사</button>' + '<a class="mini-btn" href="' + mapUrl + '" target="_blank" rel="noopener noreferrer">지도에서 보기 ↗</a></div>' : '') + '</div></div>' +
+      '<div class="fact"><span>운영</span><span class="val">' + esc(display(s.openingHours, '영업시간 정보 없음')) + '</span></div>' + '<div class="fact"><span>휴무일</span><span class="val">' + esc(display(s.closedDays, '휴무일 정보 없음')) + '</span></div>' + '<div class="fact"><span>전화번호</span><span class="val">' + esc(display(s.phone, '전화번호 정보 없음')) + '</span></div>' +
       '<div class="fact"><span>시설</span><span class="val">좌석 ' + (s.facilities.includes('좌석') ? '있음' : '정보 확인') + ' / 음료 ' + (s.facilities.includes('음료') ? '있음' : '정보 확인') + '</span></div>' +
-      '<h3 class="section">큐레이션 · 공간 소개</h3><p class="para">' + esc(s.description) + '</p>' +
+      '<h3 class="section">큐레이션 · 공간 소개</h3><p class="para">' + esc(display(s.description, '등록된 소개가 없어요')) + '</p>' +
       '<div class="section"><button type="button" class="linkrow" data-action="openReviews"><span>방문자 후기·키워드</span><span>〉</span></button></div>' +
       '<p class="para">후기 ' + tc.total + '건' + (topTags ? ' · ' + esc(topTags) : '') + (visits ? ' · 내 방문 ' + visits + '회' : '') + '</p>' +
       '<div class="sticky"><button type="button" class="btn" data-action="startCourse" data-id="' + s.id + '">이 책방으로 코스 만들기</button>' +
@@ -545,6 +589,8 @@
 
   function startCourse(id) {
     if (!id) return;
+    const s = getStore(id);
+    if (s && !s.coordinates) { toast('좌표 정보가 없어 이 책방으로 코스를 만들 수 없어요.'); return; }
     state.course = blankCourse(id);
     go('course-setup');
   }
@@ -565,12 +611,13 @@
       visHTML(c) +
       '<h3 class="section">선택 조건 요약</h3>' +
       '<p class="para">' + (s ? '책방 1곳' : '책방 미선택') + (c.includeWalk ? ' · 산책 ' + c.walkMinutes + '분' : ' · 산책 없음') + ' · 독서 ' + fmtMin(c.readingMinutes) + (c.srcId ? '' : ' · ' + (c.visibility === 'public' ? '공개' : '비공개')) + '</p>' +
-      '<div class="sticky"><button type="button" class="btn" data-action="makeCourse"' + (s ? '' : ' disabled') + '>' + (s ? '지도에서 코스 확인하기' : '책방을 먼저 선택해 주세요') + '</button></div>';
+      '<div class="sticky"><button type="button" class="btn" data-action="makeCourse"' + (s && s.coordinates ? '' : ' disabled') + '>' + (s && s.coordinates ? '지도에서 코스 확인하기' : s ? '좌표 정보가 없어 코스를 만들 수 없어요' : '책방을 먼저 선택해 주세요') + '</button></div>';
     $('[data-screen="course-setup"]').classList.add('has-sticky');
   }
   const fmtMin = (m) => (m >= 60 && m % 60 === 0 ? m / 60 + '시간' : m + '분');
 
   function dist(a, b) {
+    if (!Array.isArray(a) || !Array.isArray(b)) return Infinity;
     const R = 6371000, rad = Math.PI / 180;
     const dLat = (b[0] - a[0]) * rad, dLng = (b[1] - a[1]) * rad;
     const h = Math.sin(dLat / 2) ** 2 + Math.cos(a[0] * rad) * Math.cos(b[0] * rad) * Math.sin(dLng / 2) ** 2;
