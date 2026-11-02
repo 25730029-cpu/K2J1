@@ -268,3 +268,9 @@ html[data-theme="dark"] .brand-logo{filter:invert(1) hue-rotate(180deg)}
 .all-menu-links{display:grid;gap:7px;margin-bottom:14px}
 .all-menu-grid button:hover,.all-menu-links button:hover{background:var(--hover)}
 @media(max-width:360px){.tiles.quick-menu .tile{font-size:.78rem;padding:10px 1px}.apphead .brand-home strong{font-size:1.05rem}.apphead .brand-home{margin-left:3px}}
+
+/* 화면 탐색용 뒤로 가기: 홈 로고와 오른쪽 아이콘 위치는 유지 */
+.apphead .header-back{position:absolute;left:4px;top:50%;transform:translateY(-50%);z-index:3;display:flex;align-items:center;justify-content:center;width:32px;height:40px;padding:0;border:0;background:transparent;color:var(--ink);cursor:pointer}
+.apphead .header-back[hidden]{display:none!important}
+.apphead:has(.header-back:not([hidden])) .brand-home{margin-left:36px}
+@media(max-width:360px){.apphead:has(.header-back:not([hidden])) .brand-home{margin-left:33px}}
