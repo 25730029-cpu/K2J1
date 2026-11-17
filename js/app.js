@@ -329,7 +329,12 @@
     closeAccountMenu();
     // 실제 이전 화면이 있을 때만 뒤로 가기 노출 (상단 주요 메뉴는 제외) — 취향 화면은 홈에서 들어오므로 뒤로 갈 수 있어요
     const backButton = $('#headerBack');
-    if (backButton) backButton.hidden = !(hist.length && (name === 'list' || !['home', 'course', 'my'].includes(name)));
+    if (backButton) backButton.hidden = true;
+    $$('.screen .body-back').forEach((el) => el.remove());
+    if (hist.length && !['home', 'course', 'my'].includes(name)) {
+      const active = $('[data-screen="' + name + '"]');
+      if (active) active.insertAdjacentHTML('afterbegin', '<button type="button" class="body-back" data-action="back" aria-label="이전 화면으로 돌아가기">‹ 이전으로</button>');
+    }
     renderScreen(name);
     $('#screens').scrollTop = opts.restore ? (scrollMem[name] || 0) : 0;
     updateScrollTopButton();
@@ -347,6 +352,7 @@
   }
   function navTo(name) {
     if (name === 'course-new' && !requireMember()) return;
+    if (name === 'my') state.tab = 'fav';
     if (name === 'home') homePicks = []; /* 홈을 열 때마다 '오늘은 이런 책방 어때요?'를 새로 뽑아요 */
     if (name === 'course') {
       state.ctab = 'all';
@@ -452,15 +458,41 @@
       : (a, b) => a.title.localeCompare(b.title, 'ko'));
     return r;
   }
+  // 책방 카드 썸네일: asset/thumbs/thumb-01.svg ~ thumb-40.svg 중 하나를 책방마다 '랜덤처럼' 정해요.
+  // 책방 id로 계산하니까 같은 책방은 늘 같은 썸네일이고(새로고침·필터를 바꿔도 안 변함), 전체로 보면 40종이 골고루 섞여요.
+  // 썸네일을 더 늘리려면 asset/thumbs/에 thumb-41.svg처럼 추가하고 THUMB_COUNT만 올리면 돼요.
+  const THUMB_COUNT = 40;
+  function thumbSrc(s) {
+    const key = String(s.id || s.title || '');
+    let h = 2166136261;
+    for (let i = 0; i < key.length; i++) { h ^= key.charCodeAt(i); h = Math.imul(h, 16777619); }
+    h ^= h >>> 15; h = Math.imul(h, 2246822507); h ^= h >>> 13;
+    return 'asset/thumbs/thumb-' + String((h >>> 0) % THUMB_COUNT + 1).padStart(2, '0') + '.svg';
+  }
+  // 코스 카드 썸네일: asset/course-thumbs/course-01.svg ~ course-10.svg 중 하나를 코스마다 '랜덤처럼' 정해요.
+  // 책방 썸네일과 같은 방식이라, 같은 코스는 새로고침해도 늘 같은 이미지가 나오고 전체로 보면 10종이 골고루 섞여요.
+  // 내 코스로 담은 코스는 원본 코스(srcId)와 같은 이미지를 써요.
+  // 이미지를 늘리려면 asset/course-thumbs/에 course-11.svg처럼 추가하고 COURSE_THUMB_COUNT만 올리면 돼요.
+  const COURSE_THUMB_COUNT = 10;
+  function courseThumbSrc(x) {
+    const key = 'b' + String(x.srcId || x.id || x.title || ''); // 'b'는 기본 코스 7개가 서로 다른 이미지를 받도록 고른 값
+    let h = 2166136261;
+    for (let i = 0; i < key.length; i++) { h ^= key.charCodeAt(i); h = Math.imul(h, 16777619); }
+    h ^= h >>> 15; h = Math.imul(h, 2246822507); h ^= h >>> 13;
+    return 'asset/course-thumbs/course-' + String((h >>> 0) % COURSE_THUMB_COUNT + 1).padStart(2, '0') + '.svg';
+  }
+  function courseThumbHTML(x) {
+    return '<div class="course-thumb-slot has-img" style="background-image:url(' + courseThumbSrc(x) + ')" aria-hidden="true"></div>';
+  }
   function cardHTML(s, action, extra, cls, noHeart) {
     const fav = isFav(s.id);
     const tags = uniq([].concat(s.categories.slice(0, 1), reviewMoodValues(s.id).slice(0, 1), reviewFacilityValues(s.id).slice(0, 1)));
     const hours = s.openingHours ? '영업 ' + s.openingHours.split(' ')[0] : '영업시간 정보 없음';
     return '<div class="book ' + (cls || '') + '" role="button" tabindex="0" data-action="' + action + '" data-id="' + s.id + '">' +
-      '<div class="thumb" aria-hidden="true">' + esc(s.title[0]) + '</div>' +
+      '<div class="thumb" style="background-image:url(' + thumbSrc(s) + ')" aria-hidden="true"></div>' +
       '<div class="bookbody"><div class="book-title-with-source"><b>' + esc(s.title) + '</b>' + sourceBadge(s) + '</div><small>' + esc(display(s.district, '지역 정보 없음')) + ' · ' + esc(hours) + '</small>' +
       '<div class="chips mini">' + tags.map((t) => '<span class="chip">' + esc(t) + '</span>').join('') + '</div>' +
-      (extra || '') + '<span class="textlink">상세보기 〉</span></div>' +
+      (extra || '') + '</div>' +
       (noHeart ? '' : '<button type="button" class="heart" data-action="cardFav" data-id="' + s.id + '" aria-pressed="' + fav + '" aria-label="' + esc(s.title) + ' 즐겨찾기">' + (fav ? '★' : '☆') + '</button>') +
       '</div>';
   }
@@ -625,7 +657,60 @@
   }
 
   /* ---------- 상세 ---------- */
+  /* 책방 위치 지도: Leaflet + OpenStreetMap (API 키 불필요). 라이브러리는 지도가 처음 필요할 때 한 번만 불러와요. */
+  const LEAFLET_CSS = 'https://cdn.jsdelivr.net/npm/leaflet@1.9.4/dist/leaflet.css';
+  const LEAFLET_JS = 'https://cdn.jsdelivr.net/npm/leaflet@1.9.4/dist/leaflet.js';
+  let leafletLoading = null;
+  let detailMap = null;
+  function loadLeaflet() {
+    if (window.L && window.L.map) return Promise.resolve(window.L);
+    if (leafletLoading) return leafletLoading;
+    leafletLoading = new Promise((resolve, reject) => {
+      const css = document.createElement('link');
+      const js = document.createElement('script');
+      let cssDone = false, jsDone = false;
+      const settle = () => {
+        if (!cssDone || !jsDone) return;
+        if (window.L && window.L.map) resolve(window.L); else fail();
+      };
+      const fail = () => { css.remove(); js.remove(); reject(new Error('Leaflet 로딩 실패')); };
+      css.rel = 'stylesheet'; css.href = LEAFLET_CSS;
+      css.onload = () => { cssDone = true; settle(); };
+      js.src = LEAFLET_JS; js.async = true;
+      js.onload = () => { jsDone = true; settle(); };
+      css.onerror = fail; js.onerror = fail;
+      document.head.append(css, js);
+    });
+    leafletLoading.catch(() => { leafletLoading = null; }); /* 실패하면 다음에 다시 시도할 수 있게 */
+    return leafletLoading;
+  }
+  function disposeDetailMap() {
+    if (!detailMap) return;
+    try { detailMap.remove(); } catch (e) {}
+    detailMap = null;
+  }
+  function mountDetailMap(s) {
+    const slot = $('#detailMap');
+    if (!slot || !s.coordinates) return;
+    const showError = () => {
+      if (slot.isConnected && !slot.classList.contains('is-live')) slot.innerHTML = '<span>지도를 불러오지 못했어요</span><small>인터넷 연결을 확인한 뒤 다시 열어 주세요</small>';
+    };
+    loadLeaflet().then((L) => {
+      /* 불러오는 사이 다른 화면·탭으로 넘어갔다면 그리지 않아요 */
+      if (!slot.isConnected || current !== 'detail' || state.currentId !== s.id) return;
+      disposeDetailMap();
+      slot.innerHTML = '';
+      slot.classList.add('is-live');
+      detailMap = L.map(slot, { scrollWheelZoom: false }).setView(s.coordinates, 16);
+      L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        maxZoom: 19,
+        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener noreferrer">OpenStreetMap</a>'
+      }).addTo(detailMap);
+      L.marker(s.coordinates, { title: s.title, alt: s.title }).addTo(detailMap).bindPopup(esc(s.title));
+    }).catch(() => { disposeDetailMap(); slot.classList.remove('is-live'); showError(); });
+  }
   function renderDetail() {
+    disposeDetailMap();
     const box = $('#detailBody');
     if (!needReady(box)) return;
     const s = getStore(state.currentId);
@@ -648,18 +733,19 @@
        (me() ? '<div class="sticky"><div class="btn-row"><button type="button" class="btn" data-action="startCourse" data-id="' + s.id + '">코스 만들기</button>' +
       '<button type="button" class="btn light" data-action="openReviews">후기 작성</button></div></div>' : '');
     $('[data-screen="detail"]').classList.add('has-sticky');
+    mountDetailMap(s);
   }
   /* '책방 정보' 탭: 주소·운영·휴무일 등 기본 정보 + 큐레이션 소개 + 후기에서 뽑은 키워드 */
   function detailInfoHTML(s) {
     const visits = db.get(KEY.visits, []).filter((v) => v.bookstoreId === s.id).length;
-    const mapUrl = s.address ? 'https://map.naver.com/p/search/' + encodeURIComponent(s.address) : null;
-    return '<div class="fact"><span>주소</span><div class="val">' + esc(display(s.address, '주소 정보 없음')) +
-      (s.address ? '<div class="card-acts"><button type="button" class="mini-btn" data-action="copyAddr" data-id="' + s.id + '">주소 복사</button>' + '<a class="mini-btn" href="' + mapUrl + '" target="_blank" rel="noopener noreferrer">지도에서 보기 ↗</a></div>' : '') + '</div></div>' +
-      '<div class="fact"><span>운영</span><span class="val">' + esc(display(s.openingHours, '영업시간 정보 없음')) + '</span></div>' + '<div class="fact"><span>휴무일</span><span class="val">' + esc(display(s.closedDays, '휴무일 정보 없음')) + '</span></div>' + '<div class="fact"><span>전화번호</span><span class="val">' + esc(display(s.phone, '전화번호 정보 없음')) + '</span></div>' +
+    return '<div class="fact"><span>주소</span><div class="val"><div class="address-inline"><span>' + esc(display(s.address, '주소 정보 없음')) + '</span>' + (s.address ? '<button type="button" class="copy-icon-btn" data-action="copyAddr" data-id="' + s.id + '" title="주소 복사" aria-label="주소 복사">⧉</button>' : '') + '</div>' + '</div></div>' +
+      '<div class="fact"><span>운영</span><span class="val">' + esc(display(s.openingHours, '영업시간 정보 없음')) + '</span></div>' + '<div class="fact"><span>휴무일</span><span class="val">' + esc(display(s.closedDays, '휴무일 정보 없음')) + '</span></div>' + '<div class="fact phone-fact"><span>전화번호</span><span class="val">' + esc(display(s.phone, '전화번호 정보 없음')) + '</span></div>' +
       '<div class="fact"><span>시설</span><span class="val">좌석 ' + (s.facilities.includes('좌석') ? '있음' : '정보 확인') + ' / 음료 ' + (s.facilities.includes('음료') ? '있음' : '정보 확인') + '</span></div>' +
       '<h3 class="section">큐레이션 · 공간 소개</h3><p class="para">' + esc(display(s.description, '등록된 소개가 없어요')) + '</p>' +
       reviewKeywordsHTML(s.id) +
-      (visits ? '<p class="para">내 방문 ' + visits + '회</p>' : '');
+      (visits ? '<p class="para">내 방문 ' + visits + '회</p>' : '') + (s.coordinates
+        ? '<div class="detail-map-slot" id="detailMap" role="region" aria-label="책방 위치 지도"><span>지도를 불러오는 중이에요</span></div>'
+        : '<div class="detail-map-slot" role="region" aria-label="책방 위치 지도"><span>지도를 표시할 수 없어요</span><small>이 책방은 위치 좌표 정보가 없어요</small></div>');
   }
   /* '줄글 후기' 탭: 한 줄 후기만 최신순으로 */
   function detailCommentsHTML(s) {
@@ -715,14 +801,55 @@
       const j = Math.floor(Math.random() * (i + 1));
       [pool[i], pool[j]] = [pool[j], pool[i]];
     }
-    homePicks = pool.slice(0, 2).map((s) => s.id);
+    const seenThumbs = new Set();
+    homePicks = pool.filter((s) => { const src = thumbSrc(s); if (seenThumbs.has(src)) return false; seenThumbs.add(src); return true; }).slice(0, 6).map((s) => s.id);
   }
   function homePickCard(s) {
     return '<button type="button" class="home-pick-card" data-action="openDetail" data-id="' + esc(s.id) + '">' +
-      '<span class="home-pick-visual" aria-hidden="true"><span>BOOK<br>STORE</span><strong>' + esc(s.title.slice(0, 1)) + '</strong></span>' +
+      '<span class="home-pick-visual" aria-hidden="true"><img src="' + thumbSrc(s) + '" alt="" loading="lazy"></span>' +
       '<span class="home-pick-info"><span class="home-pick-name">' + esc(s.title) + '</span>' + sourceBadge(s) + '</span>' +
       '<span class="home-pick-place">' + esc(display(s.district, '지역 정보 없음')) + '</span>' +
-      '<span class="home-pick-more">책방 자세히 보기 ↗</span></button>';
+      '</button>';
+  }
+  /* ---------- 홈 새소식: data/news.json (scripts/fetch_news.py가 수집한 최신 뉴스 3 + 행사 2) ---------- */
+  let homeNews = { status: 'loading', items: [], updatedAt: '' };
+  const newsDate = (v) => String(v || '').slice(0, 10).replace(/-/g, '.');
+  async function loadHomeNews() {
+    try {
+      const response = await fetch('data/news.json', { cache: 'no-cache' });
+      if (!response.ok) throw new Error('HTTP ' + response.status);
+      const data = await response.json();
+      const items = (Array.isArray(data.items) ? data.items : [])
+        .filter((n) => n && (n.type === 'news' || n.type === 'event') && n.title && /^https?:\/\//.test(n.url || ''))
+        .sort((a, b) => String(b.date).localeCompare(String(a.date)))
+        .slice(0, 5);
+      homeNews = { status: 'ready', items, updatedAt: data.updatedAt || '' };
+    } catch (e) {
+      homeNews = { status: 'error', items: [], updatedAt: '' };
+    }
+    if (current === 'home' && state.status === 'ready') renderHome();
+  }
+  /* 왼쪽 아이콘: 뉴스는 신문(청록), 행사는 달력(주황). 제목 앞 둥근 라벨은 뉴스=테두리, 행사=검정 */
+  const newsSvg = (paths) => '<svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">' + paths + '</svg>';
+  const NEWS_ICONS = {
+    news: newsSvg('<path d="M4 5h13v14H6a2 2 0 0 1-2-2z"/><path d="M17 9h3v8a2 2 0 0 1-2 2"/><path d="M8 9h5M8 13h5"/>'),
+    event: newsSvg('<rect x="4" y="5" width="16" height="15" rx="2"/><path d="M4 10h16M8 3v4M16 3v4"/><path d="M8.5 14.5h.01M12 14.5h.01M15.5 14.5h.01"/>')
+  };
+  function newsItemHTML(n) {
+    const type = n.type === 'event' ? 'event' : 'news';
+    return '<a class="home-news-item is-' + type + '" href="' + esc(n.url) + '" target="_blank" rel="noopener noreferrer">' +
+      '<span class="home-news-icon" aria-hidden="true">' + NEWS_ICONS[type] + '</span>' +
+      '<span><b><span class="home-news-tag">' + (type === 'event' ? '행사' : '뉴스') + '</span> ' + esc(n.title) + '</b><small>' + esc([n.source, newsDate(n.date)].filter(Boolean).join(' · ')) + '</small></span>' +
+      '<span aria-hidden="true">↗</span></a>';
+  }
+  function homeNewsHTML() {
+    let body;
+    if (homeNews.status === 'loading') body = '<p class="para">새소식을 불러오는 중이에요.</p>';
+    else if (homeNews.status === 'error') body = '<p class="para">새소식을 불러오지 못했어요.</p>';
+    else if (!homeNews.items.length) body = '<p class="para">아직 수집된 새소식이 없어요.</p>';
+    else body = homeNews.items.map(newsItemHTML).join('') +
+      (homeNews.updatedAt ? '<p class="home-news-note">※ ' + newsDate(homeNews.updatedAt) + ' 기준으로 수집한 소식이에요.</p>' : '');
+    return '<section class="home-block"><div class="home-heading"><div><h3>새소식</h3></div></div>' + body + '</section>';
   }
   function renderHome() {
     const box = $('#homeExtra');
@@ -735,14 +862,9 @@
     if (!homePicks.length || homePicks.some((id) => !getStore(id))) pickHomeStores();
     const picks = homePicks.map(getStore).filter(Boolean);
     discovery.innerHTML =
-      '<section class="home-block"><div class="home-heading"><div><span class="home-kicker">DISCOVER</span><h3>오늘은 이런 책방 어때요?</h3></div>' +
-      '<button type="button" class="textbtn" data-action="refreshHomePicks">↻ 다시 뽑기</button></div>' +
-      '<div class="home-pick-grid">' + picks.map(homePickCard).join('') + '</div></section>' +
-      '<section class="home-block"><div class="home-heading"><div><span class="home-kicker">NEWS & STORIES</span><h3>새소식</h3></div></div>' +
-      '<p class="home-news-intro">동네 책방과 독립출판의 새로운 이야기를 만나보세요.</p>' +
-      '<a class="home-news-item" href="https://www.google.com/search?q=%EB%8F%85%EB%A6%BD%EC%84%9C%EC%A0%90+%EC%B5%9C%EC%8B%A0+%EB%89%B4%EC%8A%A4&tbm=nws" target="_blank" rel="noopener noreferrer"><span class="home-news-icon" aria-hidden="true">✦</span><span><b>독립서점 최신 뉴스</b><small>새롭게 전해지는 책방 소식 찾아보기</small></span><span aria-hidden="true">↗</span></a>' +
-      '<a class="home-news-item" href="https://www.google.com/search?q=%EB%8F%85%EB%A6%BD%EC%84%9C%EC%A0%90+%EB%B6%81%ED%86%A0%ED%81%AC+%ED%96%89%EC%82%AC&tbm=nws" target="_blank" rel="noopener noreferrer"><span class="home-news-icon" aria-hidden="true">▤</span><span><b>북토크 · 책방 행사</b><small>요즘 열리는 행사와 모임 소식 찾아보기</small></span><span aria-hidden="true">↗</span></a>' +
-      '<p class="home-news-note">※ 실시간 기사 목록이 아닌 뉴스 검색 연결이에요.</p></section>';
+      '<section class="home-block"><div class="home-heading"><h3>오늘은 이런 책방 어때요?</h3></div>' +
+      '<div class="home-pick-grid" aria-label="추천 책방 6곳, 좌우로 밀어보세요">' + picks.map(homePickCard).join('') + '</div></section>' +
+      homeNewsHTML();
     /* 인기 코스 3개 (전체 코스 '인기순'과 같은 기준) — 로그인 여부와 상관없이 표시, 누르면 코스 정보 화면으로 */
     let h = '';
     const likedIds = db.get(KEY.likes, []);
@@ -751,10 +873,11 @@
       .sort((a, b) => likeCnt(b) - likeCnt(a) || String(b.createdAt).localeCompare(String(a.createdAt)) || String(a.title).localeCompare(String(b.title), 'ko'))
       .slice(0, 3);
     if (topCourses.length) {
-      h += '<section class="home-block"><div class="home-heading"><div><span class="home-kicker">POPULAR COURSES</span><h3>인기 코스</h3></div></div>' +
-        topCourses.map((x) => '<div class="card home-course" data-action="openCourse" data-id="' + x.id + '" data-mode="map">' +
+      h += '<section class="home-block"><div class="home-heading"><div><h3>인기 코스</h3></div></div>' +
+        topCourses.map((x) => '<div class="card home-course course-with-thumb" data-action="openCourse" data-id="' + x.id + '" data-mode="map">' +
+          courseThumbHTML(x) + '<div class="course-card-content">' +
           '<div class="home-course-top">' + courseTitleHTML(x) + '<span class="home-course-likes" aria-label="좋아요 ' + likeCnt(x) + '개">♥ ' + likeCnt(x) + '</span></div>' +
-          '<p class="para">' + esc(x.author) + '님 · ' + courseMeta(x) + '<br>' + esc(routeText(x)) + '</p></div>').join('') + '</section>';
+          '<p class="para">' + esc(x.author) + '님 · ' + courseMeta(x) + '<br>' + esc(routeText(x)) + '</p></div></div>').join('') + '</section>';
     }
     box.innerHTML = h;
   }
@@ -916,11 +1039,11 @@
       : hasReview(x.bookstoreId)
         ? '<button type="button" class="btn light sm" disabled>후기 작성 ✓</button>'
         : '<button type="button" class="btn sm" data-action="reviewFor" data-id="' + x.bookstoreId + '" data-course="' + x.id + '">후기 쓰기</button>';
-    return '<div class="card">' + courseTitleHTML(x) + badge +
+    return '<div class="card course-with-thumb">' + courseThumbHTML(x) + '<div class="course-card-content">' + courseTitleHTML(x) + badge +
       '<p class="para">' + courseMeta(x) + '<br>' + esc(routeText(x)) + '<br><span class="muted">' + esc(x.createdAt) + ' 저장</span></p>' +
       '<div class="card-acts">' + reviewBtn + '<button type="button" class="btn light sm" data-action="openCourse" data-id="' + x.id + '" data-mode="edit">편집</button>' +
       (x.srcId ? '' : '<button type="button" class="btn light sm" data-action="toggleVis" data-id="' + x.id + '">' + (x.visibility === 'public' ? '비공개로 전환' : '공개로 전환') + '</button>') +
-      '<button type="button" class="btn light sm" data-action="delCourse" data-id="' + x.id + '">삭제</button></div></div>';
+      '<button type="button" class="btn light sm" data-action="delCourse" data-id="' + x.id + '">삭제</button></div></div></div>';
   }
   /* 공개 범위 선택 (다른 사람의 코스를 담은 경우엔 표시하지 않음) */
   function visHTML(c) {
@@ -982,9 +1105,10 @@
     const onlyRegion = f.regions.length === 1 && !f.q.trim() && f.walk === 'any' && !f.walkMins.length && !f.readMins.length;
     const note = pre && (pre.region ? onlyRegion && f.regions[0] === pre.region : !courseFilterCount() && pre.note)
       ? '<span class="muted preset-note">' + (pre.region ? '내 위치가 미리 적용돼 있어요.' : esc(pre.note)) + '</span>' : '';
-    return '<div class="selected">' + (chips.length
-      ? '<span>선택 조건:</span>' + chips.join('') + '<button type="button" class="reset" data-action="cfReset">초기화</button>'
-      : '<span class="muted">선택된 조건이 없어요. 필터를 눌러 조건을 추가해 보세요.</span>') + note + '</div>';
+    // 선택된 조건이 없으면 회색 선택 조건 영역 자체를 렌더링하지 않는다.
+    if (!chips.length) return '';
+    return '<div class="selected"><span>선택 조건:</span>' + chips.join('') +
+      '<button type="button" class="reset" data-action="cfReset">초기화</button>' + note + '</div>';
   }
   /* 코스 화면 맨 위: 서점 검색 + 그 아래 필터 칩 (책방 탐색과 같은 구성) */
   function courseQuickHTML() {
@@ -1015,7 +1139,7 @@
         ? (a, b) => cnt(b) - cnt(a) || String(b.createdAt).localeCompare(String(a.createdAt)) || byTitle(a, b)
         : byTitle);
     const n = courseFilterCount();
-    const sortSel = '<label class="sort">정렬: <select id="courseSort" aria-label="정렬">' +
+    const sortSel = '<label class="sort"><select id="courseSort" aria-label="정렬">' +
       [['name', '이름순'], ['likes', '인기순'], ['new', '최신순']].map((o) =>
         '<option value="' + o[0] + '"' + ((state.psort || 'name') === o[0] ? ' selected' : '') + '>' + o[1] + '</option>').join('') + '</select></label>';
     const head = courseFilterChips() + '<div class="rowline"><b>전체 코스 ' + list.length + '개</b>' + sortSel + '</div>';
@@ -1029,10 +1153,10 @@
           ? '<button type="button" class="btn light sm" data-action="toggleVis" data-id="' + x.id + '">비공개로 전환</button>'
           : '<button type="button" class="btn light sm" data-action="takeCourse" data-id="' + x.id + '" aria-pressed="' + taken + '"' + (taken ? ' title="다시 누르면 내 코스에서 빼요"' : '') + '>' + (taken ? '담음 ✓' : '내 코스로 담기') + '</button>' +
             '<button type="button" class="btn light sm" data-action="likeCourse" data-id="' + x.id + '" aria-pressed="' + liked.includes(x.id) + '" aria-label="좋아요">' + (liked.includes(x.id) ? '♥ ' : '♡ ') + cnt(x) + '</button>';
-        return '<div class="card">' + courseTitleHTML(x) + (x.mine ? '<span class="badge on">내 코스</span>' : '') +
+        return '<div class="card course-with-thumb">' + courseThumbHTML(x) + '<div class="course-card-content">' + courseTitleHTML(x) + (x.mine ? '<span class="badge on">내 코스</span>' : '') +
           '<p class="para">' + esc(x.author) + '님 · ' + courseMeta(x) + '<br>' + esc(routeText(x)) +
           (x.desc ? '<br><span class="muted">' + esc(x.desc) + '</span>' : '') + '</p>' +
-          '<div class="card-acts">' + acts + '</div></div>';
+          '<div class="card-acts">' + acts + '</div></div></div>';
       }).join('');
   }
   /* 필터 시트: 책방 탐색처럼 항목(지역 · 산책 포함 · 산책 시간 · 체류 시간)마다 하나씩 */
@@ -1154,19 +1278,49 @@
     if (it.kind === 'walk') return '산책 ' + Math.round(st.walkTotal / st.walkCount) + '분';
     return '휴식 · 선택 가능';
   }
-  function mapSVG(items) {
-    const W = 340, H = 200, pad = 28;
-    const lats = items.map((i) => i.coords[0]), lngs = items.map((i) => i.coords[1]);
-    const minLat = Math.min.apply(null, lats), maxLat = Math.max.apply(null, lats);
-    const minLng = Math.min.apply(null, lngs), maxLng = Math.max.apply(null, lngs);
-    const sx = (maxLng - minLng) || 0.004, sy = (maxLat - minLat) || 0.004;
-    const pts = items.map((i) => [
-      pad + ((i.coords[1] - minLng) / sx) * (W - pad * 2),
-      H - pad - ((i.coords[0] - minLat) / sy) * (H - pad * 2)
-    ]);
-    const line = pts.length > 1 ? '<polyline points="' + pts.map((p) => p.map((n) => n.toFixed(1)).join(',')).join(' ') + '" class="ln" fill="none" stroke="#444" stroke-width="2.5" stroke-dasharray="6 5" stroke-linecap="round"/>' : '';
-    const dots = pts.map((p, i) => '<g><circle class="' + (items[i].isStore ? 'on-store' : 'on-place') + '" cx="' + p[0].toFixed(1) + '" cy="' + p[1].toFixed(1) + '" r="13" fill="' + (items[i].isStore ? '#2d2d2d' : '#fff') + '" stroke="#2d2d2d" stroke-width="2"/><text class="' + (items[i].isStore ? 't-store' : 't-place') + '" x="' + p[0].toFixed(1) + '" y="' + (p[1] + 4.5).toFixed(1) + '" text-anchor="middle" font-size="13" font-weight="700" fill="' + (items[i].isStore ? '#fff' : '#2d2d2d') + '">' + (i + 1) + '</text></g>').join('');
-    return '<svg viewBox="0 0 ' + W + ' ' + H + '" role="img" aria-label="코스 위치 약도">' + line + dots + '</svg>';
+  /* 코스 지도: 책방 상세와 같은 Leaflet + OpenStreetMap(API 키 불필요)으로 호출해요.
+     코스 순서대로 번호 마커를 찍고 점선으로 이어요. 번호는 아래 '코스 요약' 번호와 같아요. */
+  let courseMap = null;
+  function disposeCourseMap() {
+    if (!courseMap) return;
+    try { courseMap.remove(); } catch (e) {}
+    courseMap = null;
+  }
+  function courseMapSlotHTML(items) {
+    return items.some((it) => Array.isArray(it.coords))
+      ? '<div class="detail-map-slot" id="courseMap" role="region" aria-label="코스 지도"><span>지도를 불러오는 중이에요</span></div>'
+      : '<div class="detail-map-slot" role="region" aria-label="코스 지도"><span>지도를 표시할 수 없어요</span><small>이 코스에는 위치 좌표 정보가 없어요</small></div>';
+  }
+  function mountCourseMap(items) {
+    const slot = $('#courseMap');
+    if (!slot || !items.some((it) => Array.isArray(it.coords))) return;
+    const showError = () => {
+      if (slot.isConnected && !slot.classList.contains('is-live')) slot.innerHTML = '<span>지도를 불러오지 못했어요</span><small>인터넷 연결을 확인한 뒤 다시 열어 주세요</small>';
+    };
+    loadLeaflet().then((L) => {
+      /* 불러오는 사이 다른 화면으로 넘어갔거나 화면이 다시 그려졌다면 그리지 않아요 */
+      if (!slot.isConnected || current !== 'map') return;
+      disposeCourseMap();
+      slot.innerHTML = '';
+      slot.classList.add('is-live');
+      courseMap = L.map(slot, { scrollWheelZoom: false });
+      L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        maxZoom: 19,
+        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener noreferrer">OpenStreetMap</a>'
+      }).addTo(courseMap);
+      const latlngs = [];
+      items.forEach((it, i) => {
+        if (!Array.isArray(it.coords)) return;
+        latlngs.push(it.coords);
+        L.marker(it.coords, {
+          title: it.name, alt: it.name,
+          icon: L.divIcon({ className: 'course-pin ' + (it.isStore ? 'is-store' : 'is-place'), html: '<span>' + (i + 1) + '</span>', iconSize: [28, 28], iconAnchor: [14, 14], popupAnchor: [0, -14] })
+        }).addTo(courseMap).bindPopup(esc((i + 1) + '. ' + it.name));
+      });
+      if (latlngs.length > 1) L.polyline(latlngs, { color: '#2d2d2d', weight: 3, opacity: .85, dashArray: '6 6' }).addTo(courseMap);
+      if (latlngs.length === 1) courseMap.setView(latlngs[0], 16);
+      else courseMap.fitBounds(L.latLngBounds(latlngs), { padding: [32, 32], maxZoom: 16 });
+    }).catch(() => { disposeCourseMap(); slot.classList.remove('is-live'); showError(); });
   }
   /* 하단 저장 버튼: 코스 종류에 따라 달라져요 (맨 위가 주 버튼, 지도 화면에선 '코스 편집'이 저장 아래)
      - 새 코스: 현재 코스 저장
@@ -1209,6 +1363,7 @@
       (maker ? '<p class="para">만든 사람 · ' + esc(maker) + '</p>' : '') + '</div>';
   }
   function renderMap() {
+    disposeCourseMap();
     const box = $('#mapBody');
     if (!needReady(box)) return;
     const c = state.course;
@@ -1220,7 +1375,7 @@
     const st = courseStats();
     box.innerHTML =
       '<div class="map-main">' + courseHeadHTML(c) +
-      '<div class="map">' + mapSVG(st.items) + '<div class="legend">지도 API 연동 전 약도예요. 마커는 위치 관계만 보여줘요.</div></div>' +
+      courseMapSlotHTML(st.items) +
       '<h3 class="section">코스 요약</h3>' +
       st.items.map((it, i) => '<div class="route"><span class="name">' + (i + 1) + '. ' + esc(it.name) + '</span><small>' + itemLabel(it, st) + '</small></div>').join('') +
       '<p class="para">예상 도보 시간: ' + (st.moveMin ? '약 ' + fmtMin(st.moveMin) + ' (직선거리 기준 추정)' : '표시할 값이 없어요') + '<br>총 소요시간: ' +
@@ -1228,6 +1383,7 @@
       (savedView ? '' : visHTML(c)) + mapReviewHTML(c) + '</div>' +
       (me() ? (savedView ? savedViewButtonsHTML(c) : c.srcId && !c.id ? sharedViewButtonsHTML(c) : saveButtonsHTML(c, true)) : '');
     $('[data-screen="map"]').classList.add('has-sticky');
+    mountCourseMap(st.items);
   }
   /* 저장했거나 따라가 보는 코스에서: 다녀왔다면 바로 후기로 */
   function mapReviewHTML(c) {
@@ -1540,7 +1696,7 @@
     closeSheet: closeSheet,
     goHome() { homePicks = []; closeSheet(); go('home', {reset:true}); },
     openMenu() { openSheet('메뉴', menuHTML()); },
-    menuMyTab(el) { state.tab = el.dataset.tab; closeSheet(); navTo('my'); },
+    menuMyTab(el) { closeSheet(); navTo('my'); state.tab = el.dataset.tab; renderMy(); },
     headerAccount() { closeSheet(); if (!signedIn()) { go('auth'); return; } toggleAccountMenu(); },
     openAuth() { closeSheet(); go('auth'); },
     openProfile() { closeAccountMenu(); closeSheet(); go('profile'); },
@@ -1950,8 +2106,23 @@
     $$('input[name="cf-walkmin"]').forEach((i) => { i.disabled = off; if (off) i.checked = false; });
   });
 
+  /* 추천 책방: 터치 스와이프뿐 아니라 마우스 휠의 세로 스크롤도 가로 이동으로 변환.
+     가로로 더 이동할 수 없으면 페이지 세로 스크롤을 그대로 허용합니다. */
+  document.addEventListener('wheel', (e) => {
+    const rail = e.target.closest && e.target.closest('.home-pick-grid');
+    if (!rail || e.ctrlKey || e.metaKey) return;
+    const delta = Math.abs(e.deltaX) > Math.abs(e.deltaY) ? e.deltaX : e.deltaY;
+    if (!delta || rail.scrollWidth <= rail.clientWidth) return;
+    const max = rail.scrollWidth - rail.clientWidth;
+    const next = Math.max(0, Math.min(max, rail.scrollLeft + delta));
+    if (Math.abs(next - rail.scrollLeft) < 0.5) return;
+    e.preventDefault();
+    rail.scrollLeft = next;
+  }, { passive: false });
+
   /* ---------- 시작 ---------- */
   applySettings();
   go('home', { reset: true });
   load();
+  loadHomeNews();
 })();
