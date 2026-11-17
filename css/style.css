@@ -510,3 +510,8 @@ label.section{display:block}
 .home-news-item.is-news .home-news-tag{background:var(--soft);color:var(--ink);border:1px solid var(--line-strong)}
 .home-news-item.is-event .home-news-tag{background:var(--dark);color:var(--on-dark);border:1px solid var(--dark)}
 .home-news-item>span:nth-child(2) b{display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:2;overflow:hidden;line-height:1.4;word-break:keep-all}
+
+/* 상세 정보의 모든 값은 전화번호와 같은 시작점에 정렬합니다. */
+.fact{gap:8px}
+.fact>span:first-child,.fact.phone-fact>span:first-child{width:54px;flex:0 0 54px;font-size:.95rem;letter-spacing:normal;white-space:nowrap}
+.fact .val{min-width:0}
