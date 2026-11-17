@@ -89,7 +89,7 @@ button.chip:hover{background:var(--hover)}
 .book{position:relative;display:flex;gap:12px;border:1px solid var(--line);border-radius:var(--radius);padding:10px;margin:10px 0;cursor:pointer;background:var(--paper);text-align:left;width:100%}
 .book:hover{border-color:var(--line-strong)}
 .book.sel{border:2px solid var(--dark);padding:9px;background:var(--soft)}
-.thumb{width:76px;min-height:92px;flex:none;background:var(--mid);display:grid;place-items:center;color:var(--muted);font-size:1.7rem;font-weight:700;border-radius:6px}
+.thumb{width:76px;min-height:92px;flex:none;background:var(--mid) center/cover no-repeat;border-radius:6px}
 .bookbody{min-width:0;flex:1;display:flex;flex-direction:column}
 .bookbody b{font-size:1.05rem;padding-right:34px}
 .bookbody small{display:block;color:var(--muted);margin-top:2px;font-size:.85rem}
@@ -450,3 +450,63 @@ label.section{display:block}
 .scroll-top-button[hidden]{display:none!important}
 .scroll-top-button:focus-visible{outline:3px solid #7aa5ff;outline-offset:3px}
 @media(prefers-reduced-motion:reduce){.screens{scroll-behavior:auto}}
+
+/* v0.5 화면 개선: 추천 캐러셀, 공통 썸네일, 히어로 모션 */
+.apphead{position:relative;z-index:10;background:var(--paper)}
+.body-back{display:inline-flex;align-items:center;gap:5px;margin:0 0 13px;padding:5px 0;background:none;border:0;color:var(--ink);font-size:.94rem;font-weight:700}
+.home-pick-grid{display:flex;gap:10px;overflow-x:auto;scroll-snap-type:x mandatory;overscroll-behavior-x:contain;padding:0 1px 10px;scrollbar-width:none;-webkit-overflow-scrolling:touch}
+.home-pick-grid::-webkit-scrollbar{display:none}
+.home-pick-card{flex:0 0 calc((100% - 10px)/2);scroll-snap-align:start;min-width:0;padding-bottom:11px}
+.home-pick-visual{height:auto;aspect-ratio:4/3;display:block;padding:0;overflow:hidden;background:var(--mid)}
+.home-pick-visual img{display:block;width:100%;height:100%;object-fit:cover}
+.home-pick-place{margin-bottom:4px}
+.thumb{width:76px;height:92px;min-height:0;aspect-ratio:19/23;background-size:cover;background-position:center}
+.phone-fact .val{white-space:nowrap;overflow-x:auto;font-variant-numeric:tabular-nums}
+.phone-fact>span:first-child{width:44px;white-space:nowrap;font-size:.86rem;letter-spacing:-.06em}
+.address-inline{display:flex;align-items:center;gap:7px}
+.address-inline>span{min-width:0;overflow-wrap:anywhere}
+.copy-icon-btn{flex:none;display:inline-flex;align-items:center;justify-content:center;width:30px;height:30px;background:var(--paper);border:1px solid var(--line);border-radius:6px;font-size:1.2rem}
+.detail-map-slot,.course-map-slot{min-height:180px;display:flex;flex-direction:column;justify-content:center;align-items:center;gap:5px;border:1px dashed var(--line-strong);border-radius:10px;background:var(--soft);color:var(--muted);margin:18px 0;padding:18px;text-align:center}
+.detail-map-slot span,.course-map-slot span{font-weight:700;color:var(--ink)}
+.detail-map-slot small,.course-map-slot small{font-size:.8rem}
+/* 책방 상세: 실제 지도(Leaflet)가 올라간 상태. isolation으로 지도 레이어가 하단 버튼·시트 위로 올라오지 않게 해요 */
+.detail-map-slot.is-live{display:block;height:240px;min-height:0;padding:0;border-style:solid;border-color:var(--line);overflow:hidden;isolation:isolate}
+/* 코스 지도의 번호 마커: 책방은 진한 원, 산책·휴식 장소는 흰 원. 지도 타일은 항상 밝아서 색을 고정해요 */
+.course-pin{background:none;border:0}
+.course-pin span{display:flex;align-items:center;justify-content:center;width:28px;height:28px;box-sizing:border-box;border:2px solid #2d2d2d;border-radius:50%;font:700 13px/1 system-ui,sans-serif;box-shadow:0 1px 4px rgba(0,0,0,.35)}
+.course-pin.is-store span{background:#2d2d2d;color:#fff}
+.course-pin.is-place span{background:#fff;color:#2d2d2d}
+.course-with-thumb{display:flex;align-items:flex-start;gap:12px}
+.course-thumb-slot{width:86px;aspect-ratio:4/5;flex:none;border:1px dashed var(--line-strong);border-radius:7px;background:var(--soft);display:flex;align-items:center;justify-content:center;padding:8px;color:var(--muted);text-align:center;font-size:.78rem}
+.course-thumb-slot.has-img{border:0;padding:0;background-color:var(--mid);background-size:cover;background-position:center;background-repeat:no-repeat}
+.course-card-content{flex:1;min-width:0}
+.course-card-content .card-acts{margin-top:9px}
+.home-hero{animation:hero-enter .8s ease-out both;background-size:cover;animation-name:hero-enter,hero-background;animation-duration:.8s,18s;animation-timing-function:ease-out,ease-in-out;animation-iteration-count:1,infinite;animation-direction:normal,alternate}
+.home-hero-content{animation:hero-content-enter .85s .1s ease-out both}
+@keyframes hero-enter{from{opacity:.75}to{opacity:1}}
+@keyframes hero-background{from{background-position:44% center}to{background-position:57% center}}
+@keyframes hero-content-enter{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:translateY(0)}}
+@media(prefers-reduced-motion:reduce){.home-hero,.home-hero-content{animation:none}}
+
+/* v0.4 UI refinement: phone text at normal size, allocate space by narrowing label gap */
+.fact.phone-fact{gap:8px}
+.phone-fact>span:first-child{width:54px;flex:0 0 54px;font-size:.95rem;letter-spacing:normal}
+.phone-fact .val{font-size:.95rem;white-space:nowrap;overflow-x:auto;min-width:0;letter-spacing:normal}
+/* Popular courses use the same thumbnail placeholder ratio as course lists. */
+.home-course.course-with-thumb{align-items:flex-start}
+.home-course .course-card-content{min-width:0}
+
+/* 홈 새소식: 왼쪽 아이콘은 뉴스(청록·신문) / 행사(주황·달력), 제목 앞 라벨은 뉴스(테두리) / 행사(검정) (data/news.json) */
+.home-news-item.is-news{--nc:#0f766e}
+.home-news-item.is-event{--nc:#c2410c}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]) .home-news-item.is-news{--nc:#5eead4}
+  :root:not([data-theme="light"]) .home-news-item.is-event{--nc:#fdba74}
+}
+:root[data-theme="dark"] .home-news-item.is-news{--nc:#5eead4}
+:root[data-theme="dark"] .home-news-item.is-event{--nc:#fdba74}
+.home-news-icon{flex-shrink:0;color:var(--nc);background:var(--soft);background:color-mix(in srgb,var(--nc) 13%,var(--paper))}
+.home-news-tag{display:inline-block;margin-right:1px;padding:1px 7px;border-radius:5px;font-size:.72rem;font-weight:700;line-height:1.35;letter-spacing:-.02em;vertical-align:1px;white-space:nowrap}
+.home-news-item.is-news .home-news-tag{background:var(--soft);color:var(--ink);border:1px solid var(--line-strong)}
+.home-news-item.is-event .home-news-tag{background:var(--dark);color:var(--on-dark);border:1px solid var(--dark)}
+.home-news-item>span:nth-child(2) b{display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:2;overflow:hidden;line-height:1.4;word-break:keep-all}
