@@ -17,9 +17,20 @@
     settings: 'bookstore.settings',
     likes: 'bookstore.courseLikes'
   };
+  /* 개인 기록은 로그인한 계정별로 분리해 저장합니다. 비회원은 별도 공간을 사용합니다. */
+  const PERSONAL_KEYS = new Set([KEY.fav, KEY.visits, KEY.courses, KEY.reviews, KEY.recent, KEY.likes]);
+  const scopedKey = (k) => {
+    if (!PERSONAL_KEYS.has(k)) return k;
+    const id = sessionStorage.getItem('bookbangteum.demoSession') || '';
+    let valid = false;
+    if (id) {
+      try { const a = JSON.parse(localStorage.getItem('bookbangteum.accounts') || '{}'); valid = Object.prototype.hasOwnProperty.call(a, id); } catch (e) {}
+    }
+    return k + '.user.' + (valid ? encodeURIComponent(id) : 'guest');
+  };
   const db = {
-    get(k, d) { try { const v = localStorage.getItem(k); return v ? JSON.parse(v) : d; } catch (e) { return d; } },
-    set(k, v) { try { localStorage.setItem(k, JSON.stringify(v)); } catch (e) { toast('저장 공간을 사용할 수 없어요.'); } }
+    get(k, d) { try { const v = localStorage.getItem(scopedKey(k)); return v ? JSON.parse(v) : d; } catch (e) { return d; } },
+    set(k, v) { try { localStorage.setItem(scopedKey(k), JSON.stringify(v)); } catch (e) { toast('저장 공간을 사용할 수 없어요.'); } }
   };
 
   /* ---------- 계정 (데모: 이 브라우저의 localStorage에만 저장돼요) ---------- */
