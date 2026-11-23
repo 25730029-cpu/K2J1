@@ -1,0 +1,41 @@
+name: Update bookstore news (every 3 hours)
+
+on:
+  schedule:
+    # GitHub Actions cron uses UTC: every 3 hours (KST 00, 03, ..., 21)
+    - cron: "0 */3 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: update-bookstore-news
+  cancel-in-progress: false
+
+jobs:
+  update-news:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          persist-credentials: true
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Collect bookstore news
+        run: python scripts/fetch_news.py
+      - name: Commit updated news if changed
+        run: |
+          if git diff --quiet -- data/news.json; then
+            echo "No news changes to commit."
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add data/news.json
+          git commit -m "chore: refresh bookstore news [skip ci]"
+          git push
