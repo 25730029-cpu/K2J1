@@ -1757,7 +1757,26 @@
       const {error}=await supa.auth.signOut();if(error){toast(error.message);return;}
       await refreshLogin(null);closeAccountMenu();closeSheet();toast('로그아웃했어요.');
     },
-    deleteAccount() { toast('계정 탈퇴는 관리자에게 요청해 주세요. 비밀번호 삭제는 서버에서만 처리할 수 있어요.'); },
+    deleteAccount() {
+      if (!currentUser) { toast('로그인 후 이용해 주세요.'); return; }
+      confirmSheet('회원 탈퇴', '계정을 탈퇴하면 후기, 방문 기록, 저장 코스 등 개인 데이터가 영구 삭제돼요. 되돌릴 수 없습니다. 정말 탈퇴할까요?', '영구 탈퇴', async () => {
+        const uid = currentUser?.id;
+        if (!uid) return;
+        try {
+          await writes;
+          const { error } = await supa.functions.invoke('delete-account', { body: {} });
+          if (error) throw error;
+          localStorage.removeItem('bookbangteum.fav.' + uid);
+          await supa.auth.signOut({ scope: 'local' });
+          await refreshLogin(null);
+          closeAccountMenu(); closeSheet();
+          toast('회원 탈퇴가 완료됐어요.');
+        } catch (err) {
+          console.error('회원 탈퇴 실패:', err);
+          toast('회원 탈퇴에 실패했어요. 잠시 후 다시 시도해 주세요.');
+        }
+      });
+    },
     confirmOk() { const f = pendingConfirm; closeSheet(); if (f) f(); },
     setFs(el) { db.set(KEY.settings, Object.assign(settings(), { fs: el.dataset.v })); applySettings(); refreshMenu(); },
     setTheme(el) {
