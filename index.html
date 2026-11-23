@@ -85,16 +85,16 @@
         <div id="myBody"></div>
       </section>
 
-      <!-- 로그인 / 회원가입 1단계 (아이디·비밀번호) -->
+      <!-- 로그인 / 회원가입 1단계 (이메일·비밀번호) -->
       <section class="screen" data-screen="auth" hidden>
         <div class="auth-panel">
           <h2>로그인 / 회원가입</h2>
           <form id="authForm">
-            <label for="authId">아이디</label>
-            <input id="authId" name="userId" autocomplete="username" autocapitalize="none" spellcheck="false" maxlength="20" required placeholder="영문·숫자 4~20자">
+            <label for="authId">이메일</label>
+            <input id="authId" name="userId" type="email" autocomplete="email" autocapitalize="none" spellcheck="false" required placeholder="name@example.com">
             <label for="authPw">비밀번호</label>
             <input id="authPw" name="password" type="password" autocomplete="current-password" maxlength="32" required placeholder="영문·숫자 포함 8자 이상">
-            <p class="para">회원가입을 누르면 다음 화면에서 닉네임·위치·취향을 설정해요. 비밀번호를 잊으면 계정을 복구하기 어려워요.</p>
+            <p class="para">회원가입을 누르면 다음 화면에서 닉네임·위치·취향을 설정해요. 이메일 확인이 활성화된 경우 인증 메일을 확인해 주세요.</p>
             <button class="btn" type="submit" name="authMode" value="login">로그인</button>
             <button class="btn light" type="submit" name="authMode" value="signup">회원가입</button>
           </form>
@@ -166,6 +166,8 @@
     <div class="toast" id="toast" role="status" aria-live="polite"></div>
   </div>
 
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+  <script src="js/supabase-config.js"></script>
   <script src="js/app.js"></script>
 </body>
 </html>
