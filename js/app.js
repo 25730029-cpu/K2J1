@@ -2065,7 +2065,7 @@
     if(e.target.id==='signupForm'){
       e.preventDefault();const info=state.signup;if(!info){go('auth');return;}
       const f=readProfileForm(e.target),err=nickError(f.nickname);if(err){toast(err);return;}
-      const {data,error}=await supa.auth.signUp({email:info.id,password:info.pw,options:{data:{nickname:f.nickname}}});
+      const {data,error}=await supa.auth.signUp({email:info.id,password:info.pw,options:{emailRedirectTo:'https://25730029-cpu.github.io/K2J1/',data:{nickname:f.nickname}}});
       if(error){toast('가입 실패: '+error.message);return;}
       state.signup=null;
       if(!data.session){toast('가입 확인 이메일을 보냈어요. 메일의 링크를 누른 뒤 로그인해 주세요.');go('auth');return;}
