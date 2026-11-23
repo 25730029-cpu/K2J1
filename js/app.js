@@ -17,33 +17,32 @@
     settings: 'bookstore.settings',
     likes: 'bookstore.courseLikes'
   };
-  /* 개인 기록은 로그인한 계정별로 분리해 저장합니다. 비회원은 별도 공간을 사용합니다. */
-  const PERSONAL_KEYS = new Set([KEY.fav, KEY.visits, KEY.courses, KEY.reviews, KEY.recent, KEY.likes]);
-  const scopedKey = (k) => {
-    if (!PERSONAL_KEYS.has(k)) return k;
-    const id = sessionStorage.getItem('bookbangteum.demoSession') || '';
-    let valid = false;
-    if (id) {
-      try { const a = JSON.parse(localStorage.getItem('bookbangteum.accounts') || '{}'); valid = Object.prototype.hasOwnProperty.call(a, id); } catch (e) {}
-    }
-    return k + '.user.' + (valid ? encodeURIComponent(id) : 'guest');
+  // 개인 데이터는 메모리 캐시 + Supabase DB에만 저장합니다. 즐겨찾기만 localStorage.
+  const supa = window.bookbangteumSupabase;
+  const privateCache = Object.create(null);
+  let currentUser = null;
+  let currentProfile = null;
+  let writes = Promise.resolve();
+  const tableMap = {
+    [KEY.reviews]: 'reviews', [KEY.visits]: 'visits', [KEY.courses]: 'saved_courses',
+    [KEY.likes]: 'course_likes', [KEY.recent]: 'recent_views', [KEY.settings]: 'user_settings'
   };
   const db = {
-    get(k, d) { try { const v = localStorage.getItem(scopedKey(k)); return v ? JSON.parse(v) : d; } catch (e) { return d; } },
-    set(k, v) { try { localStorage.setItem(scopedKey(k), JSON.stringify(v)); } catch (e) { toast('저장 공간을 사용할 수 없어요.'); } }
+    get(k, d) {
+      if (k === KEY.fav) { try { return JSON.parse(localStorage.getItem('bookbangteum.fav.' + (currentUser?.id || 'guest')) || 'null') ?? d; } catch { return d; } }
+      return Object.prototype.hasOwnProperty.call(privateCache, k) ? privateCache[k] : d;
+    },
+    set(k, v) {
+      if (k === KEY.fav) { localStorage.setItem('bookbangteum.fav.' + (currentUser?.id || 'guest'), JSON.stringify(v)); return; }
+      if (!currentUser) { toast('개인 데이터 저장은 로그인이 필요해요.'); return; }
+      privateCache[k] = structuredClone(v);
+      writes = writes.then(() => savePrivate(k, v)).catch(err => { console.error(err); toast('DB 저장에 실패했어요. 다시 확인해 주세요.'); });
+    }
   };
-
-  /* ---------- 계정 (데모: 이 브라우저의 localStorage에만 저장돼요) ---------- */
-  const AUTH_SESSION = 'bookbangteum.demoSession';
-  const ACCOUNTS_KEY = 'bookbangteum.accounts';
-  const ID_RE = /^[A-Za-z0-9]{4,20}$/;                // 아이디: 영문·숫자 4~20자
-  const PW_RE = /^(?=.*[A-Za-z])(?=.*[0-9]).{8,32}$/;  // 비밀번호: 영문+숫자 포함 8~32자
+  const PW_RE = /^(?=.*[A-Za-z])(?=.*[0-9]).{8,72}$/;
   const NICK_MAX = 12;
-  const has = (o, k) => Object.prototype.hasOwnProperty.call(o, k);
-  const accounts = () => { const a = db.get(ACCOUNTS_KEY, {}); return a && typeof a === 'object' && !Array.isArray(a) ? a : {}; };
-  const getAccount = (id) => { const all = accounts(); return id && has(all, id) ? all[id] : null; };
-  const signedIn = () => { const id = sessionStorage.getItem(AUTH_SESSION) || ''; return getAccount(id) ? id : ''; };
-  const me = () => getAccount(signedIn());
+  const signedIn = () => currentUser?.email || '';
+  const me = () => currentProfile;
   const requireMember = () => { if (me()) return true; toast('회원 전용 기능이에요. 로그인 후 이용해 주세요.'); go('auth'); return false; };
   const nickError = (n) => (n.length < 2 || n.length > NICK_MAX ? '닉네임은 2~' + NICK_MAX + '자로 입력해 주세요.' : '');
   const normPrefs = (p) => ({
@@ -51,12 +50,51 @@
     mood: Array.isArray(p && p.mood) ? p.mood : [],
     facility: Array.isArray(p && p.facility) ? p.facility : []
   });
-  /* 취향: 로그인했으면 내 계정에, 아니면 이 기기에 저장 */
-  const getPrefs = () => { const a = me(); return normPrefs(a ? a.prefs : db.get(KEY.prefs, null)); };
-  function setPrefs(p) {
-    const id = signedIn();
-    if (id) { const all = accounts(); all[id] = Object.assign({}, all[id], { prefs: p }); db.set(ACCOUNTS_KEY, all); }
-    else db.set(KEY.prefs, p);
+  const getPrefs = () => normPrefs(currentProfile?.prefs);
+  function setPrefs(p) { if (!currentUser) return; currentProfile.prefs = p; saveProfile(); }
+  async function saveProfile() {
+    if (!currentUser || !currentProfile) return;
+    const { error } = await supa.from('profiles').upsert({ user_id: currentUser.id, display_name: currentProfile.nickname, preferences: { ...currentProfile.prefs, region: currentProfile.region } });
+    if (error) throw error;
+  }
+  async function savePrivate(k, value) {
+    if (!currentUser || !tableMap[k]) return;
+    const uid = currentUser.id, table = tableMap[k];
+    if (k === KEY.settings) {
+      const {error} = await supa.from(table).upsert({user_id:uid,settings:value}); if(error) throw error; return;
+    }
+    // 현재 앱의 배열 단위 저장 구조를 유지하며 사용자 행만 교체합니다.
+    const {error:delError} = await supa.from(table).delete().eq('user_id',uid);
+    if(delError) throw delError;
+    let rows=[];
+    if(k===KEY.reviews) rows=value.map(r=>({user_id:uid,bookstore_id:String(r.bookstoreId),tags:r.tags||[],content:JSON.stringify(r)}));
+    if(k===KEY.visits) rows=value.map(r=>({user_id:uid,bookstore_id:String(r.bookstoreId),memo:JSON.stringify(r)}));
+    if(k===KEY.courses) rows=value.map(r=>({user_id:uid,title:r.title||'나의 코스',course_data:r}));
+    if(k===KEY.likes) rows=value.map(id=>({user_id:uid,course_id:String(id)}));
+    if(k===KEY.recent) rows=value.map(id=>({user_id:uid,bookstore_id:String(id)}));
+    if(rows.length){const {error}=await supa.from(table).insert(rows);if(error)throw error;}
+  }
+  async function loadPrivate(user) {
+    currentUser=user; currentProfile=null;
+    Object.keys(privateCache).forEach(k=>delete privateCache[k]);
+    if(!user) return;
+    const tables=['profiles','reviews','visits','saved_courses','course_likes','recent_views','user_settings'];
+    const results=await Promise.all(tables.map(t=>supa.from(t).select('*').eq('user_id',user.id)));
+    const bad=results.find(r=>r.error);if(bad)throw bad.error;
+    const [profiles,reviews,visits,courses,likes,recent,settings]=results.map(r=>r.data||[]);
+    const p=profiles[0];
+    currentProfile={nickname:p?.display_name||user.user_metadata?.nickname||user.email.split('@')[0],region:p?.preferences?.region||'',prefs:normPrefs(p?.preferences)};
+    privateCache[KEY.reviews]=reviews.map(r=>{try{return JSON.parse(r.content)}catch{return {reviewId:r.id,bookstoreId:r.bookstore_id,tags:r.tags,comment:r.content||''}}});
+    privateCache[KEY.visits]=visits.map(r=>{try{return JSON.parse(r.memo)}catch{return {id:r.id,bookstoreId:r.bookstore_id,memo:r.memo||''}}});
+    privateCache[KEY.courses]=courses.map(r=>r.course_data);
+    privateCache[KEY.likes]=likes.map(r=>r.course_id);
+    privateCache[KEY.recent]=recent.sort((a,b)=>b.viewed_at.localeCompare(a.viewed_at)).map(r=>r.bookstore_id);
+    privateCache[KEY.settings]=settings[0]?.settings||{};
+    if (!p) await saveProfile();
+  }
+  async function refreshLogin(user) {
+    await writes; await loadPrivate(user);
+    syncAuthUI(); applySettings(); go('home',{reset:true});
   }
 
   /* 헤더의 사람 아이콘: 로그인 전엔 로그인 화면, 로그인 후엔 계정 메뉴(내 정보 설정 · 로그아웃) */
@@ -957,6 +995,7 @@
       $('#rgroup' + bad[0]).scrollIntoView({ block: 'center' });
       return;
     }
+    if (!requireMember()) return;
     const all = db.get(KEY.reviews, []);
     /* 이 책방에 몇 번째로 남기는 후기인지(방문 횟수)와 작성자 닉네임을 함께 저장 */
     const prev = all.filter((r) => r.bookstoreId === state.reviewStoreId);
@@ -1436,6 +1475,7 @@
     if (!s || !c.order.length) return;
     /* 공유 코스는 덮어쓰지 않고 항상 새 코스로 저장 */
     if (courseKind(c) === 'shared' && !opts.asNew) { openSaveAsSheet(); return; }
+    if (!requireMember()) return;
     const all = db.get(KEY.courses, []);
     let id = c.id;
     if (opts.asNew || !id) {
@@ -1545,6 +1585,7 @@
     const vals = (n) => $$('input[name="' + n + '"]:checked').map((i) => i.value);
     const p = { category: vals('pcategory'), mood: vals('pmood'), facility: vals('pfacility') };
     if (!p.category.length && !p.mood.length && !p.facility.length) { toast('하나 이상 선택해 주세요.'); return; }
+    if (!currentUser) { toast('취향 저장은 로그인 후 이용할 수 있어요.'); go('auth'); return; }
     setPrefs(p);
     /* 저장하면 홈으로 — 눌렀던 자리(내 취향 맞춤 추천)로 스크롤을 되돌려서 바뀐 추천을 바로 볼 수 있어요 */
     go('home', { reset: true, restore: true });
@@ -1586,12 +1627,12 @@
   function renderSignup() {
     const box = $('#signupBody');
     if (!state.signup) {
-      box.innerHTML = '<div class="state"><p>가입 정보가 없어요.<br>아이디와 비밀번호부터 입력해 주세요.</p><button type="button" class="btn" data-action="openAuth">로그인 / 회원가입</button></div>';
+      box.innerHTML = '<div class="state"><p>가입 정보가 없어요.<br>이메일과 비밀번호부터 입력해 주세요.</p><button type="button" class="btn" data-action="openAuth">로그인 / 회원가입</button></div>';
       return;
     }
     if (state.status === 'loading') { needReady(box); return; }
     box.innerHTML = '<h2 class="form-head">프로필 설정</h2>' +
-      '<p class="para">아이디 <b>' + esc(state.signup.id) + '</b>(으)로 가입해요. 아래 내용은 나중에 내 정보 설정에서 바꿀 수 있어요.</p>' +
+      '<p class="para">이메일 <b>' + esc(state.signup.id) + '</b>(으)로 가입해요. 아래 내용은 나중에 내 정보 설정에서 바꿀 수 있어요.</p>' +
       (state.stores.length ? '' : '<p class="para">책방 데이터를 불러오지 못해 위치·취향은 나중에 설정할 수 있어요.</p>') +
       '<form id="signupForm">' + profileFieldsHTML('su', null) + '<div class="sticky"><button type="submit" class="btn">가입 완료</button></div></form>';
     $('[data-screen="signup"]').classList.add('has-sticky');
@@ -1605,7 +1646,7 @@
     }
     if (state.status === 'loading') { needReady(box); return; }
     box.innerHTML = '<form id="profileForm">' +
-      '<label class="fld-label" for="pfId">아이디</label><input class="fld" id="pfId" value="' + esc(id) + '" readonly aria-readonly="true">' +
+      '<label class="fld-label" for="pfId">이메일</label><input class="fld" id="pfId" value="' + esc(id) + '" readonly aria-readonly="true">' +
       profileFieldsHTML('pf', a) +
       '<h3 class="section">계정 관리</h3>' +
       '<button type="button" class="btn light" data-action="signOut">로그아웃</button>' +
@@ -1711,28 +1752,12 @@
     headerAccount() { closeSheet(); if (!signedIn()) { go('auth'); return; } toggleAccountMenu(); },
     openAuth() { closeSheet(); go('auth'); },
     openProfile() { closeAccountMenu(); closeSheet(); go('profile'); },
-    signOut() {
-      sessionStorage.removeItem(AUTH_SESSION);
-      closeAccountMenu(); closeSheet();
-      state.preset = null;
-      go('home', { reset: true });
-      toast('로그아웃했어요.');
+    async signOut() {
+      await writes;
+      const {error}=await supa.auth.signOut();if(error){toast(error.message);return;}
+      await refreshLogin(null);closeAccountMenu();closeSheet();toast('로그아웃했어요.');
     },
-    deleteAccount() {
-      const id = signedIn();
-      if (!id) return;
-      confirmSheet('회원 탈퇴',
-        '아이디 <b>' + esc(id) + '</b> 계정과 닉네임·위치·취향 설정이 삭제돼요.<br><span class="muted">즐겨찾기·방문 기록·저장 코스는 이 기기에 그대로 남아 있어요. 탈퇴하면 되돌릴 수 없어요.</span>',
-        '탈퇴하기', () => {
-          const all = accounts();
-          delete all[id];
-          db.set(ACCOUNTS_KEY, all);
-          sessionStorage.removeItem(AUTH_SESSION);
-          state.preset = null;
-          go('home', { reset: true });
-          toast('탈퇴했어요. 이용해 주셔서 감사해요.');
-        });
-    },
+    deleteAccount() { toast('계정 탈퇴는 관리자에게 요청해 주세요. 비밀번호 삭제는 서버에서만 처리할 수 있어요.'); },
     confirmOk() { const f = pendingConfirm; closeSheet(); if (f) f(); },
     setFs(el) { db.set(KEY.settings, Object.assign(settings(), { fs: el.dataset.v })); applySettings(); refreshMenu(); },
     setTheme(el) {
@@ -1772,7 +1797,8 @@
     pickImport() { $('#importFile').click(); },
     wipe() {
       confirmSheet('저장 데이터 지우기', '즐겨찾기·방문 기록·저장 코스·후기·취향을 모두 지울까요?<br><span class="muted">지운 데이터는 되돌릴 수 없어요. 필요하면 먼저 백업해 두세요.</span>', '모두 지우기', () => {
-        [KEY.fav, KEY.visits, KEY.courses, KEY.prefs, KEY.reviews, KEY.recent, KEY.likes].forEach((k) => { try { localStorage.removeItem(k); } catch (e) {} });
+        db.set(KEY.fav, []);
+        if (currentUser) [KEY.visits,KEY.courses,KEY.reviews,KEY.recent,KEY.likes].forEach(k=>db.set(k,[]));
         state.course = blankCourse(null);
         toast('저장 데이터를 지웠어요.'); navTo('home');
       });
@@ -2021,61 +2047,37 @@
     if (e.target.id === 'reviewComment') $('#rcount').textContent = e.target.value.length + '/80';
     if (e.target.id === 'reviewSearchQ') $('#reviewSearchList').innerHTML = reviewStoreListHTML(e.target.value);
   });
-  document.addEventListener('submit', (e) => {
+  document.addEventListener('submit', async (e) => {
     if (e.target.id === 'authForm') {
       e.preventDefault();
-      const form = e.target;
-      const id = form.userId.value.trim().toLowerCase();
-      const pw = form.password.value;
-      const mode = e.submitter && e.submitter.value === 'signup' ? 'signup' : 'login';
-      if (mode === 'signup') {
-        /* 1단계: 아이디·비밀번호 확인 후 닉네임·위치·취향 설정 화면으로 */
-        if (!ID_RE.test(id)) { toast('아이디는 영문·숫자 4~20자로 입력해 주세요.'); return; }
-        if (!PW_RE.test(pw)) { toast('비밀번호는 영문·숫자를 포함해 8자 이상 입력해 주세요.'); return; }
-        if (getAccount(id)) { toast('이미 사용 중인 아이디예요.'); return; }
-        state.signup = { id: id, pw: pw };
-        go('signup');
-        return;
+      const form=e.target, email=form.userId.value.trim().toLowerCase(), pw=form.password.value;
+      const mode=e.submitter?.value==='signup'?'signup':'login';
+      if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)){toast('올바른 이메일을 입력해 주세요.');return;}
+      if(mode==='signup'){
+        if(!PW_RE.test(pw)){toast('비밀번호는 영문·숫자 포함 8자 이상으로 입력해 주세요.');return;}
+        state.signup={id:email,pw};go('signup');return;
       }
-      const acc = getAccount(id);
-      if (!acc || acc.pw !== pw) { toast('아이디 또는 비밀번호를 확인해 주세요.'); return; }
-      sessionStorage.setItem(AUTH_SESSION, id);
-      form.reset();
-      go('home', { reset: true });
-      toast('로그인했어요.');
+      const {data,error}=await supa.auth.signInWithPassword({email,password:pw});
+      if(error){toast('로그인 실패: '+error.message);return;}
+      try{await refreshLogin(data.user)}catch(err){console.error(err);toast('DB 정보를 불러오지 못했어요.');}
+      form.reset();return;
+    }
+    if(e.target.id==='signupForm'){
+      e.preventDefault();const info=state.signup;if(!info){go('auth');return;}
+      const f=readProfileForm(e.target),err=nickError(f.nickname);if(err){toast(err);return;}
+      const {data,error}=await supa.auth.signUp({email:info.id,password:info.pw,options:{data:{nickname:f.nickname}}});
+      if(error){toast('가입 실패: '+error.message);return;}
+      state.signup=null;
+      if(!data.session){toast('가입 확인 이메일을 보냈어요. 메일의 링크를 누른 뒤 로그인해 주세요.');go('auth');return;}
+      try{await loadPrivate(data.user);currentProfile={nickname:f.nickname,region:f.region,prefs:f.prefs};await saveProfile();await refreshLogin(data.user);toast('회원가입 완료!');}
+      catch(ex){console.error(ex);toast('프로필 저장 오류: '+ex.message);}
       return;
     }
-    if (e.target.id === 'signupForm') {
-      e.preventDefault();
-      const s = state.signup;
-      if (!s) { go('auth'); return; }
-      const f = readProfileForm(e.target);
-      const err = nickError(f.nickname);
-      if (err) { toast(err); return; }
-      if (getAccount(s.id)) { toast('이미 사용 중인 아이디예요.'); return; }
-      const all = accounts();
-      all[s.id] = { pw: s.pw, nickname: f.nickname, region: f.region, prefs: f.prefs, createdAt: todayStr() };
-      db.set(ACCOUNTS_KEY, all);
-      if (!getAccount(s.id)) return; /* 저장 실패 시 db.set 이 안내를 띄워요 */
-      sessionStorage.setItem(AUTH_SESSION, s.id);
-      state.signup = null;
-      $('#authForm').reset();
-      go('home', { reset: true });
-      toast('회원가입했어요. 환영해요, ' + f.nickname + '님!');
-      return;
-    }
-    if (e.target.id === 'profileForm') {
-      e.preventDefault();
-      const id = signedIn();
-      if (!id) { go('auth'); return; }
-      const f = readProfileForm(e.target);
-      const err = nickError(f.nickname);
-      if (err) { toast(err); return; }
-      const all = accounts();
-      all[id] = Object.assign({}, all[id], { nickname: f.nickname, region: f.region, prefs: f.prefs });
-      db.set(ACCOUNTS_KEY, all);
-      syncAuthUI();
-      toast('내 정보를 저장했어요.');
+    if(e.target.id==='profileForm'){
+      e.preventDefault();if(!currentUser){go('auth');return;}
+      const f=readProfileForm(e.target),err=nickError(f.nickname);if(err){toast(err);return;}
+      currentProfile={nickname:f.nickname,region:f.region,prefs:f.prefs};
+      try{await saveProfile();syncAuthUI();toast('내 정보를 저장했어요.');}catch(ex){toast('DB 저장 오류: '+ex.message);}
       return;
     }
     if (e.target.id === 'saveAsForm') {
@@ -2132,8 +2134,9 @@
   }, { passive: false });
 
   /* ---------- 시작 ---------- */
-  applySettings();
-  go('home', { reset: true });
-  load();
-  loadHomeNews();
+  (async () => {
+    try { const {data,error}=await supa.auth.getUser();if(error)console.warn(error);await loadPrivate(data?.user||null); }
+    catch(err){console.error('Supabase initialization:',err);toast('DB 연결을 확인해 주세요.');}
+    applySettings();go('home',{reset:true});load();loadHomeNews();
+  })();
 })();
