@@ -448,3 +448,16 @@ v0.1의 기획을 실제로 탐색 가능한 웹서비스로 구현하고, 책�
 ---
 
 **문서 유지 원칙:** 신규 버전 추가 시 1장 변경이력과 2장 PRD에 **최신 버전을 가장 위에** 추가하고, 과거 버전의 당시 계획과 구현 상태를 소급해 바꾸지 않는다.
+
+---
+
+## 새소식 자동 수집 (GitHub Actions, 2026-11-23)
+
+- 워크플로: `.github/workflows/update-news.yml`
+- 실행: **3시간마다** (UTC 00/03/06/09/12/15/18/21시 = 한국시간 09/12/15/18/21/00/03/06시), 또는 GitHub **Actions → Update bookstore news (every 3 hours) → Run workflow** 수동 실행. GitHub 스케줄 실행은 혼잡 시 지연되거나 누락될 수 있음.
+- 처리: `python scripts/fetch_news.py` → Google 뉴스 RSS에서 최근 기사 수집 → `data/news.json` 갱신 → 변경된 경우에만 자동 커밋 및 푸시. 기존 스크립트는 표준 라이브러리만 사용하므로 별도 패키지나 API 키가 필요하지 않음.
+- 수집 실패 또는 검색 결과 없음: 스크립트가 오류 종료하며 기존 `data/news.json`을 보존. Actions 실행은 실패로 표시되어 확인 가능.
+- **GitHub 설정 필요:** 저장소의 **Settings → Actions → General → Workflow permissions**에서 **Read and write permissions** 허용. 저장소 정책에 따라 설정 변경이 불가능할 수 있음. 워크플로는 기본 브랜치에 올려야 예약 실행됨.
+- **배포:** GitHub Pages가 브랜치 배포 방식이면 JSON 변경 커밋 후 Pages 빌드/배포가 반영되어야 새 기사가 보임. Actions 기반 Pages 배포 등 별도 배포 방식에서는 해당 배포 워크플로도 정상 동작해야 함.
+- **확인:** Actions 실행 기록 → 마지막 실행 성공 확인 → 저장소 `data/news.json`의 `updatedAt` 확인 → 사이트 홈 새소식 새로고침. `updatedAt`은 수집 시각이지 모든 기사 발행 시각이 아님.
+- **주의:** 새로고침할 때마다 외부 뉴스를 새로 수집하는 방식은 아님. 약 3시간 간격으로 갱신된 JSON을 다시 읽으며, 신규 기사가 없으면 동일한 항목이 계속 표시될 수 있음.
