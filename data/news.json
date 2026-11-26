@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-11-26T20:52:55+09:00",
+  "updatedAt": "2026-11-27T05:54:46+09:00",
   "items": [
     {
       "type": "news",
@@ -7,6 +7,13 @@
       "source": "경기도민일보 미디어",
       "date": "2026-11-26",
       "url": "https://news.google.com/rss/articles/CBMiakFVX3lxTE9Sd0tETVdERWVjeHRDQkRxYW45MlUyc0sya0gyMEZYbVR0c1Z6OGMxSFJpQXZKQ004dUJ0SWhiRE1JS3d6UU5QMFFMS3RaajZ0WmM5NEgyR3k5aGFLT0ZfNGozUF9MSDd5eVE?oc=5"
+    },
+    {
+      "type": "event",
+      "title": "파주시 교하도서관, 지역서점과 함께 만드는 연말행사",
+      "source": "한국시사경제",
+      "date": "2026-11-26",
+      "url": "https://news.google.com/rss/articles/CBMiakFVX3lxTE50NVd5Xy1wTkJCS3FvSEtNMGRpY0tBcFBIemlXdE9ld0RraTY3RXRRVDBOdU03enpWNW1CLXhLeHkzN1J3bzhuaG5JVTNlaFdOcEJDckhuZ0lHbDFZVTZSSFlBYkdadkE1dlE?oc=5"
     },
     {
       "type": "news",
@@ -24,17 +31,10 @@
     },
     {
       "type": "event",
-      "title": "도봉기적의도서관, 독립서점 3곳과 체험 강좌·전시 운영",
+      "title": "기억을 글과 그림으로… 성북구 '기억서점' 출판기념회 개최",
       "source": "국제뉴스",
       "date": "2026-11-20",
-      "url": "https://news.google.com/rss/articles/CBMibkFVX3lxTFBpeXhPUUpVc2ViSlhnS1FWMVRXVXBNb204WWNoSl9VaUIzS01Eam02a2lDQUx4aXpBbzhYXzVicUpZalkwbmFJQkdhLUktMTM0dlpJOWRfZVJmMEhwbVVSX2dTU3lXYjNSMHlBU3hB?oc=5"
-    },
-    {
-      "type": "event",
-      "title": "전국 책방의 추천, 주제별로 만나는 ‘북마트 2026’ 개최",
-      "source": "독서신문",
-      "date": "2026-11-17",
-      "url": "https://news.google.com/rss/articles/CBMib0FVX3lxTE80RmRYUmV0aHYyX3JZUENid0xySGFpZ1JXWEpaSFZTVjlWXzlxS2gxendXRjdJQ0EzakVUSG8yT2c1X1Nhd0twS1VRUkZDOWkyT1hxeEhRdHZ2SHU2WHJDY2ZNMklEVWRNQ01FanVVbw?oc=5"
+      "url": "https://news.google.com/rss/articles/CBMibkFVX3lxTE4tNGJrYVEwZU40TkUwY1JLaEdkRkNIUkFLV2p3c1FWZXVlbXpfOHFmZ29WQ1pFNms4c004T1RlYVhrMDU0RkR5VzF4Rkx2TTZJNV9vc2hPU1VOeDVXMExGYU5CN2s1RXpVNlBJc1NB?oc=5"
     }
   ]
 }
