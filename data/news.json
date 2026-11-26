@@ -1,26 +1,33 @@
 {
-  "updatedAt": "2026-11-26T01:46:50+09:00",
+  "updatedAt": "2026-11-26T10:33:42+09:00",
   "items": [
     {
       "type": "news",
+      "title": "파주시 교하도서관, 쩜오책방이 기획한 탱고 공연",
+      "source": "경기도민일보 미디어",
+      "date": "2026-11-26",
+      "url": "https://news.google.com/rss/articles/CBMiakFVX3lxTE9Sd0tETVdERWVjeHRDQkRxYW45MlUyc0sya0gyMEZYbVR0c1Z6OGMxSFJpQXZKQ004dUJ0SWhiRE1JS3d6UU5QMFFMS3RaajZ0WmM5NEgyR3k5aGFLT0ZfNGozUF9MSDd5eVE?oc=5"
+    },
+    {
+      "type": "event",
+      "title": "파주시 교하도서관, 지역서점과 함께 만드는 연말행사",
+      "source": "시사일보",
+      "date": "2026-11-26",
+      "url": "https://news.google.com/rss/articles/CBMiTEFVX3lxTE9MQUp6UEFkdjZoSDBNa2ppYmJ1cHhuS3h0dnpadXRiR3VnRHdHcDIyUUZOTjJ3bmR2Ymt0ZjIyby1ITWJ3RlJJUnlfZlk?oc=5"
+    },
+    {
+      "type": "news",
+      "title": "책장 한칸에 차린 내 책방… ‘공유서점’, 취향을 꽂는다",
+      "source": "동아일보",
+      "date": "2026-11-26",
+      "url": "https://news.google.com/rss/articles/CBMidkFVX3lxTFB2R2dZSm1XVnJidFFfNTlIbkYtVndiTWxPcEtQUXhVS1Rqc3hVVGJRMGx1WHNJVUllWjVxQ0VfVjBXWlR0dnZrejZXX18tR3dhLUlvTHJ5Mi1TYVFVZ1FqWlhhVmxXNGx1SVlsTTFCbXAwVmJGYXfSAWZBVV95cUxQbEpZYmRTT3lQbG5ucWpPR0RwZTh4bkw2ZDFNd0t5bXphM0FaODZCNlRDWnhDeEQ1QmtEeTNKY1R5WFZKaXpQMzJ5bnVuVE53NFcyeVJieFRuUmU3OFdnSEg2NHZlLVE?oc=5"
+    },
+    {
+      "type": "news",
       "title": "독립서점 책 추천 카드, 독자의 선택을 돕는 정직한 작성법",
-      "source": "https://www.didimkorea.net/",
+      "source": "뉴스N연합",
       "date": "2026-11-24",
-      "url": "https://news.google.com/rss/articles/CBMiT0FVX3lxTE90eE5IMGk3T2hpWkZuM3FNM3FkdXJHc3M5c3NuUTlqb2k0THV0b2xjUnhFbXI1MUNxRUlBYWliNkwwdkl5NUFKeEpNLTRPcjg?oc=5"
-    },
-    {
-      "type": "news",
-      "title": "질문을 쏘아 올리는 서점, 인공위성",
-      "source": "덴 매거진",
-      "date": "2026-11-24",
-      "url": "https://news.google.com/rss/articles/CBMiakFVX3lxTE1YRW9CZkhiOUlMcDdTM1JZWnBKZWxzazlSc3VoVzRPd08tYTVNZERkdFZPMXpZMGlmR2ZNdUhWSVlabXZnMjZ4UzBONGNiUGg3NzF1WTZlSm1WM3JTQ25fMXZQMHpoRTBBS2c?oc=5"
-    },
-    {
-      "type": "news",
-      "title": "[박재향 칼럼] 언젠가 나도 이런 한옥 북카페의 책방지기가 되고 싶다 │ 김포 한옥 책방 머무르",
-      "source": "블로그",
-      "date": "2026-11-23",
-      "url": "https://news.google.com/rss/articles/CBMiggFBVV95cUxPeHdhUUNPalNUYzJrVTVWaDFiV1UtWE9EVENkUm1QTXJkakVGaXdCNC1VajhDbVlqUkFMemxKeVkyVEZ4Zk9LOTJPTHZDUUVxYnpxZk95ZWlVOUZaVGQyYUVwRHItVHozaHhoOWN3V0JkV194Q1dCc0JUUTZ0Y0lxS0ZR?oc=5"
+      "url": "https://news.google.com/rss/articles/CBMiT0FVX3lxTE9LN3Y2a1pMUUNTbUE4cnFXclpjdGhaT0FrR2g2eElfcDFlRDM1d3pnM1hUYl9Ec0pxeGZPRDkxQzFiYzZDZTgwNWRqdTlpVVU?oc=5"
     },
     {
       "type": "event",
@@ -28,13 +35,6 @@
       "source": "국제뉴스",
       "date": "2026-11-20",
       "url": "https://news.google.com/rss/articles/CBMibkFVX3lxTE4tNGJrYVEwZU40TkUwY1JLaEdkRkNIUkFLV2p3c1FWZXVlbXpfOHFmZ29WQ1pFNms4c004T1RlYVhrMDU0RkR5VzF4Rkx2TTZJNV9vc2hPU1VOeDVXMExGYU5CN2s1RXpVNlBJc1NB?oc=5"
-    },
-    {
-      "type": "event",
-      "title": "도봉기적의도서관, 독립서점 3곳과 체험 강좌·전시 운영",
-      "source": "국제뉴스",
-      "date": "2026-11-20",
-      "url": "https://news.google.com/rss/articles/CBMibkFVX3lxTFBpeXhPUUpVc2ViSlhnS1FWMVRXVXBNb204WWNoSl9VaUIzS01Eam02a2lDQUx4aXpBbzhYXzVicUpZalkwbmFJQkdhLUktMTM0dlpJOWRfZVJmMEhwbVVSX2dTU3lXYjNSMHlBU3hB?oc=5"
     }
   ]
 }
