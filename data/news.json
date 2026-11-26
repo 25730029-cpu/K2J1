@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-11-26T10:33:42+09:00",
+  "updatedAt": "2026-11-26T20:52:55+09:00",
   "items": [
     {
       "type": "news",
@@ -7,13 +7,6 @@
       "source": "경기도민일보 미디어",
       "date": "2026-11-26",
       "url": "https://news.google.com/rss/articles/CBMiakFVX3lxTE9Sd0tETVdERWVjeHRDQkRxYW45MlUyc0sya0gyMEZYbVR0c1Z6OGMxSFJpQXZKQ004dUJ0SWhiRE1JS3d6UU5QMFFMS3RaajZ0WmM5NEgyR3k5aGFLT0ZfNGozUF9MSDd5eVE?oc=5"
-    },
-    {
-      "type": "event",
-      "title": "파주시 교하도서관, 지역서점과 함께 만드는 연말행사",
-      "source": "시사일보",
-      "date": "2026-11-26",
-      "url": "https://news.google.com/rss/articles/CBMiTEFVX3lxTE9MQUp6UEFkdjZoSDBNa2ppYmJ1cHhuS3h0dnpadXRiR3VnRHdHcDIyUUZOTjJ3bmR2Ymt0ZjIyby1ITWJ3RlJJUnlfZlk?oc=5"
     },
     {
       "type": "news",
@@ -24,17 +17,24 @@
     },
     {
       "type": "news",
-      "title": "독립서점 책 추천 카드, 독자의 선택을 돕는 정직한 작성법",
-      "source": "뉴스N연합",
-      "date": "2026-11-24",
-      "url": "https://news.google.com/rss/articles/CBMiT0FVX3lxTE9LN3Y2a1pMUUNTbUE4cnFXclpjdGhaT0FrR2g2eElfcDFlRDM1d3pnM1hUYl9Ec0pxeGZPRDkxQzFiYzZDZTgwNWRqdTlpVVU?oc=5"
+      "title": "책방 밖에 작은 책방을 엽니다",
+      "source": "브런치",
+      "date": "2026-11-25",
+      "url": "https://news.google.com/rss/articles/CBMiR0FVX3lxTE8tVG1oemZmY1dORjJtSWE5WU9EbHcySUVCeW9KVXE4RU5HTDFacTJIVGZybnZSQkx1S3JCamdzcWY2WTktMktJ?oc=5"
     },
     {
       "type": "event",
-      "title": "기억을 글과 그림으로… 성북구 '기억서점' 출판기념회 개최",
+      "title": "도봉기적의도서관, 독립서점 3곳과 체험 강좌·전시 운영",
       "source": "국제뉴스",
       "date": "2026-11-20",
-      "url": "https://news.google.com/rss/articles/CBMibkFVX3lxTE4tNGJrYVEwZU40TkUwY1JLaEdkRkNIUkFLV2p3c1FWZXVlbXpfOHFmZ29WQ1pFNms4c004T1RlYVhrMDU0RkR5VzF4Rkx2TTZJNV9vc2hPU1VOeDVXMExGYU5CN2s1RXpVNlBJc1NB?oc=5"
+      "url": "https://news.google.com/rss/articles/CBMibkFVX3lxTFBpeXhPUUpVc2ViSlhnS1FWMVRXVXBNb204WWNoSl9VaUIzS01Eam02a2lDQUx4aXpBbzhYXzVicUpZalkwbmFJQkdhLUktMTM0dlpJOWRfZVJmMEhwbVVSX2dTU3lXYjNSMHlBU3hB?oc=5"
+    },
+    {
+      "type": "event",
+      "title": "전국 책방의 추천, 주제별로 만나는 ‘북마트 2026’ 개최",
+      "source": "독서신문",
+      "date": "2026-11-17",
+      "url": "https://news.google.com/rss/articles/CBMib0FVX3lxTE80RmRYUmV0aHYyX3JZUENid0xySGFpZ1JXWEpaSFZTVjlWXzlxS2gxendXRjdJQ0EzakVUSG8yT2c1X1Nhd0twS1VRUkZDOWkyT1hxeEhRdHZ2SHU2WHJDY2ZNMklEVWRNQ01FanVVbw?oc=5"
     }
   ]
 }
