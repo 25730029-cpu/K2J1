@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-11-27T05:54:46+09:00",
+  "updatedAt": "2026-11-27T12:29:12+09:00",
   "items": [
     {
       "type": "news",
@@ -9,18 +9,11 @@
       "url": "https://news.google.com/rss/articles/CBMiakFVX3lxTE9Sd0tETVdERWVjeHRDQkRxYW45MlUyc0sya0gyMEZYbVR0c1Z6OGMxSFJpQXZKQ004dUJ0SWhiRE1JS3d6UU5QMFFMS3RaajZ0WmM5NEgyR3k5aGFLT0ZfNGozUF9MSDd5eVE?oc=5"
     },
     {
-      "type": "event",
-      "title": "파주시 교하도서관, 지역서점과 함께 만드는 연말행사",
-      "source": "한국시사경제",
-      "date": "2026-11-26",
-      "url": "https://news.google.com/rss/articles/CBMiakFVX3lxTE50NVd5Xy1wTkJCS3FvSEtNMGRpY0tBcFBIemlXdE9ld0RraTY3RXRRVDBOdU03enpWNW1CLXhLeHkzN1J3bzhuaG5JVTNlaFdOcEJDckhuZ0lHbDFZVTZSSFlBYkdadkE1dlE?oc=5"
-    },
-    {
       "type": "news",
       "title": "책장 한칸에 차린 내 책방… ‘공유서점’, 취향을 꽂는다",
       "source": "동아일보",
       "date": "2026-11-26",
-      "url": "https://news.google.com/rss/articles/CBMidkFVX3lxTFB2R2dZSm1XVnJidFFfNTlIbkYtVndiTWxPcEtQUXhVS1Rqc3hVVGJRMGx1WHNJVUllWjVxQ0VfVjBXWlR0dnZrejZXX18tR3dhLUlvTHJ5Mi1TYVFVZ1FqWlhhVmxXNGx1SVlsTTFCbXAwVmJGYXfSAWZBVV95cUxQbEpZYmRTT3lQbG5ucWpPR0RwZTh4bkw2ZDFNd0t5bXphM0FaODZCNlRDWnhDeEQ1QmtEeTNKY1R5WFZKaXpQMzJ5bnVuVE53NFcyeVJieFRuUmU3OFdnSEg2NHZlLVE?oc=5"
+      "url": "https://news.google.com/rss/articles/CBMiZkFVX3lxTFBsSlliZFNPeVBsbm5xak9HRHBlOHhuTDZkMU13S3ltemEzQVo4NkI2VENaeEN4RDVCa0R5M0pjVHlYVkppelAzMnludW5UTnc0VzJ5UmJ4VG5SZTc4V2dISDY0dmUtUdIBZkFVX3lxTFBsSlliZFNPeVBsbm5xak9HRHBlOHhuTDZkMU13S3ltemEzQVo4NkI2VENaeEN4RDVCa0R5M0pjVHlYVkppelAzMnludW5UTnc0VzJ5UmJ4VG5SZTc4V2dISDY0dmUtUQ?oc=5"
     },
     {
       "type": "news",
@@ -35,6 +28,13 @@
       "source": "국제뉴스",
       "date": "2026-11-20",
       "url": "https://news.google.com/rss/articles/CBMibkFVX3lxTE4tNGJrYVEwZU40TkUwY1JLaEdkRkNIUkFLV2p3c1FWZXVlbXpfOHFmZ29WQ1pFNms4c004T1RlYVhrMDU0RkR5VzF4Rkx2TTZJNV9vc2hPU1VOeDVXMExGYU5CN2s1RXpVNlBJc1NB?oc=5"
+    },
+    {
+      "type": "event",
+      "title": "성북구, 치매 어르신·가족 함께 만든 '기억서점' 출판기념회 성황리 개최",
+      "source": "피디언뉴스",
+      "date": "2026-11-20",
+      "url": "https://news.google.com/rss/articles/CBMiXEFVX3lxTE1peE4ybVVfTWFka1lBZUxmOG5MLTJWNTliQ3VnWUpIdUktdGg0TURITU5hcUh0NUZWdC1TcEdzcDdVdDM0MGFCUVBCMmdQNUJyU2FCT3ZVelBaRG9W?oc=5"
     }
   ]
 }
