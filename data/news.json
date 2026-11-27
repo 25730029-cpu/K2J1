@@ -1,6 +1,20 @@
 {
-  "updatedAt": "2026-11-27T12:29:12+09:00",
+  "updatedAt": "2026-11-28T01:08:10+09:00",
   "items": [
+    {
+      "type": "news",
+      "title": "동네에 책방 하나 있다는 것",
+      "source": "울산저널i",
+      "date": "2026-11-28",
+      "url": "https://news.google.com/rss/articles/CBMic0FVX3lxTE8xWnJiSmQzSjFpRkg5QnFnTm5qeFJrd25kTkl5NGVyaGNwdi01T3hiSVdyVFdXbGRfaFlKck1ubkZENVNyX3RvWFVncGhTUFlCYVA2ajdFMm00UC10dTBmTVNHcFJKME0tQU12MlFOX0VGb3M?oc=5"
+    },
+    {
+      "type": "news",
+      "title": "[가장 급진적인 로컬, 동네서점](15) AI 인클로저 - 책과 서점의 현재",
+      "source": "주간경향",
+      "date": "2026-11-27",
+      "url": "https://news.google.com/rss/articles/CBMiXkFVX3lxTE8yeHFZS2lrSERmN0ozQVhjWnhLU29Cck8xanNRXzhhX1RzVXFDUlFEWmYyTzdZVGoxQk1fSXkweEhEeFpqX3g1M3dEVm0zTXdPZ3FKVjRFOGZBUXRvUmc?oc=5"
+    },
     {
       "type": "news",
       "title": "파주시 교하도서관, 쩜오책방이 기획한 탱고 공연",
@@ -9,32 +23,18 @@
       "url": "https://news.google.com/rss/articles/CBMiakFVX3lxTE9Sd0tETVdERWVjeHRDQkRxYW45MlUyc0sya0gyMEZYbVR0c1Z6OGMxSFJpQXZKQ004dUJ0SWhiRE1JS3d6UU5QMFFMS3RaajZ0WmM5NEgyR3k5aGFLT0ZfNGozUF9MSDd5eVE?oc=5"
     },
     {
-      "type": "news",
-      "title": "책장 한칸에 차린 내 책방… ‘공유서점’, 취향을 꽂는다",
-      "source": "동아일보",
-      "date": "2026-11-26",
-      "url": "https://news.google.com/rss/articles/CBMiZkFVX3lxTFBsSlliZFNPeVBsbm5xak9HRHBlOHhuTDZkMU13S3ltemEzQVo4NkI2VENaeEN4RDVCa0R5M0pjVHlYVkppelAzMnludW5UTnc0VzJ5UmJ4VG5SZTc4V2dISDY0dmUtUdIBZkFVX3lxTFBsSlliZFNPeVBsbm5xak9HRHBlOHhuTDZkMU13S3ltemEzQVo4NkI2VENaeEN4RDVCa0R5M0pjVHlYVkppelAzMnludW5UTnc0VzJ5UmJ4VG5SZTc4V2dISDY0dmUtUQ?oc=5"
-    },
-    {
-      "type": "news",
-      "title": "책방 밖에 작은 책방을 엽니다",
-      "source": "브런치",
-      "date": "2026-11-25",
-      "url": "https://news.google.com/rss/articles/CBMiR0FVX3lxTE8tVG1oemZmY1dORjJtSWE5WU9EbHcySUVCeW9KVXE4RU5HTDFacTJIVGZybnZSQkx1S3JCamdzcWY2WTktMktJ?oc=5"
-    },
-    {
       "type": "event",
-      "title": "기억을 글과 그림으로… 성북구 '기억서점' 출판기념회 개최",
+      "title": "도봉기적의도서관, 독립서점 3곳과 체험 강좌·전시 운영",
       "source": "국제뉴스",
       "date": "2026-11-20",
-      "url": "https://news.google.com/rss/articles/CBMibkFVX3lxTE4tNGJrYVEwZU40TkUwY1JLaEdkRkNIUkFLV2p3c1FWZXVlbXpfOHFmZ29WQ1pFNms4c004T1RlYVhrMDU0RkR5VzF4Rkx2TTZJNV9vc2hPU1VOeDVXMExGYU5CN2s1RXpVNlBJc1NB?oc=5"
+      "url": "https://news.google.com/rss/articles/CBMibkFVX3lxTFBpeXhPUUpVc2ViSlhnS1FWMVRXVXBNb204WWNoSl9VaUIzS01Eam02a2lDQUx4aXpBbzhYXzVicUpZalkwbmFJQkdhLUktMTM0dlpJOWRfZVJmMEhwbVVSX2dTU3lXYjNSMHlBU3hB?oc=5"
     },
     {
       "type": "event",
-      "title": "성북구, 치매 어르신·가족 함께 만든 '기억서점' 출판기념회 성황리 개최",
-      "source": "피디언뉴스",
-      "date": "2026-11-20",
-      "url": "https://news.google.com/rss/articles/CBMiXEFVX3lxTE1peE4ybVVfTWFka1lBZUxmOG5MLTJWNTliQ3VnWUpIdUktdGg0TURITU5hcUh0NUZWdC1TcEdzcDdVdDM0MGFCUVBCMmdQNUJyU2FCT3ZVelBaRG9W?oc=5"
+      "title": "전국 책방의 추천, 주제별로 만나는 ‘북마트 2026’ 개최",
+      "source": "독서신문",
+      "date": "2026-11-17",
+      "url": "https://news.google.com/rss/articles/CBMib0FVX3lxTE80RmRYUmV0aHYyX3JZUENid0xySGFpZ1JXWEpaSFZTVjlWXzlxS2gxendXRjdJQ0EzakVUSG8yT2c1X1Nhd0twS1VRUkZDOWkyT1hxeEhRdHZ2SHU2WHJDY2ZNMklEVWRNQ01FanVVbw?oc=5"
     }
   ]
 }
